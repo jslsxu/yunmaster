@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/actionButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:text="取消"
+        android:gravity="center"
+        app:rv_cornerRadius="15dp"
+        app:rv_strokeWidth="0.5dp"
+        app:rv_strokeColor="@color/transparent"/>
+</RelativeLayout>

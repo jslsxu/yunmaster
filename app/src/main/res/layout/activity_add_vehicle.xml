@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.yun.yunmaster.base.NavigationBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/navigationBar"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="20dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_vehicle_type"
+                android:textColor="@color/color2"
+                android:textSize="18sp" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_vehicle_type"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="请选择车型"
+                android:textColor="@color/color9"
+                android:textSize="13sp"
+                android:drawableRight="@drawable/icon_list_down"
+                android:drawablePadding="5dp"
+                app:rv_cornerRadius="5dp"
+                app:rv_strokeColor="@color/color9"
+                app:rv_strokeWidth="@dimen/line_height"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/vehicle_no"
+                android:textColor="@color/color2"
+                android:textSize="18sp" />
+
+
+            <com.yun.yunmaster.view.ClearEditText
+                android:id="@+id/et_vehicle_no"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@null"
+                android:hint="请输入车辆号码"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="7"
+                android:textColor="@color/color2"
+                android:textColorHint="@color/color9"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_color" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vehicle_brand"
+                android:textColor="@color/color2"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"/>
+
+
+            <com.yun.yunmaster.view.ClearEditText
+                android:id="@+id/et_vehicle_brand"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@null"
+                android:hint="请输入车辆品牌型号"
+                android:inputType="text"
+                android:maxLength="7"
+                android:maxLines="1"
+                android:textColor="@color/color2"
+                android:textColorHint="@color/color9"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/vehicle_license_photo"
+                        android:textColor="@color/color2"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_upload_vehicle_license"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/icon_add_photo"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="点击上传"
+                        android:textColor="@color/color_blue"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_vehicle_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_list_xingshizheng_nor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/vehicle_photo"
+                        android:textColor="@color/color2"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_upload_vehicle_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/icon_add_photo"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="点击上传"
+                        android:textColor="@color/color_blue"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_vehicle_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_vehicle_photo" />
+            </LinearLayout>
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/tv_submit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:rv_backgroundColor="@color/color_blue"
+                app:rv_backgroundPressColor="@color/color_blue_pressed"
+                app:rv_cornerRadius="5dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

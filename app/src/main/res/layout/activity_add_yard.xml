@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/new_yard" />
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:background="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+
+                <com.baidu.mapapi.map.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/iv_loc"
+                    android:layout_width="30dp"
+                    android:clickable="true"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="80dp"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/icon_loc"
+                    android:scaleType="fitXY"
+                    />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yard_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="@string/address"
+                    android:textColor="@color/color3"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_yard_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/tv_yard_address_title"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="@color/color3"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_yard_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="@string/yard_name"
+                    android:textColor="@color/color3"
+                    android:textSize="16sp" />
+
+
+                <com.yun.yunmaster.view.ClearEditText
+                    android:id="@+id/et_yard_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/tv_yard_name_title"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请填写渣土场名称"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:textColor="@color/color3"
+                    android:textColorHint="@color/color9"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_opening_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="@string/opening_time"
+                    android:textColor="@color/color3"
+                    android:textSize="16sp" />
+
+
+                <com.yun.yunmaster.view.ClearEditText
+                    android:id="@+id/et_opening_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/tv_opening_time_title"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请填写该渣土场营业时间"
+                    android:lines="1"
+                    android:maxLength="60"
+                    android:textColor="@color/color3"
+                    android:textColorHint="@color/color9"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_other_info"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_other_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/other_info"
+                    android:textColor="@color/color3"
+                    android:textSize="16sp" />
+
+                <com.yun.yunmaster.view.ClearEditText
+                    android:id="@+id/et_other_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_other_info_title"
+                    android:layout_marginBottom="20dp"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="请填写该渣土场其它信息！"
+                    android:maxLength="300"
+                    android:minLines="6"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="7dp"
+                    android:textColor="@color/color3"
+                    android:textColorHint="@color/color9"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_input_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginRight="20dp"
+                    android:text="0/300"
+                    android:textColor="@color/color9"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginTop="5dp"
+                android:text="@string/add_yard_tips"
+                android:textColor="@color/actionsheet_red" />
+
+
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/selector_login_submit"
+                android:gravity="center"
+                android:text="@string/submit"
+                android:textColor="@color/common_blue_bg_textcolor"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

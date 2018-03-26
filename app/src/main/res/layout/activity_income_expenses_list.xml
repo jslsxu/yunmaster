@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
+    android:orientation="vertical">
+    
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/incom_expenses_detail"/>
+    
+    <RelativeLayout
+        android:id="@+id/actionView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true">
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/withdraw"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:rv_cornerRadius="5dp"
+            app:rv_backgroundColor="@color/color_blue"
+            app:rv_backgroundPressColor="@color/color_blue_pressed"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/actionView"
+        android:layout_below="@id/navigationBar">
+
+        <TextView
+            android:id="@+id/emptyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="暂无收支明细"
+            android:textColor="@color/color9"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

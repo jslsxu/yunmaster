@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:rv_backgroundColor="@color/white"
+        app:rv_cornerRadius="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="调整费用"
+            android:textColor="@color/color_blue"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="运输车次"
+                android:textColor="@color/color6"
+                android:textSize="14sp" />
+
+            <com.yun.yunmaster.view.NumOperationView
+                android:id="@+id/numView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true">
+
+            </com.yun.yunmaster.view.NumOperationView>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="其他费用"
+                android:textColor="@color/color6"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+
+                <EditText
+                    android:id="@+id/extraFeeTextView"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:digits="0123456789"
+                    android:maxLength="5"
+                    android:textColor="@color/color6"
+                    android:textColorHint="@color/color9"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/extraFeeTextView"
+                    android:gravity="center_vertical"
+                    android:text="元"
+                    android:textColor="@color/color6"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="总计"
+                android:textColor="@color/color6"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:id="@+id/totalFeeTextView"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/color6"
+                    android:textColorHint="@color/color9"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/totalFeeTextView"
+                    android:gravity="center_vertical"
+                    android:text="元"
+                    android:textColor="@color/color6"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/color9"
+                android:textSize="15sp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_backgroundPressColor="@color/color_d"
+                app:rv_cornerRadius="15dp"
+                app:rv_strokeColor="@color/color9"
+                app:rv_strokeWidth="0.5dp" />
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="match_parent" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/confirmButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:rv_backgroundColor="@color/color_blue"
+                app:rv_backgroundPressColor="@color/color_blue_pressed"
+                app:rv_cornerRadius="15dp" />
+        </LinearLayout>
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+</RelativeLayout>

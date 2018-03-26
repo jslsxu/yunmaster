@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yun.yunmaster">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+    <!-- Push service 运行需要的权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- the following 2 com.xiaomi.mipushdemo should be changed to your package name -->
+    <permission
+        android:name="com.yun.yunmaster.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.yun.yunmaster.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".application.YunApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.LaunchActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity android:name=".activity.GuideActivity"></activity>
+        <activity android:name=".activity.OrderDetailActivity"></activity>
+        <activity
+            android:name=".activity.WithdrawCashActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.CommonWebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.IncomeExpensesDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VehicleListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.DriverAuthActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
+        <activity
+            android:name=".activity.DriverInfoActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".activity.VehicleAuthActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
+        <service
+            android:name="com.xiaomi.push.service.XMJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.xiaomi.push.service.XMPushService"
+            android:enabled="true"
+            android:process=":pushservice" />
+
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+
+        <receiver
+            android:name="com.yun.yunmaster.receiver.MiPushMessageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
+            android:exported="false"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.xiaomi.push.PING_TIMER" />
+            </intent-filter>
+        </receiver>
+        <!--xiaomi push  end-->
+
+        <!-- Caution! Do not change this app key. It is only for demo usage. -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59ca2a1ff43e4801bb000479"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+
+        <!--baidumap start-->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2"></action>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="DEQ0xocFP8aKEc5etcNNLsfZ3Ov2xXQK" />  <!--http://lbsyun.baidu.com/apiconsole/key-->
+        <!--baidumap end-->
+
+    </application>
+
+</manifest>

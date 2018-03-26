@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bank_list">
+        <item>中国工商银行</item>
+        <item>中国农业银行</item>
+        <item>中国建设银行</item>
+        <item>招商银行</item>
+        <item>中国交通银行</item>
+        <item>中信实业银行</item>
+        <item>上海浦东发展银行</item>
+        <item>中国民生银行</item>
+        <item>平安银行</item>
+    </string-array>
+</resources>

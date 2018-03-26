@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/avatarView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="20dp"/>
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/avatarView"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color6"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/mobileTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/avatarView"
+        android:drawableRight="@drawable/icon_list_bodadianhua_nav"
+        android:drawablePadding="5dp"
+        android:textColor="@color/color6"
+        android:textSize="14sp" />
+</RelativeLayout>

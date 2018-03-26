@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="line_height">1px</dimen>
+    <dimen name="popup_width">110dp</dimen>
+    <dimen name="status_bar_height">20dp</dimen>
+    <dimen name="navigation_height">50dp</dimen>
+    <dimen name="map_tips_go_width">167dp</dimen>
+
+</resources>

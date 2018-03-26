@@ -1,0 +1,129 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="HomeRbBg">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/main_tab_text_color</item>
+    </style>
+
+    <style name="ButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless" />
+
+    <declare-styleable name="NavigationBar">
+        <attr name="title" />
+    </declare-styleable>
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowAnimationStyle">@style/FadeAnimationStyle</item>
+    </style>
+
+    <style name="FadeAnimationStyle" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <declare-styleable name="hprogress">
+        <attr name="progress" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="progressHeight" format="integer" />
+        <attr name="progressColor" format="color" />
+    </declare-styleable>
+
+
+    <style name="AnimationUpPopup">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_from_bottom</item>
+    </style>
+
+    <style name="AnimationFromButtom" >
+        <item name="android:windowEnterAnimation">@anim/popup_form_bottom</item>
+        <item name="android:windowExitAnimation">@anim/drop_down_to_bottom</item>
+    </style>
+
+    <style name="AnimationFromTop" >
+        <item name="android:windowEnterAnimation">@anim/drop_down_from_top</item>
+        <item name="android:windowExitAnimation">@anim/hide_to_top</item>
+    </style>
+
+
+
+    <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
+    <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
+    </style>
+
+    <!-- ActionSheet进出动画 -->
+    <style name="ActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/actionsheet_in</item>
+        <item name="android:windowExitAnimation">@anim/actionsheet_out</item>
+    </style>
+
+    <!-- //dialog-->
+    <style name="MyDialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <!-- 设置全屏 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置半透明 -->
+    </style>
+
+
+    <style name="MapDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/none</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="text_nomal_blank">
+        <item name="android:textColor">@color/map_blank</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="text_small_dark">
+        <item name="android:textColor">@color/color_7c</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="text_nomal_orage">
+        <item name="android:textColor">@color/colorAlert</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="text_nomal_darklight">
+        <item name="android:textColor">@color/color_9a</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+</resources>

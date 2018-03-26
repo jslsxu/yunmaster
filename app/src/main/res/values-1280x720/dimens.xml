@@ -1,0 +1,17 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="longinTextSize">14sp</dimen>
+    <dimen name="registerTextSize">14sp</dimen>
+
+    <dimen name="home_current_node_imgsize">22dp</dimen>
+    <dimen name="home_non_current_node_imgsize">22dp</dimen>
+    <dimen name="node_offTextY">26dp</dimen>
+
+
+    <dimen name="userinfo_not_knot_txt">50sp</dimen>
+    <dimen name="tv_loc_sign_in_marginTop">65dp</dimen>
+    <dimen name="map_tips_go_width">167dp</dimen>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="true" />
+
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_width="49dp"
+        android:layout_height="34dp"
+        android:clickable="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_map_back_bg">
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_user_back_nor" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

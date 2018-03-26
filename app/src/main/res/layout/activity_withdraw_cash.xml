@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
+    android:orientation="vertical">
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="提现" />
+
+    <RelativeLayout
+        android:id="@+id/backNameView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="开户银行"
+            android:textColor="@color/color3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/bankNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:hint="请选择开户银行"
+            android:textColor="@color/color3"
+            android:textColorHint="@color/color9"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="持卡人"
+            android:textColor="@color/color3"
+            android:textSize="15sp" />
+
+        <com.yun.yunmaster.view.ClearEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请输入持卡人姓名"
+            android:lines="1"
+            android:maxLength="10"
+            android:textColor="@color/color3"
+            android:textColorHint="@color/color9"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="卡号"
+            android:textColor="@color/color3"
+            android:textSize="15sp" />
+
+        <com.yun.yunmaster.view.ClearEditText
+            android:id="@+id/et_card_no"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@null"
+            android:hint="请输入银行卡号"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:lines="1"
+            android:maxLength="26"
+            android:textColor="@color/color3"
+            android:textColorHint="@color/color9"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/amountTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="提现金额"
+            android:textColor="@color/color3"
+            android:textSize="15sp" />
+
+        <com.yun.yunmaster.view.ClearEditText
+            android:id="@+id/et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请输入提现金额"
+            android:inputType="number|numberDecimal"
+            android:lines="1"
+            android:digits="0123456789"
+            android:maxLength="10"
+            android:textColor="@color/color3"
+            android:textColorHint="@color/color9"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="提现金额超限"
+        android:textColor="@color/actionsheet_red" />
+
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/submit_withdraw"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:rv_cornerRadius="5dp"
+        app:rv_backgroundColor="@color/color_blue"
+        app:rv_backgroundPressColor="@color/color_blue_pressed"/>
+
+
+</LinearLayout>

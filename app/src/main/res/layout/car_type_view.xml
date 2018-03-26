@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="18dp"
+    android:layout_marginRight="18dp"
+    android:background="@drawable/main_car_type_rl_pop_bg">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/main_car_type_tv_pop_bg"
+        android:gravity="center"
+        android:text="选择日期"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/lv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        android:listSelector="@drawable/selector_common_item"
+        android:scrollbars="none" />
+
+
+</RelativeLayout>
+

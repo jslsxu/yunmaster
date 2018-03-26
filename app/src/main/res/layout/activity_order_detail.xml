@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="订单详情" />
+
+    <RelativeLayout
+        android:id="@+id/actionView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_color" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/actionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:minWidth="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:rv_backgroundColor="@color/color_blue"
+            app:rv_backgroundPressColor="@color/color_blue_pressed"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeWidth="@dimen/line_height" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:minWidth="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/actionButton"
+            android:gravity="center"
+            android:text="取消订单"
+            android:textColor="@color/color_blue"
+            android:textSize="15sp"
+            app:rv_backgroundColor="@color/white"
+            app:rv_backgroundPressColor="@color/color_d"
+            app:rv_cornerRadius="5dp"
+            app:rv_strokeColor="@color/color_blue"
+            app:rv_strokeWidth="@dimen/line_height" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/actionView"
+        android:layout_below="@id/navigationBar"
+        android:background="@color/transparent">
+
+        <com.yun.yunmaster.view.CustomScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:layout_above="@id/actionView"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.yun.yunmaster.view.OrderDetail.OrderCustomerView
+                    android:id="@+id/customerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                </com.yun.yunmaster.view.OrderDetail.OrderCustomerView>
+
+                <com.yun.yunmaster.view.OrderInfoView
+                    android:id="@+id/orderInfoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp">
+
+                </com.yun.yunmaster.view.OrderInfoView>
+
+                <LinearLayout
+                    android:id="@+id/photoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="照片"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp" />
+
+                    <com.yun.yunmaster.view.OrderDetail.PhotoGridView
+                        android:id="@+id/photoGridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                    </com.yun.yunmaster.view.OrderDetail.PhotoGridView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/completePhotoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:text="完成照片"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp" />
+
+                    <com.yun.yunmaster.view.OrderDetail.PhotoGridView
+                        android:id="@+id/completePhotoGridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"/>
+
+                </LinearLayout>
+
+                <com.yun.yunmaster.view.CommonFeeView
+                    android:id="@+id/feeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                </com.yun.yunmaster.view.CommonFeeView>
+
+                <TextView
+                    android:id="@+id/hintTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/actionsheet_red"
+                    android:textSize="14sp"
+                    android:layout_margin="10dp"
+                    />
+
+            </LinearLayout>
+        </com.yun.yunmaster.view.CustomScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">好运司机端</string>
+    <string name="tab_home">首页</string>
+    <string name="tab_order">订单</string>
+    <string name="tab_mine">我的</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="send_verification_code">发送验证码</string>
+    <string name="personal_info">个人信息</string>
+    <string name="bank_address">开户行</string>
+    <string name="upload_driving_license_photo">上传驾驶证照片</string>
+    <string name="vehicle_type">车辆类型</string>
+    <string name="select_vehicle_type">选择车型</string>
+    <string name="vehicle_no">车辆号码</string>
+    <string name="vehicle_brand">品牌型号</string>
+    <string name="submit">提交</string>
+    <string name="vehicle_info">车辆信息</string>
+    <string name="kindly_remind">温馨提示</string>
+    <string name="permission_no_map">无法取地定位</string>
+    <string name="submit_withdraw">确认提现</string>
+    <string name="withdraw">提现</string>
+    <string name="incom_expenses_detail">收支流水</string>
+    <string name="report_yard_info">渣土场信息上报</string>
+    <string name="new_yard">新渣土场</string>
+    <string name="address">地址</string>
+    <string name="yard_name">名称</string>
+    <string name="opening_time">营业时间</string>
+    <string name="other_info">其它信息</string>
+    <string name="add_yard_tips">鼓励司机朋友提供新渣土场信息，如果信息真实准确，工作人员核实后会给与一定奖励</string>
+    <string name="my_trucks">我的车辆</string>
+    <string name="driver_cert">车主认证</string>
+    <string name="id_card_photo">身份证照片</string>
+    <string name="driving_license_photo">驾驶证照片</string>
+    <string name="vehicle_license_photo">行驶证照片</string>
+    <string name="vehicle_photo">车辆正面照片</string>
+    <string name="auth_second_vehicle">认证第二辆车</string>
+    <string name="no_vehicle_info">暂无车辆信息</string>
+    <string name="add_new_vehicle_info">新增车辆认证</string>
+
+</resources>

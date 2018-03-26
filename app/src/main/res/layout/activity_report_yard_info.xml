@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/report_yard_info"/>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_input"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_below="@+id/navigationBar"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_feedback_edit">
+
+        <TextView
+            android:id="@+id/tv_yard_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="area:"
+            android:textColor="@color/color3"
+            android:textSize="17sp" />
+
+        <com.yun.yunmaster.view.ClearEditText
+            android:id="@+id/et_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_yard_name"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="请输入该渣土场最新信息，谢谢！"
+            android:maxLength="300"
+            android:minLines="8"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="7dp"
+            android:textColor="@color/color3"
+            android:textColorHint="@color/color9"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="20dp"
+            android:text="0/300"
+            android:textColor="@color/color9"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/rl_input"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/selector_login_submit"
+        android:gravity="center"
+        android:enabled="false"
+        android:text="@string/submit"
+        android:textColor="@color/common_blue_bg_textcolor"
+        android:textSize="18sp" />
+
+</RelativeLayout>

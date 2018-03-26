@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_b7" />
+
+        <RadioGroup
+            android:id="@+id/tab_control"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <RadioButton
+                android:id="@+id/tab_home"
+                style="@style/HomeRbBg"
+                android:checked="true"
+                android:drawableTop="@drawable/tab_home"
+                android:text="@string/tab_home" />
+
+            <RadioButton
+                android:id="@+id/tab_order"
+                style="@style/HomeRbBg"
+                android:drawableTop="@drawable/tab_order"
+                android:text="@string/tab_order" />
+
+
+            <RadioButton
+                android:id="@+id/tab_mine"
+                style="@style/HomeRbBg"
+                android:drawableTop="@drawable/tab_mine"
+                android:text="@string/tab_mine" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_layout">
+
+    </FrameLayout>
+
+</RelativeLayout>

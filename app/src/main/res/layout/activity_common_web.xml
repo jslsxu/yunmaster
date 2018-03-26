@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/top_title"
+        layout="@layout/common_top_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.tencent.smtt.sdk.WebView
+            android:id="@+id/wb_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.yun.yunmaster.view.HProgressBarLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            app:max="100"
+            app:progressColor="@color/color_blue"
+            app:progressHeight="6" />
+
+        <TextView
+            android:id="@+id/tv_center_badnet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="轻触屏幕重新加载"
+            android:textColor="@color/color6"
+            android:textSize="18sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</LinearLayout>
