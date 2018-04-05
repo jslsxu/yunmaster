@@ -1,9 +1,10 @@
-package com.yun.yunmaster.fragment;
+package com.yun.yunmaster.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +13,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.adapter.ViewPagerAdapter;
-import com.yun.yunmaster.base.BaseFragment;
+import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
 import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.view.OrderListView;
@@ -28,22 +29,27 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by jslsxu on 2017/9/19.
+ * Created by jslsxu on 2018/3/27.
  */
 
-public class OrderListFragment extends BaseFragment {
-
+public class OrderListActivity extends BaseActivity {
     @BindView(R.id.navigationBar)
     NavigationBar mNavigationBar;
-    @BindView(R.id.tabView)
-    CommonTabLayout tabView;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+
+    public static void intentTo(Context context){
+        Intent intent = new Intent(context, OrderListActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        setContentView(R.layout.fragment_order_list);
+        ButterKnife.bind(this);
+        init();
     }
 
     @Override
@@ -52,35 +58,19 @@ public class OrderListFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_order_list, container, false);
-        ButterKnife.bind(this, mView);
-        return mView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            refresh();
-        }
-    }
-
     private void init() {
+        mNavigationBar.setLeftItem(R.drawable.icon_nav_back, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         ArrayList<CustomTabEntity> tabList = new ArrayList<>();
         ArrayList<View> viewList = new ArrayList<>();
         String[] actionList = {"未完成订单", "已完成订单"};
         for (int i = 0; i < actionList.length; i++) {
             tabList.add(new TabEntity(actionList[i], 0, 0));
-            OrderListView orderListView = new OrderListView(getContext());
+            OrderListView orderListView = new OrderListView(this);
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             orderListView.setLayoutParams(layoutParams);
             orderListView.setType(i + 1);

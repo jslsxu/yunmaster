@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     android:background="@color/common_bg_color">
 
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navigation_height"
+        app:title="我的">
+
+    </com.yun.yunmaster.base.NavigationBar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/navigationBar"
         android:overScrollMode="never"
         android:scrollbars="none">
 

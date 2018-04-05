@@ -20,7 +20,7 @@ android {
         flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_HOST", "\"http://api.yun.haocaisong.cn/v1.0/\""
-        buildConfigField "String", "DEBUG_API_HOST", "\"http://api.testyun.haocaisong.cn/v1.0/\""
+        buildConfigField "String", "DEBUG_API_HOST", "\"http://yun.1886688.cn/appDriver/\""
         buildConfigField "int", "API_ENV", "0"
     }
     buildTypes {

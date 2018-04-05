@@ -7,6 +7,8 @@ import com.yun.yunmaster.network.base.response.BaseObject;
  */
 
 public class UserData extends BaseObject {
+    public static final int ACCEPT_ORDER = 0;
+    public static final int NOT_ACCEPT_ORDER = 1;
     public String uid;
     public String name;
     public String mobile;

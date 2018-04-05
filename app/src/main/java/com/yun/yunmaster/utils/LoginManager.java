@@ -61,6 +61,7 @@ public class LoginManager {
         String jsonString = GsonManager.getGson().toJson(userInfo);
         CacheLoaderManager.getInstance().saveString(LOGIN_INFO_KEY, jsonString, Constants.CACHE_TIME);
         CommonApis.selectCity();
+        AppSettingManager.setUserData(userInfo.user_info);
     }
 
     public static void logout(boolean tokenInvalidate) {//是否因为token失效

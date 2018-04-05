@@ -10,31 +10,16 @@
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="@string/tab_order">
+        app:title="@string/my_order"
+        >
 
     </com.yun.yunmaster.base.NavigationBar>
 
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/tabView"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@id/navigationBar"
-        android:background="@color/white"
-        app:tl_iconVisible="false"
-        app:tl_indicator_color="@color/color_blue"
-        app:tl_textSelectColor="@color/color_blue"
-        app:tl_textUnselectColor="@color/color6"
-        app:tl_textsize="15sp"
-        app:tl_underline_color="@color/color_d"
-        app:tl_underline_height="@dimen/line_height">
-
-    </com.flyco.tablayout.CommonTabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabView"
         android:background="@color/transparent" />
 
 </RelativeLayout>

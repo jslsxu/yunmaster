@@ -136,13 +136,9 @@ public class CommonApis extends HttpApiBase {
         get(USER_DRIVER_CERTIFICATE, params, callback);
     }
 
-    public static void setOrderPush(boolean isOpen, ResponseCallback<BaseResponse> callback) {
+    public static void setOrderPush(int orderPush, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
-        if (isOpen) {
-            params.put("open", "1");
-        } else {
-            params.put("open", "2");
-        }
+        params.put("open", Integer.toString(orderPush));
         get(USER_SET_ORDER_PUSH, params, callback);
     }
 

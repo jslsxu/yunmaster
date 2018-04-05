@@ -95,7 +95,7 @@ public class HttpApiBase implements CommonInterface {
                 } else {
                     if (httpResponse.getErrno() == 7) {
                         //登陆过期
-                        LoginManager.logout(true);
+//                        LoginManager.logout(true);
                     }
                     if (responseCallback != null) {
                         responseCallback.onFail(httpResponse.getErrno(), httpResponse, null);

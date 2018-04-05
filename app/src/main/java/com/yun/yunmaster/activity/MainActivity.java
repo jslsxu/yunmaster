@@ -4,38 +4,46 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
+import com.flyco.roundview.RoundTextView;
 import com.umeng.analytics.MobclickAgent;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
-import com.yun.yunmaster.base.BaseFragment;
-import com.yun.yunmaster.model.CityInfo;
-import com.yun.yunmaster.response.CityListResponse;
+import com.yun.yunmaster.base.NavigationBar;
+import com.yun.yunmaster.model.UserData;
+import com.yun.yunmaster.network.base.callback.ResponseCallback;
+import com.yun.yunmaster.network.base.response.BaseResponse;
+import com.yun.yunmaster.network.httpapis.CommonApis;
 import com.yun.yunmaster.utils.AppInfoUtil;
 import com.yun.yunmaster.utils.AppSettingManager;
-import com.yun.yunmaster.utils.LocationManager;
 import com.yun.yunmaster.utils.LoginManager;
-import com.yun.yunmaster.view.CommonDialog;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.yun.yunmaster.view.HomeOrderListView;
+import com.yun.yunmaster.view.MapOrderListView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.yun.yunmaster.model.UserData.ACCEPT_ORDER;
+import static com.yun.yunmaster.model.UserData.NOT_ACCEPT_ORDER;
 
 public class MainActivity extends BaseActivity {
 
-    private static String[] tags = {"HomeFragment", "OrderListFragment", "MineFragment"};
+    @BindView(R.id.navigationBar)
+    NavigationBar navigationBar;
+    @BindView(R.id.acceptButton)
+    RoundTextView acceptButton;
+    @BindView(R.id.homeOrderListView)
+    HomeOrderListView homeOrderListView;
+    @BindView(R.id.mapOrderListView)
+    MapOrderListView mapOrderListView;
     @BindView(R.id.tab_control)
-    RadioGroup mTab_control;
-    private BaseFragment mCurrentFragment;
-    private BaseFragment toFragment;
+    RadioGroup tabControl;
     private long exitTime = 0;
 
     public static void intentTo(Context context) {
@@ -48,8 +56,27 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        final int tabCount = mTab_control.getChildCount();
-        mTab_control.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        init();
+        AppSettingManager.requestUserData();
+        AppInfoUtil.checkVersion(this);
+    }
+
+    private void init() {
+        navigationBar.setLeftItem(R.drawable.personal, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MineActivity.intentTo(MainActivity.this);
+            }
+        });
+        navigationBar.setRightItem(R.drawable.order_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderListActivity.intentTo(MainActivity.this);
+            }
+        });
+        updateAccepButton();
+        final int tabCount = tabControl.getChildCount();
+        tabControl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 for (int i = 0; i < tabCount; i++) {
@@ -59,119 +86,49 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        showFragmentAtIndex(0);
-        AppSettingManager.requestUserData();
-        AppInfoUtil.checkVersion(this);
-        checkCity();
+        selectIndex(0);
     }
 
-    public void showFragmentAtIndex(int index) {
-        int tabCount = mTab_control.getChildCount();
-        if (index >= 0 && index < tabCount) {
-            int resId = mTab_control.getChildAt(index).getId();
-            mTab_control.check(resId);
-            selectIndex(index);
+    private void updateAccepButton() {
+        UserData userData = AppSettingManager.getUserData();
+        if (userData.order_push == ACCEPT_ORDER) {
+            acceptButton.setText("停止\n接单");
+        } else {
+            acceptButton.setText("开始\n接单");
         }
     }
 
     private void selectIndex(int index) {
-        String tag = tags[index];
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-                .beginTransaction();
-        toFragment = (BaseFragment) getSupportFragmentManager()
-                .findFragmentByTag(tag);
-
-        if (toFragment == null) {
-            try {
-                toFragment = (BaseFragment) Class.forName("com.yun.yunmaster.fragment." + tag).newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (toFragment != null) {
-            if (mCurrentFragment == toFragment) {
-                return;
-            }
-            if (!toFragment.isAdded()) {
-                fragmentTransaction.add(R.id.fragment_container, toFragment, tag);
-            } else {
-                fragmentTransaction.show(toFragment);
-            }
-            if (mCurrentFragment != null) {
-                fragmentTransaction.hide(mCurrentFragment);
-            }
-            fragmentTransaction.commitAllowingStateLoss();
-            mCurrentFragment = toFragment;
+        if (index == 0) {
+            homeOrderListView.setVisibility(View.VISIBLE);
+            mapOrderListView.setVisibility(View.GONE);
+        } else {
+            homeOrderListView.setVisibility(View.GONE);
+            mapOrderListView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkCity() {
-        CityInfo currentCity = AppSettingManager.getCurrentCity();
-        if (currentCity == null) {
+    @OnClick({R.id.acceptButton})
+    public void onClick(View view) {
+        if (view.getId() == R.id.acceptButton) {
+            final UserData userData = AppSettingManager.getUserData();
+            final boolean isOpen = userData.order_push == ACCEPT_ORDER;
+            final int changedOpen = isOpen ? NOT_ACCEPT_ORDER : ACCEPT_ORDER;
             startLoading();
-        }
-        LocationManager.getLocation(new LocationManager.LocationListener() {
-            @Override
-            public void onLocationSuccess(BDLocation location) {
-                endLoading();
-                CityInfo currentCityInfo = AppSettingManager.getCurrentCity();
-                final CityInfo cityInfo = new CityInfo();
-                cityInfo.name = location.getCity();
-                cityInfo.city_id = location.getCityCode();
-                if(!TextUtils.isEmpty(cityInfo.name) && !TextUtils.isEmpty(cityInfo.city_id)){
-                    CityListResponse.CityListData cityListData = AppSettingManager.getCityListData();
-                    List<CityListResponse.CityGroup> cityList = cityListData.list;
-                    boolean cityValidate = false;
-                    for (CityListResponse.CityGroup cityGroup : cityList){
-                        for (CityInfo city : cityGroup.cities){
-                            if(cityInfo.city_id.equals(city.city_id)){
-                                cityValidate = true;
-                                cityInfo.name = city.name;
-                            }
-                        }
-                    }
-                    if(cityValidate){
-                        if (currentCityInfo == null) {
-                            AppSettingManager.setCurrentCity(cityInfo);
-                        } else if (!cityInfo.city_id.equals(currentCityInfo.city_id)) {
-                            //切换城市
-                            CommonDialog.ActionItem cancelItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_CANCEL, "取消", null);
-                            CommonDialog.ActionItem confirmItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_NORMAL, "切换", new CommonDialog.ActionCallback() {
-                                @Override
-                                public void onAction() {
-                                    AppSettingManager.setCurrentCity(cityInfo);
-                                }
-                            });
-                            ArrayList<CommonDialog.ActionItem> actionList = new ArrayList<>();
-                            actionList.add(cancelItem);
-                            actionList.add(confirmItem);
-                            CommonDialog.showDialog(MainActivity.this, "提示", "当前定位城市是" + cityInfo.name + ",是否切换?", actionList);
-                        }
-                    }
-                    else {
-                        locationFail();
-                    }
+            CommonApis.setOrderPush(changedOpen, new ResponseCallback<BaseResponse>() {
+                @Override
+                public void onSuccess(BaseResponse baseData) {
+                    endLoading();
+                    userData.setOrderPush(changedOpen);
+                    AppSettingManager.setUserData(userData);
+                    updateAccepButton();
                 }
-                else {
-                    locationFail();
+
+                @Override
+                public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                    endLoading();
                 }
-            }
-
-            @Override
-            public void onLocationFail() {
-                endLoading();
-                locationFail();
-            }
-        });
-    }
-
-    private void locationFail(){
-        CityInfo currentCityInfo = AppSettingManager.getCurrentCity();
-        if (currentCityInfo == null) {
-            CityInfo cityInfo = new CityInfo();
-            cityInfo.name = "北京";
-            cityInfo.city_id = "131";
-            AppSettingManager.setCurrentCity(cityInfo);
+            });
         }
     }
 
@@ -193,6 +150,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
     @Override
     protected void onRestart() {

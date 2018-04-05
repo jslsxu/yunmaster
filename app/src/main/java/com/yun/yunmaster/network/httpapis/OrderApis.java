@@ -3,6 +3,7 @@ package com.yun.yunmaster.network.httpapis;
 import com.yun.yunmaster.network.base.apis.HttpApiBase;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
+import com.yun.yunmaster.response.AllOrdersResponse;
 import com.yun.yunmaster.response.CalFeeResponse;
 import com.yun.yunmaster.response.OrderDetailResponse;
 import com.yun.yunmaster.response.OrderListResponse;
@@ -21,7 +22,7 @@ public class OrderApis extends HttpApiBase {
         get(MY_ORDER_LIST, params, callback);
     }
 
-    public static void getAllOrderList(String start, ResponseCallback<OrderListResponse> callback) {
+    public static void getAllOrderList(String start, ResponseCallback<AllOrdersResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("start", start);
         get(ALL_ORDER_LIST, params, callback);

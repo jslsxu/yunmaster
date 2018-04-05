@@ -1,58 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/tab_layout"
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:layout_height="@dimen/navigation_height"
+        app:title="运师傅">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_b7" />
+    </com.yun.yunmaster.base.NavigationBar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/navigationBar"
+        android:background="@color/home_head_bg_color">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/acceptButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:lines="2"
+            android:text="开始\n接单"
+            app:rv_backgroundColor="@color/actionsheet_blue"
+            app:rv_cornerRadius="40dp"/>
 
         <RadioGroup
             android:id="@+id/tab_control"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:paddingTop="5dp">
+            android:layout_below="@id/acceptButton"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true">
 
             <RadioButton
                 android:id="@+id/tab_home"
                 style="@style/HomeRbBg"
                 android:checked="true"
-                android:drawableTop="@drawable/tab_home"
-                android:text="@string/tab_home" />
+                android:drawableTop="@drawable/tab_list"
+                android:text="@string/tab_list" />
 
             <RadioButton
                 android:id="@+id/tab_order"
                 style="@style/HomeRbBg"
-                android:drawableTop="@drawable/tab_order"
-                android:text="@string/tab_order" />
+                android:drawableTop="@drawable/tab_map"
+                android:text="@string/tab_map" />
 
-
-            <RadioButton
-                android:id="@+id/tab_mine"
-                style="@style/HomeRbBg"
-                android:drawableTop="@drawable/tab_mine"
-                android:text="@string/tab_mine" />
         </RadioGroup>
+    </RelativeLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/common_bg_color">
+
+            <com.yun.yunmaster.view.HomeOrderListView
+                android:id="@+id/homeOrderListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.yun.yunmaster.view.HomeOrderListView>
+
+            <com.yun.yunmaster.view.MapOrderListView
+                android:id="@+id/mapOrderListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                >
+
+            </com.yun.yunmaster.view.MapOrderListView>
+        </FrameLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_layout">
-
-    </FrameLayout>
-
-</RelativeLayout>

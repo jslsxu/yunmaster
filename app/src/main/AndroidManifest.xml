@@ -56,6 +56,8 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".activity.GuideActivity"></activity>
         <activity android:name=".activity.OrderDetailActivity"></activity>
+        <activity android:name=".activity.MineActivity"/>
+        <activity android:name=".activity.OrderListActivity"/>
         <activity
             android:name=".activity.WithdrawCashActivity"
             android:screenOrientation="portrait"
@@ -165,7 +167,7 @@
         </service>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="DEQ0xocFP8aKEc5etcNNLsfZ3Ov2xXQK" />  <!--http://lbsyun.baidu.com/apiconsole/key-->
+            android:value="oqudybr8UqUk1NXZHk94oqfUxHrWyd2m" />  <!--http://lbsyun.baidu.com/apiconsole/key-->
         <!--baidumap end-->
 
     </application>

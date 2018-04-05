@@ -24,7 +24,7 @@ public interface CommonInterface {
      * 用户
      */
 
-    public static final String USER_LOGIN = "user/login";
+    public static final String USER_LOGIN = "login";
 
     public static final String USER_ACCOUNT_LOGIN = "user/account_login";
 
@@ -32,7 +32,7 @@ public interface CommonInterface {
 
     public static final String USER_CHANGE_PWD = "user/change_pwd";
 
-    public static final String USER_INFO = "user/user_info";
+    public static final String USER_INFO = "user_info";
 
     public static final String USER_DRIVER_CERTIFICATE = "user/driver_certificate";
 
@@ -46,11 +46,11 @@ public interface CommonInterface {
 
     public static final String USER_VEHICLE_AUTH = "user/vehicle_auth";
 
-    public static final String USER_SEND_VERIFY_CODE = "user/send_verify_code";
+    public static final String USER_SEND_VERIFY_CODE = "sendSMS";
 
     public static final String USER_SAVE_REGID = "user/save_regid";
 
-    public static final String USER_SET_ORDER_PUSH = "user/set_order_push";
+    public static final String USER_SET_ORDER_PUSH = "set_order_push";
 
     public static final String USER_WITHDRAW_CASH = "user/withdraw_cash";
 
@@ -72,7 +72,7 @@ public interface CommonInterface {
 
     public static final String MY_PROCESSING_ORDER_LIST = "order/processing_orders";
 
-    public static final String ALL_ORDER_LIST = "order/all_orders";
+    public static final String ALL_ORDER_LIST = "all_orders";
 
     public static final String TAKE_ORDER = "order/take_order";
 

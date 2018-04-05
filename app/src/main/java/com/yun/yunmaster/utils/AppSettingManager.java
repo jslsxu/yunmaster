@@ -99,6 +99,9 @@ public class AppSettingManager {
         } catch (Exception e) {
 
         }
+        if(userData == null){
+            userData = LoginManager.getLoginData().user_info;
+        }
         return userData;
     }
 
