@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <com.yun.yunmaster.base.NavigationBar
         android:id="@+id/navigationBar"
@@ -27,21 +27,21 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:lines="2"
             android:text="开始\n接单"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:rv_backgroundColor="@color/actionsheet_blue"
-            app:rv_cornerRadius="40dp"/>
+            app:rv_cornerRadius="40dp" />
 
         <RadioGroup
             android:id="@+id/tab_control"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/acceptButton"
             android:layout_marginTop="10dp"
-            android:layout_alignParentRight="true">
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/tab_home"
@@ -59,25 +59,24 @@
         </RadioGroup>
     </RelativeLayout>
 
-        <FrameLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_bg_color">
+
+        <com.yun.yunmaster.view.HomeOrderListView
+            android:id="@+id/homeOrderListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.yun.yunmaster.view.HomeOrderListView>
+
+        <com.yun.yunmaster.view.MapOrderListView
+            android:id="@+id/mapOrderListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/common_bg_color">
+            android:visibility="gone">
 
-            <com.yun.yunmaster.view.HomeOrderListView
-                android:id="@+id/homeOrderListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </com.yun.yunmaster.view.HomeOrderListView>
-
-            <com.yun.yunmaster.view.MapOrderListView
-                android:id="@+id/mapOrderListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                >
-
-            </com.yun.yunmaster.view.MapOrderListView>
-        </FrameLayout>
-    </LinearLayout>
+        </com.yun.yunmaster.view.MapOrderListView>
+    </FrameLayout>
+</LinearLayout>

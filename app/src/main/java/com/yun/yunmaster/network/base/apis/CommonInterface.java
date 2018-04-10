@@ -36,7 +36,7 @@ public interface CommonInterface {
 
     public static final String USER_DRIVER_CERTIFICATE = "user/driver_certificate";
 
-    public static final String USER_MY_VEHICLE_LIST = "user/my_vehicle_list";
+    public static final String USER_MY_VEHICLE_LIST = "my_vehicle_list";
 
     public static final String USER_DRIVER_INFO = "user/driver_info";
 
@@ -44,7 +44,7 @@ public interface CommonInterface {
 
     public static final String USER_DRIVER_AUTH = "user/driver_auth";
 
-    public static final String USER_VEHICLE_AUTH = "user/vehicle_auth";
+    public static final String USER_VEHICLE_AUTH = "vehicle_auth";
 
     public static final String USER_SEND_VERIFY_CODE = "sendSMS";
 
@@ -54,7 +54,7 @@ public interface CommonInterface {
 
     public static final String USER_WITHDRAW_CASH = "user/withdraw_cash";
 
-    public static final String USER_BALANCE_LIST = "user/balance_list";
+    public static final String USER_BALANCE_LIST = "balance_list";
 
     public static final String USER_REPORT_YARD_INFO = "user/report_yard_info";
 
@@ -64,30 +64,35 @@ public interface CommonInterface {
 
     public static final String DRIVER_LOCATION = "user/driver_location";
 
+    public static final String FEEDBACK = "feedback";
     /**
      * 订单
      */
 
-    public static final String MY_ORDER_LIST = "order/my_orders";
-
-    public static final String MY_PROCESSING_ORDER_LIST = "order/processing_orders";
+    public static final String MY_ORDER_LIST = "my_orders";
 
     public static final String ALL_ORDER_LIST = "all_orders";
 
-    public static final String TAKE_ORDER = "order/take_order";
+    public static final String TAKE_ORDER = "take_order";
 
-    public static final String CANCEL_ORDER = "order/cancel_order";
+    public static final String CANCEL_ORDER = "cancel_order";
 
-    public static final String ORDER_DETAIL = "order/order_detail";
+    public static final String ORDER_DETAIL = "order_detail";
 
-    public static final String MODIFY_PRICE = "order/adjust_price";
+    public static final String MODIFY_PRICE = "adjust_price";
 
-    public static final String ORDER_COMPLETE = "order/order_complete";
+    public static final String ORDER_COMPLETE = "order_complete";
 
-    public static final String UPDATE_ORDER_STATUS = "order/update_order_status";
+    public static final String UPDATE_ORDER_STATUS = "update_order_status";
 
-    public static final String CAL_FEE = "order/cal_fee";
+    public static final String CAL_FEE = "cal_fee";
 
     public static final String USER_ADD_YARD = "user/add_yard";
+
+    /**
+     * 上传图片
+     */
+
+    public static final String UPLOAD_IMAGE = "uploadImage";
 }
 

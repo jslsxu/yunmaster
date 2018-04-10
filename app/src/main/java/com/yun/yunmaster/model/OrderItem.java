@@ -20,6 +20,7 @@ public class OrderItem extends BaseObject {
 
     public String oid;
     public String time;
+    public String date;
     public String vehicle;
     public String address;
     public String total_price;

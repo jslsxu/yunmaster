@@ -15,6 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
+import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.model.UserData;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
@@ -24,6 +25,10 @@ import com.yun.yunmaster.utils.AppSettingManager;
 import com.yun.yunmaster.utils.LoginManager;
 import com.yun.yunmaster.view.HomeOrderListView;
 import com.yun.yunmaster.view.MapOrderListView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +57,15 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
@@ -158,5 +170,9 @@ public class MainActivity extends BaseActivity {
         LoginManager.setUserRegid();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onOrderPickListChanged(EventBusEvent.OrderPickDataChangedEvent event) {
+        this.mapOrderListView.setOrderList(homeOrderListView.orderPickInfoList());
+    }
 }
 

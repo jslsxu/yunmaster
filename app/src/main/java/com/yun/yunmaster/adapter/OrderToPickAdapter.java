@@ -10,7 +10,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.model.EventBusEvent;
-import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.model.OrderPickInfo;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.presenter.BaseRecyclerAdapter;
@@ -26,29 +25,19 @@ import org.greenrobot.eventbus.EventBus;
 
 public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderPickInfo> {
     private Context mContext;
-    private OrderListAdapter.OrderCellActionInterface mOrderActionListener;
 
     public OrderToPickAdapter(Context context) {
         super(R.layout.order_pick_cell);
         mContext = context;
     }
 
-    public void setOrderActionLister(OrderListAdapter.OrderCellActionInterface listener) {
-        this.mOrderActionListener = listener;
-    }
-
     @Override
     protected void convert(BaseViewHolder helper, final OrderPickInfo item) {
-//        helper.setText(R.id.timeTextView, item.time);
-//        RelativeLayout addressView = helper.getView(R.id.addressView);
-//        if(TextUtils.isEmpty(item.address)){
-//            addressView.setVisibility(View.GONE);
-//        }
-//        else {
-//            addressView.setVisibility(View.VISIBLE);
-//            helper.setText(R.id.addressTextView, item.address);
-//        }
-//        helper.setText(R.id.vehicleTextView, "￥" + item.total_price);
+        helper.setText(R.id.timeTextView, item.time);
+        helper.setText(R.id.dateTextView, item.date);
+        helper.setText(R.id.addressTextView, item.address);
+        helper.setText(R.id.priceTextView, "￥" + item.total_price);
+        helper.setText(R.id.vehicleNumTextView, "" + item.transport_times);
         TextView acceptButton = helper.getView(R.id.acceptButton);
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,9 +66,5 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderPickInfo> {
                 ToastUtil.showToast(failDate.getErrmsg());
             }
         });
-    }
-
-    public interface OrderCellActionInterface {
-        void onAcceptOrder(OrderItem orderItem);
     }
 }

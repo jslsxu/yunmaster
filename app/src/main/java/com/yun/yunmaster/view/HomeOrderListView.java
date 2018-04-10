@@ -15,12 +15,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.adapter.OrderToPickAdapter;
+import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.model.OrderPickInfo;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.presenter.RecyclerViewPresenter;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
 import com.yun.yunmaster.response.AllOrdersResponse;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +59,10 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
         init();
     }
 
+    public List<OrderPickInfo> orderPickInfoList(){
+        return mAdapter.getData();
+    }
+
     private void init(){
         LayoutInflater.from(mContext).inflate(R.layout.order_list_view, this);
         ButterKnife.bind(this);
@@ -81,6 +90,7 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
             public void onSuccess(AllOrdersResponse baseData) {
                 start = baseData.data.next;
                 mPresenter.endRequest(requestType, baseData.data.list, baseData.data.hasMore());
+                EventBus.getDefault().post(new EventBusEvent.OrderPickDataChangedEvent());
                 emptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
             }
 

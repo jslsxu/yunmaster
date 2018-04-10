@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg_color">
+
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="意见反馈">
+
+    </com.yun.yunmaster.base.NavigationBar>
+
+    <com.flyco.roundview.RoundRelativeLayout
+        android:id="@+id/inputView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/navigationBar"
+        android:layout_margin="10dp"
+        app:rv_backgroundColor="@color/color_c"
+        app:rv_cornerRadius="10dp">
+
+        <EditText
+            android:id="@+id/inputTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/numTextView"
+            android:layout_margin="10dp"
+            android:background="@color/transparent"
+            android:gravity="top"
+            android:maxLength="200"
+            android:textColor="@color/color3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/numTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/color3"
+            android:textSize="13sp" />
+    </com.flyco.roundview.RoundRelativeLayout>
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/commitButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/inputView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:rv_backgroundColor="@color/home_head_bg_color"
+        app:rv_backgroundPressColor="@color/color_blue_pressed"
+        app:rv_cornerRadius="5dp" />
+</RelativeLayout>

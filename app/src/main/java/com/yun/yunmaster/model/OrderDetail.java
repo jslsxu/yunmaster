@@ -12,7 +12,6 @@ import java.util.List;
 public class OrderDetail extends OrderItem {
     public OrderItem.CustomerInfo customer;
     public AddressInfo detail_address;
-    public WasteYard waste_yard;
     public List<InfoItem> fee_items;
     public List<String> photo;
     public List<String> complete_photo;
@@ -62,14 +61,6 @@ public class OrderDetail extends OrderItem {
                 mobileItem.isMobile = true;
                 infoList.add(mobileItem);
             }
-        }
-
-        if(waste_yard != null){
-            InfoItem item5 = new InfoItem();
-            item5.key = "目的地";
-            item5.value = waste_yard.address;
-            item5.isDestination = true;
-            infoList.add(item5);
         }
 
         if(!TextUtils.isEmpty(comment)){

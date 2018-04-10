@@ -15,11 +15,12 @@
 
     </com.yun.yunmaster.base.NavigationBar>
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+    <com.yun.yunmaster.view.OrderListView
+        android:id="@+id/orderListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent" />
+        android:layout_below="@id/navigationBar">
+
+    </com.yun.yunmaster.view.OrderListView>
 
 </RelativeLayout>

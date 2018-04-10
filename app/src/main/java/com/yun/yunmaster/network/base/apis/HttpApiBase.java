@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/3/24.
@@ -170,6 +171,51 @@ public class HttpApiBase implements CommonInterface {
                 }
             }
         });
+    }
+
+    public static void upload(String url, String filePath, Map<String, String> params, final ResponseCallback responseCallback){
+        String requestUrl = getSecureBaseUrl() + url;
+        HashMap validateMap = addCommonParams(params);
+        File file = new File(filePath);
+        Timber.e(filePath);
+        if(file == null){
+            Timber.e("文件为空");
+            return;
+        }
+        Timber.e("file length is " + file.length());
+        RequestCall requestCall = OkHttpUtils.post().url(requestUrl).params(validateMap).addFile("file", "file", file).build();
+        requestCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                if (responseCallback != null) {
+                    responseCallback.onFail(BaseResponse.NETWORK_ERROR, new BaseResponse(), null);
+                }
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Timber.e(response);
+                BaseResponse httpResponse = new BaseResponse();
+                if (!TextUtils.isEmpty(response) && responseCallback != null) {
+                    try {
+                        httpResponse = GsonManager.getGson().fromJson(response, responseCallback.getClazz());
+                    } catch (JsonIOException | JsonSyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (httpResponse.success()) {
+                    if (responseCallback != null) {
+                        responseCallback.onSuccess(httpResponse);
+                    }
+                } else {
+                    if (responseCallback != null) {
+                        responseCallback.onFail(httpResponse.getErrno(), httpResponse, null);
+                    }
+                }
+            }
+        });
+
+
     }
 }
 

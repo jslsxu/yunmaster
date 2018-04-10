@@ -216,4 +216,10 @@ public class CommonApis extends HttpApiBase {
         params.put("yard_id", yardId);
         get(PAY_WASTE_FEE, params, callback);
     }
+
+    public static void feedback(String content, ResponseCallback<BaseResponse> callback){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("content", content);
+        post(FEEDBACK, params, callback);
+    }
 }

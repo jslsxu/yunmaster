@@ -14,7 +14,7 @@ public class VehicleItem extends BaseObject {
 
     public String vehicle_id;
     public int auth_type;
-    public com.yun.yunmaster.model.VehicleTypeInfo vehicle_type;
+    public VehicleTypeInfo vehicle_type;
     public String vehicle_brand;
     public String vehicle_no;
     public PhotoItem license_photo;

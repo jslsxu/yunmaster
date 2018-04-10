@@ -94,6 +94,7 @@
             android:name=".activity.VehicleAuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity android:name=".activity.FeedbackActivity"/>
 
         <service
             android:name="com.xiaomi.push.service.XMJobService"

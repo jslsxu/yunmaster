@@ -15,6 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 import com.yun.yunmaster.R;
@@ -89,6 +97,8 @@ public class OrderDetailActivity extends BaseActivity {
     OrderCustomerView customerView;
     @BindView(R.id.hintTextView)
     TextView hintTextView;
+    @BindView(R.id.mapView)
+    MapView mapView;
 
     private String oid;
     private OrderDetail orderDetail;
@@ -192,6 +202,7 @@ public class OrderDetailActivity extends BaseActivity {
         } else {
             customerView.setVisibility(View.GONE);
         }
+        setupMapView();
 
         hintTextView.setText("费用为预估费用，司机到达现场后可根据具体情况调整价格");
         orderInfoView.setOrderDetail(this.orderDetail);
@@ -234,6 +245,16 @@ public class OrderDetailActivity extends BaseActivity {
             actionButton.setTextColor(resources.getColor(R.color.color9));
         }
         actionButton.setText(this.orderDetail.actionTitle());
+    }
+
+    private void setupMapView(){
+        LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
+        OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
+
+        mapView.getMap().addOverlay(option);
+        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
+        mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
     }
 
     private void cancelOrder() {
@@ -419,7 +440,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void handleQrCode(String code) {
-        if(TextUtils.isEmpty(code)){
+        if (TextUtils.isEmpty(code)) {
             ToastUtil.showToast("二维码为空");
             return;
         }
@@ -429,14 +450,14 @@ public class OrderDetailActivity extends BaseActivity {
             public void onSuccess(ExpCodeResponse baseData) {
                 endLoading();
                 String action = null;
-                if(baseData != null && baseData.data != null){
+                if (baseData != null && baseData.data != null) {
                     action = baseData.data.action;
                 }
-                if(!TextUtils.isEmpty(action)){
+                if (!TextUtils.isEmpty(action)) {
                     Uri uri = Uri.parse(action);
                     String host = uri.getHost();
                     Map<String, String> params = UrlParamsUtil.URLRequest(action);
-                    if(host.equals("pay")){
+                    if (host.equals("pay")) {
                         CommonDialog.ActionItem cancelItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_CANCEL, "取消", null);
                         CommonDialog.ActionItem confirmItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_NORMAL, "确定", new CommonDialog.ActionCallback() {
                             @Override

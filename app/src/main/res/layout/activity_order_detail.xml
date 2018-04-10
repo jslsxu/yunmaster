@@ -66,12 +66,20 @@
 
     </RelativeLayout>
 
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/navigationBar">
+
+    </com.baidu.mapapi.map.MapView>
+    
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/actionView"
-        android:layout_below="@id/navigationBar"
+        android:layout_below="@id/mapView"
         android:background="@color/transparent">
 
         <com.yun.yunmaster.view.CustomScrollView
@@ -118,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="照片"
+                        android:text="渣土照片"
                         android:textColor="@color/color3"
                         android:textSize="15sp" />
 

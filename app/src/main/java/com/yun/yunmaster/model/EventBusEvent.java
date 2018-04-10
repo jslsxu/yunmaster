@@ -26,4 +26,8 @@ public class EventBusEvent {
     public static class NewOrderEvent{
 
     }
+
+    public static class OrderPickDataChangedEvent{
+
+    }
 }

@@ -9,7 +9,7 @@
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/navigation_height"
-        app:title="我的">
+        app:title="个人中心">
 
     </com.yun.yunmaster.base.NavigationBar>
 
@@ -30,54 +30,60 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/icon_nav_beijing_nor"
-                    android:scaleType="centerCrop" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp">
 
                 <ImageView
                     android:id="@+id/avatarImageView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/icon_nav_touxiang_nor" />
 
+                <ImageView
+                    android:id="@+id/verifyImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/verify"
+                    android:layout_alignRight="@id/avatarImageView"
+                    android:layout_alignTop="@id/avatarImageView"
+                     />
+
+                <TextView
+                    android:id="@+id/verifyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/avatarImageView"
+                    android:layout_alignTop="@id/avatarImageView"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/home_head_bg_color"
+                    android:textSize="12sp"
+                    android:text="已认证"/>
                 <TextView
                     android:id="@+id/userNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/avatarImageView"
-                    android:layout_marginLeft="10dp"
+                    android:layout_below="@id/avatarImageView"
                     android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/avatarImageView"
+                    android:layout_centerHorizontal="true"
                     android:text="4444"
-                    android:textColor="@color/white"
+                    android:textColor="@color/home_head_bg_color"
                     android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/mobileTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/avatarImageView"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/avatarImageView"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
 
             </RelativeLayout>
 
 
-            <LinearLayout
+            <com.flyco.roundview.RoundLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:background="@color/white">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:rv_backgroundColor="@color/home_head_bg_color"
+                app:rv_cornerRadius_BL="15dp"
+                app:rv_cornerRadius_BR="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -146,268 +152,219 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </RelativeLayout>
-            </LinearLayout>
+            </com.flyco.roundview.RoundLinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_is_order_push"
+            <com.flyco.roundview.RoundLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                app:rv_backgroundColor="@color/white"
+                app:rv_cornerRadius="15dp"
+                app:rv_strokeColor="@color/line_color"
+                app:rv_strokeWidth="@dimen/line_height">
+                <RelativeLayout
+                    android:id="@+id/rl_driver_cert"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="新订单推送"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/driver_cert"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/driver_auth"
+                        android:drawablePadding="10dp"/>
 
-                <com.zcw.togglebutton.ToggleButton
-                    android:id="@+id/togglebutton"
-                    android:layout_width="48dp"
-                    android:layout_height="26dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    app:tbBorderWidth="0.5dp"
-                    app:tbOffBorderColor="@color/togglebutton_OffBorderColor"
-                    app:tbOffColor="@color/white"
-                    app:tbOnColor="@color/togglebutton_green"
-                    app:tbSpotColor="@color/white" />
+                    <TextView
+                        android:id="@+id/tv_car_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:drawablePadding="4dp"
+                        android:drawableRight="@drawable/icon_list_right_nor"
+                        android:text="已认证"
+                        android:textColor="@color/color6"
+                        android:textSize="15sp" />
+                </RelativeLayout>
 
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_color" />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
+                <RelativeLayout
+                    android:id="@+id/rl_my_trucks"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-            <RelativeLayout
-                android:id="@+id/rl_driver_cert"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/my_trucks"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/my_cars"
+                        android:drawablePadding="10dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/driver_cert"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/icon_list_right_nor" />
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_car_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:drawablePadding="4dp"
-                    android:drawableRight="@drawable/icon_list_right_nor"
-                    android:text="已认证"
-                    android:textColor="@color/color6"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_color" />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
+                <RelativeLayout
+                    android:id="@+id/userProtocolView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-            <RelativeLayout
-                android:id="@+id/rl_my_trucks"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="用户协议"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/user_protocol"
+                        android:drawablePadding="10dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/my_trucks"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/icon_list_right_nor" />
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_color" />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
+                <RelativeLayout
+                    android:id="@+id/feedbackView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-            <RelativeLayout
-                android:id="@+id/rl_upload_muck_address"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="意见反馈"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/feeback"
+                        android:drawablePadding="10dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="上报新渣土场"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/icon_list_right_nor" />
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_color" />
 
+                <RelativeLayout
+                    android:id="@+id/serverContactView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-            <RelativeLayout
-                android:id="@+id/rl_charge_standard"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="客服中心"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/server_contact"
+                        android:drawablePadding="10dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="用户协议"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/icon_list_right_nor" />
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_color" />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
+                <RelativeLayout
+                    android:id="@+id/checkVersionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
 
-            <RelativeLayout
-                android:id="@+id/inviteView"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:text="版本更新"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:drawableLeft="@drawable/check_version"
+                        android:drawablePadding="10dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="推荐有奖"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
-
-            <RelativeLayout
-                android:id="@+id/feeView"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="收费标准"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="10dp"
-                android:layout_height="@dimen/line_height"
-                android:background="@color/white" />
-
-            <RelativeLayout
-                android:id="@+id/rl_contact_us"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="联系客服"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_list_right_nor" />
-            </RelativeLayout>
-
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/icon_list_right_nor" />
+                </RelativeLayout>
+            </com.flyco.roundview.RoundLinearLayout>
 
             <com.flyco.roundview.RoundTextView
                 android:id="@+id/logoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="退出登录"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:rv_backgroundColor="@color/color_blue"
+                app:rv_backgroundColor="@color/home_head_bg_color"
                 app:rv_backgroundPressColor="@color/color_blue_pressed"
-                app:rv_cornerRadius="18dp" />
+                app:rv_cornerRadius="5dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
