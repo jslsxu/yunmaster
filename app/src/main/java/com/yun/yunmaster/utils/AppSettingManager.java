@@ -125,17 +125,7 @@ public class AppSettingManager {
     }
 
     public static void sendSms(String phone){
-        CommonApis.sendSms(phone, new ResponseCallback<BaseResponse>() {
-            @Override
-            public void onSuccess(BaseResponse response) {
-                ToastUtil.showToast("验证码已发送");
-            }
 
-            @Override
-            public void onFail(int statusCode, @Nullable BaseResponse httpResponse, @Nullable Throwable error) {
-                ToastUtil.showToast(httpResponse.getErrmsg());
-            }
-        });
 
     }
 

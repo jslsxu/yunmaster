@@ -11,31 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title=""/>
-    
-    <RelativeLayout
-        android:id="@+id/actionView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true">
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/tv_submit"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="@string/add_new_vehicle_info"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:rv_cornerRadius="5dp"
-            app:rv_backgroundColor="@color/color_blue"
-            app:rv_backgroundPressColor="@color/color_blue_pressed"
-            />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/actionView"
         android:layout_below="@id/navigationBar">
 
         <TextView

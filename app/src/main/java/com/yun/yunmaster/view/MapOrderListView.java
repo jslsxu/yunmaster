@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -12,6 +13,7 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -93,19 +95,21 @@ public class MapOrderListView extends RelativeLayout {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 final OrderPickInfo order = (OrderPickInfo)marker.getExtraInfo().getSerializable("order");
-                LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                LayoutParams layoutParams = new RelativeLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
                 MarkerFireView fireView = new MarkerFireView(mContext);
-                fireView.setLayoutParams(layoutParams);
-                fireView.setOrder(order);
-                BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(fireView);
-                LatLng point = marker.getPosition();
-                mInfoWindow = new InfoWindow(descriptor, point, -47, new InfoWindow.OnInfoWindowClickListener() {
+                fireView.setOnClickListener(new OnClickListener() {
                     @Override
-                    public void onInfoWindowClick() {
+                    public void onClick(View view) {
                         OrderDetailActivity.intentTo(mContext, order.oid);
                     }
                 });
+                fireView.setLayoutParams(layoutParams);
+                fireView.setOrder(order);
+//                BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(fireView);
+                LatLng point = marker.getPosition();
+                mInfoWindow = new InfoWindow(fireView, point, -47);
                 mapView.getMap().showInfoWindow(mInfoWindow);
+                mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
                 return false;
             }
         });

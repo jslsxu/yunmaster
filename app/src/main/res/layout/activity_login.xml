@@ -3,306 +3,111 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg_color"
->
+    android:background="@color/common_bg_color">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/common_top" />
-
-
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/ctl_tab"
+    <com.yun.yunmaster.base.NavigationBar
+        android:id="@+id/navigationBar"
         android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_below="@+id/include"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        tl:tl_iconVisible="false"
-        tl:tl_indicator_color="@color/color_blue"
-        tl:tl_indicator_corner_radius="0.9dp"
-        tl:tl_indicator_height="2dp"
-        tl:tl_textSelectColor="@color/color3"
-        tl:tl_textUnselectColor="@color/color9"
-        tl:tl_textsize="15.5sp"
-        tl:tl_underline_color="@color/color_c"
-        tl:tl_underline_height="@dimen/line_height" />
+        android:layout_height="@dimen/navigation_height"
+        tl:title="登录">
 
-    <View
-
-        android:layout_width="@dimen/line_height"
-        android:layout_height="23dp"
-        android:layout_below="@+id/include"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:background="@color/color_de" />
+    </com.yun.yunmaster.base.NavigationBar>
 
     <RelativeLayout
-        android:id="@+id/rl_input_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ctl_tab"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:layout_below="@id/navigationBar">
 
-        <RelativeLayout
-            android:id="@+id/rl_verification_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/rl_verification1"
-                android:layout_width="match_parent"
-                android:layout_height="49dp">
-
-                <TextView
-                    android:id="@+id/tv_phone_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:text="手机号码"
-                    android:textColor="@color/color3"
-                    android:textSize="@dimen/longinTextSize" />
-
-
-                <TextView
-                    android:id="@+id/tv_send_sms"
-                    android:layout_width="85dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/selector_send_verification_code"
-                    android:gravity="center"
-                    android:text="@string/send_verification_code"
-                    android:textColor="@color/send_sms_textcolor"
-                    android:textSize="13sp" />
-
-                <com.yun.yunmaster.view.ClearEditText
-                    android:id="@+id/et_phone_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/tv_send_sms"
-                    android:layout_toRightOf="@+id/tv_phone_title"
-                    android:background="@null"
-                    android:hint="请输入您的手机号码"
-                    android:inputType="number"
-                    android:lines="1"
-                    android:maxLength="11"
-                    android:textColorHint="@color/color9"
-                    android:textSize="@dimen/longinTextSize" />
-
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/view_line1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_height"
-                android:layout_below="@+id/rl_verification1"
-                android:layout_marginLeft="12dp"
-                android:background="@color/color_de" />
-
-
-            <RelativeLayout
-                android:id="@+id/rl_verification2"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:layout_below="@+id/view_line1">
-
-                <TextView
-                    android:id="@+id/tv_code_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:text="验证码    "
-                    android:textColor="@color/color3"
-                    android:textSize="@dimen/longinTextSize" />
-
-
-                <com.yun.yunmaster.view.ClearEditText
-                    android:id="@+id/et_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toRightOf="@+id/tv_code_title"
-                    android:background="@null"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:hint="请输入验证码"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:textColorHint="@color/color9"
-                    android:textSize="@dimen/longinTextSize" />
-
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rl_pw_login"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/transparent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rl_pw1"
+            <com.flyco.roundview.RoundLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="49dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                tl:rv_backgroundColor="@color/white"
+                tl:rv_cornerRadius_TL="10dp"
+                tl:rv_cornerRadius_TR="10dp">
 
-                <TextView
-                    android:id="@+id/tv_pw_phone_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:text="手机号码"
-                    android:textColor="@color/color3"
-                    android:textSize="@dimen/longinTextSize" />
-
-
-                <com.yun.yunmaster.view.ClearEditText
-                    android:id="@+id/et_pw_phone_num"
+                <com.flyco.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toRightOf="@+id/tv_pw_phone_title"
-                    android:background="@null"
-                    android:hint="请输入您的手机号码"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:textColorHint="@color/color9"
-                    android:textSize="@dimen/longinTextSize" />
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    tl:rv_strokeColor="@color/color3"
+                    tl:rv_strokeWidth="1px">
 
+                    <com.yun.yunmaster.view.ClearEditText
+                        android:id="@+id/mobileTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:hint="手机号"
+                        android:textColor="@color/color3"
+                        android:background="@color/transparent"
+                        android:textSize="16sp" />
+                </com.flyco.roundview.RoundRelativeLayout>
 
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/view_line2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_height"
-                android:layout_below="@+id/rl_pw1"
-                android:layout_marginLeft="12dp"
-                android:background="@color/color_de" />
-
-
-            <RelativeLayout
-                android:id="@+id/rl_pw2"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:layout_below="@+id/view_line2">
-
-                <TextView
-                    android:id="@+id/tv_pw_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:text="登录密码"
-                    android:textColor="@color/color3"
-                    android:textSize="@dimen/longinTextSize" />
-
-
-                <com.yun.yunmaster.view.ClearEditText
-                    android:id="@+id/et_pwd"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toRightOf="@+id/tv_pw_title"
-                    android:background="@null"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
-                    android:hint="请输入密码"
-                    android:inputType="textPassword"
-                    android:maxLength="18"
-                    android:maxLines="1"
-                    android:textColorHint="@color/color9"
-                    android:textSize="@dimen/longinTextSize" />
+                    android:layout_height="40dp"
+                    android:layout_margin="20dp">
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/sendSmsButton"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/color_blue"
+                        android:gravity="center"
+                        android:text="发送验证码"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <com.flyco.roundview.RoundRelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/sendSmsButton"
+                        tl:rv_strokeColor="@color/color3"
+                        tl:rv_strokeWidth="1px">
+
+                        <com.yun.yunmaster.view.ClearEditText
+                            android:id="@+id/smsTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:layout_margin="10dp"
+                            android:hint="验证码"
+                            android:textColor="@color/color3"
+                            android:textSize="16sp" />
+                    </com.flyco.roundview.RoundRelativeLayout>
 
 
-        </RelativeLayout>
+                </RelativeLayout>
+            </com.flyco.roundview.RoundLinearLayout>
 
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="登录"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                tl:rv_backgroundColor="@color/color_blue"
+                tl:rv_backgroundPressColor="@color/color_blue_pressed"
+                tl:rv_cornerRadius_BL="10dp"
+                tl:rv_cornerRadius_BR="10dp" />
+        </LinearLayout>
     </RelativeLayout>
 
-
-    <View
-        android:id="@+id/view_line3"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height"
-        android:layout_below="@+id/rl_input_type"
-        android:background="@color/color_de" />
-
-
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@+id/view_line3"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/selector_login_submit"
-        android:gravity="center"
-        android:text="@string/login"
-        android:textColor="@color/common_blue_bg_textcolor"
-        android:textSize="18sp" />
-
-    <RelativeLayout
-        android:id="@+id/rl_terms"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tv_login"
-        android:gravity="center_horizontal">
-
-        <CheckBox
-            android:id="@+id/cb_terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/selector_login_terms_check"
-            android:button="@null"
-            android:textColor="@color/color6"
-            android:textSize="13sp"
-            android:drawablePadding="7dp"
-            android:text="登录即代表您同意"
-            android:checked="true" />
-
-
-        <TextView
-            android:id="@+id/tv_terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/cb_terms"
-            android:text="《好运服务条款》"
-            android:textColor="@color/color_blue"
-            android:textSize="13sp" />
-
-    </RelativeLayout>
-
-
-    <TextView
-        android:id="@+id/tv_forget_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_login"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="15dp"
-        android:text="忘记密码"
-        android:textColor="@color/color6"
-        android:textSize="@dimen/longinTextSize"
-        android:visibility="gone" />
 </RelativeLayout>

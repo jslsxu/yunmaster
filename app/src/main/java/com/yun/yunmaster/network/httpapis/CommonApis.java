@@ -27,18 +27,11 @@ public class CommonApis extends HttpApiBase {
         get(GET_VERSION_INFO, null, callback);
     }
 
-    public static void userLogin(String mobile, String verify_code,String password,int loginType, ResponseCallback<LoginResponse> callback) {
-        if(loginType== LoginResponse.TYPE_LOGIN_TYPE_VERIFY){
-            HashMap<String, String> params = new HashMap<>();
-            params.put("mobile", mobile);
-            params.put("verify_code", verify_code);
-            get(USER_LOGIN, params, callback);
-        }else {
-            HashMap<String, String> params = new HashMap<>();
-            params.put("mobile", mobile);
-            params.put("password", password);
-            get(USER_ACCOUNT_LOGIN, params, callback);
-        }
+    public static void userLogin(String mobile, String verify_code, ResponseCallback<LoginResponse> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("mobile", mobile);
+        params.put("verify_code", verify_code);
+        get(USER_LOGIN, params, callback);
 
     }
 
@@ -47,16 +40,18 @@ public class CommonApis extends HttpApiBase {
         params.put("mobile", mobile);
         params.put("password", password);
         params.put("verify_code", verify_code);
-        params.put("invite_code",invite_code);
+        params.put("invite_code", invite_code);
         get(USER_REGISTER, params, callback);
     }
-    public static void userChangePwd(String mobile, String password, String verify_code,ResponseCallback<BaseResponse> callback) {
+
+    public static void userChangePwd(String mobile, String password, String verify_code, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("mobile", mobile);
         params.put("password", password);
         params.put("verify_code", verify_code);
         get(USER_CHANGE_PWD, params, callback);
     }
+
     public static void saveRegid(String regid) {
         HashMap<String, String> params = new HashMap<>();
         params.put("regid", regid);
@@ -105,8 +100,8 @@ public class CommonApis extends HttpApiBase {
         get(USER_DRIVER_INFO, null, callback);
     }
 
-    public static void vehicleAuth( String vehicle_id,String vehicle_type, String vehicle_no, String vehicle_brand,
-                                    String license_photo, String vehicle_photo, ResponseCallback<BaseResponse> callback) {
+    public static void vehicleAuth(String vehicle_id, String vehicle_type, String vehicle_no, String vehicle_brand,
+                                   String license_photo, String vehicle_photo, ResponseCallback<BaseResponse> callback) {
 
         HashMap<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(vehicle_id)) {
@@ -196,20 +191,20 @@ public class CommonApis extends HttpApiBase {
     }
 
     public static void driverLocation(double lat, double lng, ResponseCallback<BaseResponse
-            > callback){
+            > callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("lat", lat + "");
         params.put("lng", lng + "");
         get(DRIVER_LOCATION, params, callback);
     }
 
-    public static void expCode(String qrCode, ResponseCallback<ExpCodeResponse> callback){
+    public static void expCode(String qrCode, ResponseCallback<ExpCodeResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("code", qrCode);
         get(EXP_CODE, params, callback);
     }
 
-    public static void payWasteFee(String oid, String fee, String yardId, ResponseCallback<BaseResponse> callback){
+    public static void payWasteFee(String oid, String fee, String yardId, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("oid", oid);
         params.put("fee", fee);
@@ -217,7 +212,7 @@ public class CommonApis extends HttpApiBase {
         get(PAY_WASTE_FEE, params, callback);
     }
 
-    public static void feedback(String content, ResponseCallback<BaseResponse> callback){
+    public static void feedback(String content, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("content", content);
         post(FEEDBACK, params, callback);

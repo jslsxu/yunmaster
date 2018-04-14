@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yun.yunmaster.R;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by jslsxu on 2018/3/25.
@@ -51,10 +49,6 @@ public class VehicleListActivity extends BaseActivity implements RecyclerViewPre
     TextView emptyTextView;
     @BindView(R.id.navigationBar)
     NavigationBar navigationBar;
-    @BindView(R.id.tv_submit)
-    TextView tvSubmit;
-    @BindView(R.id.actionView)
-    RelativeLayout actionView;
 
     public static void intentTo(Context context) {
         Intent intent = new Intent(context, VehicleListActivity.class);
@@ -82,6 +76,12 @@ public class VehicleListActivity extends BaseActivity implements RecyclerViewPre
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        navigationBar.setRightItem(R.drawable.add_vehicle, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VehicleAuthActivity.intentTo(VehicleListActivity.this, null);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -119,11 +119,6 @@ public class VehicleListActivity extends BaseActivity implements RecyclerViewPre
                 emptyTextView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
             }
         });
-    }
-
-    @OnClick(R.id.tv_submit)
-    public void onViewClicked() {
-        VehicleAuthActivity.intentTo(VehicleListActivity.this,null);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

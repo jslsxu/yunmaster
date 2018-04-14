@@ -8,7 +8,137 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-    <include layout="@layout/marker_fire_view"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/timeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="09:10"
+                    android:textColor="@color/home_head_bg_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/timeSlotTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="3dp"
+                    android:drawableLeft="@drawable/am"
+                    android:drawablePadding="2dp"
+                    android:text="上午"
+                    android:textColor="@color/home_head_bg_color"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/dateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:text="03-22"
+                    android:textColor="@color/color6"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/acceptButton"
+                android:layout_toRightOf="@id/timeLayout">
+
+                <TextView
+                    android:id="@+id/addressTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:text="北京市朝阳区大悦城D做所得税的健康时间段"
+                    android:textColor="@color/color3"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/vehicleNumTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="3"
+                        android:textColor="@color/color3"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/vehicleExtra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/vehicleNumTextView"
+                        android:text="车"
+                        android:textColor="@color/color6"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/priceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/vehicleExtra"
+                        android:text="约￥1240"
+                        android:textColor="@color/color6"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/accessImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/order_access" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/acceptButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/accept_order"
+                android:textColor="@color/accept_color"
+                android:textSize="16sp"
+                app:rv_cornerRadius="25dp"
+                app:rv_strokeColor="@color/accept_color"
+                app:rv_strokeWidth="1dp" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
