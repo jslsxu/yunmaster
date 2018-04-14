@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,13 +19,16 @@ import com.yun.yunmaster.model.ImageUploadItem;
 import com.yun.yunmaster.model.VehicleItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
+import com.yun.yunmaster.network.httpapis.CommonApis;
 import com.yun.yunmaster.network.httpapis.UploadApis;
 import com.yun.yunmaster.response.UploadCarLicenseResponse;
+import com.yun.yunmaster.response.UploadImageResponse;
 import com.yun.yunmaster.utils.AppSettingManager;
 import com.yun.yunmaster.utils.CameraUtils;
 import com.yun.yunmaster.utils.Constants;
 import com.yun.yunmaster.utils.ImageUtil;
 import com.yun.yunmaster.utils.PhotoManager;
+import com.yun.yunmaster.utils.ToastUtil;
 
 import java.io.File;
 import java.util.List;
@@ -68,8 +72,9 @@ public class VehicleAuthActivity extends BaseActivity {
     @BindView(R.id.licenseImageView)
     ImageView licenseImageView;
 
-    private ImageUploadItem fronPhotoItem = new ImageUploadItem(null);
-    private ImageUploadItem backPhotoItem = new ImageUploadItem(null);
+    private VehicleItem vehicleItem;
+    private ImageUploadItem frontPhotoItem = new ImageUploadItem(null);
+    private ImageUploadItem sidePhotoItem = new ImageUploadItem(null);
     private ImageUploadItem licensePhotoItem = new ImageUploadItem(null);
     private ImageUploadItem currentPhotoItem;
     private ImageView currentImageView;
@@ -104,28 +109,26 @@ public class VehicleAuthActivity extends BaseActivity {
     @OnClick({R.id.tv_submit, R.id.vehicleFrontImageView, R.id.vehicleBackImageView, R.id.licenseImageView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.vehicleFrontImageView:
-            {
-                currentPhotoItem = fronPhotoItem;
+            case R.id.vehicleFrontImageView: {
+                currentPhotoItem = frontPhotoItem;
                 currentImageView = vehicleFrontImageView;
-                PhotoManager.requestPhoto(this,1);
+                PhotoManager.requestPhoto(this, 1);
             }
-                break;
-            case R.id.vehicleBackImageView:
-            {
-                currentPhotoItem = backPhotoItem;
+            break;
+            case R.id.vehicleBackImageView: {
+                currentPhotoItem = sidePhotoItem;
                 currentImageView = vehicleBackImageView;
-                PhotoManager.requestPhoto(this,1);
+                PhotoManager.requestPhoto(this, 1);
             }
-                break;
-            case R.id.licenseImageView:
-            {
+            break;
+            case R.id.licenseImageView: {
                 currentPhotoItem = licensePhotoItem;
                 currentImageView = licenseImageView;
-                PhotoManager.requestPhoto(this,1);
+                PhotoManager.requestPhoto(this, 1);
             }
-                break;
+            break;
             case R.id.tv_submit:
+                commitVehicle();
                 break;
         }
     }
@@ -153,7 +156,7 @@ public class VehicleAuthActivity extends BaseActivity {
 
     }
 
-    private void setCarLicenseInfo(UploadCarLicenseResponse.CarLicenseInfo info){
+    private void setCarLicenseInfo(UploadCarLicenseResponse.CarLicenseInfo info) {
         this.carLicenseInfo = info;
         noTextView.setText(carLicenseInfo.ls_num);
         typeTextView.setText(carLicenseInfo.ls_type);
@@ -166,23 +169,78 @@ public class VehicleAuthActivity extends BaseActivity {
         cerDateTextView.setText(carLicenseInfo.issue_date);
     }
 
-    private void uploadImage(String imagePath, Bitmap bitmap){
-        currentPhotoItem.bitmap = bitmap;
-        currentImageView.setImageBitmap(bitmap);
+    private void uploadImage(String imagePath, final Bitmap bitmap) {
         startLoading();
-        UploadApis.uploadCarLicense(imagePath, new ResponseCallback<UploadCarLicenseResponse>() {
-            @Override
-            public void onSuccess(UploadCarLicenseResponse baseData) {
-                endLoading();
-                currentPhotoItem.full_path = baseData.data.img_url;
-                if(currentPhotoItem == licensePhotoItem){
-                    setCarLicenseInfo(baseData.data.car_license_info);
+        if (currentPhotoItem == licensePhotoItem) {
+            UploadApis.uploadCarLicense(imagePath, new ResponseCallback<UploadCarLicenseResponse>() {
+                @Override
+                public void onSuccess(UploadCarLicenseResponse baseData) {
+                    endLoading();
+                    currentPhotoItem.bitmap = bitmap;
+                    currentImageView.setImageBitmap(bitmap);
+                    currentPhotoItem.full_path = baseData.data.img_url;
+                    if (currentPhotoItem == licensePhotoItem) {
+                        setCarLicenseInfo(baseData.data.car_license_info);
+                    }
                 }
+
+                @Override
+                public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                    endLoading();
+                    ToastUtil.showToast(failDate.getErrmsg());
+                }
+            });
+        } else {
+            UploadApis.uploadNormalImage(imagePath, new ResponseCallback<UploadImageResponse>() {
+                @Override
+                public void onSuccess(UploadImageResponse baseData) {
+                    endLoading();
+                    currentPhotoItem.bitmap = bitmap;
+                    currentImageView.setImageBitmap(bitmap);
+                    currentPhotoItem.full_path = baseData.data.img_url;
+                }
+
+                @Override
+                public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                    endLoading();
+                    ToastUtil.showToast(failDate.getErrmsg());
+                }
+            });
+        }
+    }
+
+    private void commitVehicle() {
+        String vehicle_id = null;
+        if (vehicleItem != null) {
+            vehicle_id = vehicleItem.vehicle_id;
+        }
+        String vehicle_front_image = frontPhotoItem.full_path;
+        String vehicle_side_image = sidePhotoItem.full_path;
+        String license_photo = licensePhotoItem.full_path;
+        String errMsg = "";
+        if (TextUtils.isEmpty(vehicle_front_image)) {
+            errMsg = "请上传车辆正面照片";
+        } else if (TextUtils.isEmpty(vehicle_side_image)) {
+            errMsg = "请上传车辆侧面照片";
+        } else if (TextUtils.isEmpty(license_photo)) {
+            errMsg = "请上传行驶证照片";
+        }
+        if (!TextUtils.isEmpty(errMsg)) {
+            ToastUtil.showToast(errMsg);
+            return;
+        }
+        startLoading();
+        CommonApis.vehicleAuth(vehicle_id, vehicle_front_image, vehicle_side_image, license_photo, new ResponseCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse baseData) {
+                endLoading();
+                ToastUtil.showToast("车辆提交成功");
             }
 
             @Override
             public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
                 endLoading();
+                ToastUtil.showToast(failDate.getErrmsg());
             }
         });
     }

@@ -28,7 +28,10 @@ public class VehicleItem extends BaseObject {
         } else if (auth_type == AUTH_TYPE_FAILED) {
             return "认证失败";
         }
-        return null;
+        return "认证中";
     }
 
+    public boolean canEdit(){
+        return auth_type != AUTH_TYPE_IN_AUTH;
+    }
 }

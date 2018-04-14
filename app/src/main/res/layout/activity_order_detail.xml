@@ -97,29 +97,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.yun.yunmaster.view.OrderDetail.OrderCustomerView
-                    android:id="@+id/customerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                </com.yun.yunmaster.view.OrderDetail.OrderCustomerView>
-
-                <com.yun.yunmaster.view.OrderInfoView
+                <com.yun.yunmaster.view.OrderDetailInfoView
                     android:id="@+id/orderInfoView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="wrap_content">
 
-                </com.yun.yunmaster.view.OrderInfoView>
+                </com.yun.yunmaster.view.OrderDetailInfoView>
 
-                <LinearLayout
+                <com.flyco.roundview.RoundLinearLayout
                     android:id="@+id/photoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:rv_backgroundColor="@color/white"
+                    app:rv_cornerRadius="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,15 +132,18 @@
 
                     </com.yun.yunmaster.view.OrderDetail.PhotoGridView>
 
-                </LinearLayout>
+                </com.flyco.roundview.RoundLinearLayout>
 
-                <LinearLayout
+                <com.flyco.roundview.RoundLinearLayout
                     android:id="@+id/completePhotoLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/white"
-                    android:layout_marginTop="10dp">
+                    app:rv_backgroundColor="@color/white"
+                    app:rv_cornerRadius="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -164,23 +161,35 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"/>
 
-                </LinearLayout>
+                </com.flyco.roundview.RoundLinearLayout>
 
-                <com.yun.yunmaster.view.CommonFeeView
-                    android:id="@+id/feeView"
+                <com.flyco.roundview.RoundRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:rv_backgroundColor="@color/white"
+                    app:rv_cornerRadius="10dp"
                     android:layout_marginTop="10dp">
+                    <com.yun.yunmaster.view.CommonFeeView
+                        android:id="@+id/feeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
 
-                </com.yun.yunmaster.view.CommonFeeView>
+                    </com.yun.yunmaster.view.CommonFeeView>
+                </com.flyco.roundview.RoundRelativeLayout>
 
-                <TextView
+                <com.flyco.roundview.RoundTextView
                     android:id="@+id/hintTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/actionsheet_red"
                     android:textSize="14sp"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    app:rv_backgroundColor="@color/white"
+                    app:rv_cornerRadius="10dp"
                     />
 
             </LinearLayout>

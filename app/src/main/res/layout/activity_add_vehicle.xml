@@ -65,7 +65,7 @@
                         android:src="@drawable/icon_list_tianjia_nor"/>
                 </com.yun.yunmaster.view.GridSquareCell>
                 <View
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"/>
                 <com.yun.yunmaster.view.GridSquareCell
                     android:layout_width="match_parent"

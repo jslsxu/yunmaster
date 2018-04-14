@@ -100,18 +100,16 @@ public class CommonApis extends HttpApiBase {
         get(USER_DRIVER_INFO, null, callback);
     }
 
-    public static void vehicleAuth(String vehicle_id, String vehicle_type, String vehicle_no, String vehicle_brand,
-                                   String license_photo, String vehicle_photo, ResponseCallback<BaseResponse> callback) {
+    public static void vehicleAuth(String vehicle_id, String vehicle_front_pic, String vehicle_side_pic,
+                                   String license_photo, ResponseCallback<BaseResponse> callback) {
 
         HashMap<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(vehicle_id)) {
             params.put("vehicle_id", vehicle_id);
         }
-        params.put("vehicle_type", vehicle_type);
-        params.put("vehicle_no", vehicle_no);
-        params.put("vehicle_brand", vehicle_brand);
+        params.put("vehicle_front_pic", vehicle_front_pic);
+        params.put("vehicle_side_pic", vehicle_side_pic);
         params.put("license_photo", license_photo);
-        params.put("vehicle_photo", vehicle_photo);
         get(USER_VEHICLE_AUTH, params, callback);
     }
 

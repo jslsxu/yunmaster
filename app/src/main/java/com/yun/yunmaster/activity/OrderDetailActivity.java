@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +22,7 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 import com.yun.yunmaster.R;
@@ -47,9 +47,8 @@ import com.yun.yunmaster.view.AdjustPriceView;
 import com.yun.yunmaster.view.CommonDialog;
 import com.yun.yunmaster.view.CommonFeeView;
 import com.yun.yunmaster.view.CustomScrollView;
-import com.yun.yunmaster.view.OrderDetail.OrderCustomerView;
 import com.yun.yunmaster.view.OrderDetail.PhotoGridView;
-import com.yun.yunmaster.view.OrderInfoView;
+import com.yun.yunmaster.view.OrderDetailInfoView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -71,12 +70,10 @@ public class OrderDetailActivity extends BaseActivity {
     public static final String OID_KEY = "OID_KEY";
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
-    @BindView(R.id.orderInfoView)
-    OrderInfoView orderInfoView;
     @BindView(R.id.photoLayout)
-    LinearLayout photoLayout;
+    RoundLinearLayout photoLayout;
     @BindView(R.id.completePhotoLayout)
-    LinearLayout completePhotoLayout;
+    RoundLinearLayout completePhotoLayout;
     @BindView(R.id.feeView)
     CommonFeeView feeView;
     @BindView(R.id.scrollView)
@@ -93,12 +90,12 @@ public class OrderDetailActivity extends BaseActivity {
     PhotoGridView photoGridView;
     @BindView(R.id.completePhotoGridView)
     PhotoGridView completePhotoGridView;
-    @BindView(R.id.customerView)
-    OrderCustomerView customerView;
     @BindView(R.id.hintTextView)
     TextView hintTextView;
     @BindView(R.id.mapView)
     MapView mapView;
+    @BindView(R.id.orderInfoView)
+    OrderDetailInfoView orderInfoView;
 
     private String oid;
     private OrderDetail orderDetail;
@@ -196,16 +193,16 @@ public class OrderDetailActivity extends BaseActivity {
         checkTimer();
         scrollView.setVisibility(View.VISIBLE);
         actionView.setVisibility(View.VISIBLE);
-        if (this.orderDetail.customer != null) {
-            customerView.setVisibility(View.VISIBLE);
-            customerView.setCustomer(this.orderDetail.customer);
-        } else {
-            customerView.setVisibility(View.GONE);
-        }
+//        if (this.orderDetail.customer != null) {
+//            customerView.setVisibility(View.VISIBLE);
+//            customerView.setCustomer(this.orderDetail.customer);
+//        } else {
+//            customerView.setVisibility(View.GONE);
+//        }
         setupMapView();
 
         hintTextView.setText("费用为预估费用，司机到达现场后可根据具体情况调整价格");
-        orderInfoView.setOrderDetail(this.orderDetail);
+//        orderInfoView.setOrderDetail(this.orderDetail);
 
         feeView.setFeeList(this.orderDetail.fee_items);
         final List<String> photoList = this.orderDetail.photo;
@@ -247,7 +244,7 @@ public class OrderDetailActivity extends BaseActivity {
         actionButton.setText(this.orderDetail.actionTitle());
     }
 
-    private void setupMapView(){
+    private void setupMapView() {
         LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
