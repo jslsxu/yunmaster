@@ -2,6 +2,7 @@ package com.yun.yunmaster.network.httpapis;
 
 import com.yun.yunmaster.network.base.apis.HttpApiBase;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
+import com.yun.yunmaster.response.OrderCompletePhotoResponse;
 import com.yun.yunmaster.response.UploadCarLicenseResponse;
 import com.yun.yunmaster.response.UploadDriverLicenseResponse;
 import com.yun.yunmaster.response.UploadIDCardBackResponse;
@@ -46,5 +47,11 @@ public class UploadApis extends HttpApiBase {
         HashMap<String, String> params = new HashMap<>();
         params.put("file_type", Integer.toString(ID_CARD_BACK));
         upload(UPLOAD_IMAGE,imagePath, params, callback);
+    }
+
+    public static void orderComplete(String oid, String imagePath, ResponseCallback<OrderCompletePhotoResponse> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("oid", oid);
+        upload(ORDER_COMPLETE, imagePath, params, callback);
     }
 }

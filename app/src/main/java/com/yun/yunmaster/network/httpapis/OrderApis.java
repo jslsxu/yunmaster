@@ -60,13 +60,6 @@ public class OrderApis extends HttpApiBase {
         get(UPDATE_ORDER_STATUS, params, callback);
     }
 
-    public static void orderComplete(String oid, String photo, ResponseCallback<OrderDetailResponse> callback) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("oid", oid);
-        params.put("photo", photo);
-        get(ORDER_COMPLETE, params, callback);
-    }
-
     public static void callFee(String oid, int times, String extra, ResponseCallback<CalFeeResponse> callback){
         HashMap<String, String> params = new HashMap<>();
         params.put("oid", oid);

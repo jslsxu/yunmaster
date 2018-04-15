@@ -73,10 +73,14 @@ public class OrderDetail extends OrderItem {
         return infoList;
     }
 
-    public boolean needTimer(){
-        if(!this.is_cancel && this.step >= ORDER_STATUS_ACCEPTED && this.step <= ORDER_STATUS_COMPLETED_CONFIRMED){
+    public boolean needUploadFinishPhoto(){
+        if(this.complete_photo == null || this.complete_photo.size() == 0){
             return true;
         }
         return false;
+    }
+
+    public boolean needTimer(){
+        return this.step == ORDER_STATUS_FEE_CONFIRMED;
     }
 }

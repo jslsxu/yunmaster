@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:minWidth="80dp"
+            android:minWidth="100dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -42,26 +42,6 @@
             app:rv_backgroundColor="@color/color_blue"
             app:rv_backgroundPressColor="@color/color_blue_pressed"
             app:rv_cornerRadius="5dp"
-            app:rv_strokeWidth="@dimen/line_height" />
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:minWidth="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/actionButton"
-            android:gravity="center"
-            android:text="取消订单"
-            android:textColor="@color/color_blue"
-            android:textSize="15sp"
-            app:rv_backgroundColor="@color/white"
-            app:rv_backgroundPressColor="@color/color_d"
-            app:rv_cornerRadius="5dp"
-            app:rv_strokeColor="@color/color_blue"
             app:rv_strokeWidth="@dimen/line_height" />
 
     </RelativeLayout>
