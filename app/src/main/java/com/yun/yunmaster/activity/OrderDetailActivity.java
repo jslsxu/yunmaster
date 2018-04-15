@@ -190,19 +190,13 @@ public class OrderDetailActivity extends BaseActivity {
             orderStatusChanged();
         }
         this.orderDetail = orderDetailInfo;
-        checkTimer();
+//        checkTimer();
         scrollView.setVisibility(View.VISIBLE);
         actionView.setVisibility(View.VISIBLE);
-//        if (this.orderDetail.customer != null) {
-//            customerView.setVisibility(View.VISIBLE);
-//            customerView.setCustomer(this.orderDetail.customer);
-//        } else {
-//            customerView.setVisibility(View.GONE);
-//        }
+        orderInfoView.setOrderDetail(this.orderDetail);
         setupMapView();
 
         hintTextView.setText("费用为预估费用，司机到达现场后可根据具体情况调整价格");
-//        orderInfoView.setOrderDetail(this.orderDetail);
 
         feeView.setFeeList(this.orderDetail.fee_items);
         final List<String> photoList = this.orderDetail.photo;
