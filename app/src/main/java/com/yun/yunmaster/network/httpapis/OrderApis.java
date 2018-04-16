@@ -54,9 +54,10 @@ public class OrderApis extends HttpApiBase {
         get(MODIFY_PRICE, params, callback);
     }
 
-    public static void updateOrderStatus(String oid, ResponseCallback<OrderDetailResponse> callback) {
+    public static void updateOrderStatus(String oid, int step, ResponseCallback<OrderDetailResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("oid", oid);
+        params.put("status", step + "");
         get(UPDATE_ORDER_STATUS, params, callback);
     }
 
@@ -67,4 +68,13 @@ public class OrderApis extends HttpApiBase {
         params.put("extra", extra);
         get(CAL_FEE, params, callback);
     }
+
+    public static void updateLocation(String oid, double lat, double lng, ResponseCallback<BaseResponse> callback){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("oid", oid);
+        params.put("lat", lat + "");
+        params.put("lng", lng + "");
+        get(UPDATE_LOCATION, params, callback);
+    }
+
 }

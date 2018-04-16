@@ -28,7 +28,7 @@ public class OrderItem extends BaseObject {
     public boolean can_change_price;
     public int step;
     public int transport_times;
-    public String other_price;
+    public String other_fee;
 
     public String statusTitle() {
         String title = "缺省";
@@ -46,7 +46,7 @@ public class OrderItem extends BaseObject {
                 title = "已到达";
                 break;
             case ORDER_STATUS_FEE_CONFIRMED:
-                title = "待完成";
+                title = "待支付";
                 break;
             case ORDER_STATUS_PAYED:
                 title = "已支付";
@@ -68,7 +68,7 @@ public class OrderItem extends BaseObject {
                 title = "确定到达";
                 break;
             case ORDER_STATUS_ARRIVED:
-                title = "完成订单";
+                title = arrivedAction();
                 break;
             case ORDER_STATUS_FEE_CONFIRMED:
                 title = "待支付";
@@ -78,6 +78,10 @@ public class OrderItem extends BaseObject {
                 break;
         }
         return title;
+    }
+
+    public String arrivedAction(){
+        return "完成订单";
     }
 
     public boolean canOperation() {
@@ -102,5 +106,25 @@ public class OrderItem extends BaseObject {
         public String name;
         public String avatar;
         public String mobile;
+    }
+
+    public int nextStep(){
+        if(step == ORDER_STATUS_WAITING_ACCEPT){
+            return ORDER_STATUS_ACCEPTED;
+        }
+        else if(step == ORDER_STATUS_ACCEPTED){
+            return ORDER_STATUS_SET_OUT;
+        }
+        else if(step == ORDER_STATUS_SET_OUT){
+            return ORDER_STATUS_ARRIVED;
+        }
+        return 0;
+    }
+
+    public boolean isAm(){
+        if(time.compareTo("12:00") < 0){
+            return true;
+        }
+        return false;
     }
 }

@@ -58,8 +58,8 @@ public class AdjustPriceView extends RelativeLayout {
         this.mOrderDetail = orderDetail;
         numView.setNum(this.mOrderDetail.transport_times);
         String extra = "0";
-        if (!TextUtils.isEmpty(orderDetail.other_price)) {
-            extra = orderDetail.other_price;
+        if (!TextUtils.isEmpty(orderDetail.other_fee)) {
+            extra = orderDetail.other_fee;
         }
         extraFeeTextView.setText(extra);
         totalFeeTextView.setText(orderDetail.total_price);
@@ -142,8 +142,8 @@ public class AdjustPriceView extends RelativeLayout {
         int num = numView.getNum();
         String extraStr = extraFeeTextView.getText().toString().trim();
         if (!TextUtils.isEmpty(extraStr)) {
-            int extraFee = Integer.parseInt(extraStr);
-            OrderApis.callFee(this.mOrderDetail.oid, num, Integer.toString(extraFee), new ResponseCallback<CalFeeResponse>() {
+            float extraFee = Float.parseFloat(extraStr);
+            OrderApis.callFee(this.mOrderDetail.oid, num, Float.toString(extraFee), new ResponseCallback<CalFeeResponse>() {
                 @Override
                 public void onSuccess(CalFeeResponse baseData) {
                     totalFeeTextView.setText(baseData.data.total);

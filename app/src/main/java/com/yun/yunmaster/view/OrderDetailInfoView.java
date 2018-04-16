@@ -1,6 +1,7 @@
 package com.yun.yunmaster.view;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.model.OrderDetail;
 import com.yun.yunmaster.model.OrderItem;
+import com.yun.yunmaster.utils.SystemUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +59,13 @@ public class OrderDetailInfoView extends RelativeLayout {
     private void init() {
         LayoutInflater.from(mContext).inflate(R.layout.order_info_view, this);
         ButterKnife.bind(this);
+
+        mobileTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.call(mContext, mOrderDetail.customer.mobile);
+            }
+        });
     }
 
     public void setOrderDetail(OrderDetail orderDetail) {
@@ -68,6 +77,17 @@ public class OrderDetailInfoView extends RelativeLayout {
         }
         else {
             customerView.setVisibility(View.GONE);
+        }
+        timeTextView.setText(orderDetail.date + " " + orderDetail.time);
+        addressTextView.setText(orderDetail.detail_address.address);
+        numTextView.setText(orderDetail.transport_times + "");
+        priceTextView.setText("￥" + orderDetail.total_price);
+        if(TextUtils.isEmpty(orderDetail.comment)){
+            commentTextView.setVisibility(View.GONE);
+        }
+        else {
+            commentTextView.setVisibility(View.VISIBLE);
+            commentTextView.setText("备注:" + orderDetail.comment);
         }
     }
 }

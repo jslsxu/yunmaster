@@ -73,6 +73,18 @@ public class OrderDetail extends OrderItem {
         return infoList;
     }
 
+    public String arrivedAction(){
+        if(step == ORDER_STATUS_ARRIVED){
+            if(needUploadFinishPhoto()){
+                return "清运完成";
+            }
+            else if(can_change_price){
+                return "确定价格";
+            }
+        }
+        return null;
+    }
+
     public boolean needUploadFinishPhoto(){
         if(this.complete_photo == null || this.complete_photo.size() == 0){
             return true;
@@ -83,4 +95,9 @@ public class OrderDetail extends OrderItem {
     public boolean needTimer(){
         return this.step == ORDER_STATUS_FEE_CONFIRMED;
     }
+
+    public boolean needUpdateLocation(){
+        return step == ORDER_STATUS_SET_OUT;
+    }
+
 }

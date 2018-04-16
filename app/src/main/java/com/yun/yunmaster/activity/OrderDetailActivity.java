@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.flyco.roundview.RoundLinearLayout;
@@ -35,6 +37,7 @@ import com.yun.yunmaster.network.httpapis.UploadApis;
 import com.yun.yunmaster.response.OrderCompletePhotoResponse;
 import com.yun.yunmaster.response.OrderDetailResponse;
 import com.yun.yunmaster.utils.Constants;
+import com.yun.yunmaster.utils.LocationManager;
 import com.yun.yunmaster.utils.PhotoManager;
 import com.yun.yunmaster.utils.ToastUtil;
 import com.yun.yunmaster.view.AdjustPriceView;
@@ -97,6 +100,30 @@ public class OrderDetailActivity extends BaseActivity {
             requestOrderDetail(false);
         }
     };
+    private Timer updateLocationTimer;
+    private TimerTask updateLocationTask = new TimerTask() {
+        @Override
+        public void run() {
+            LocationManager.getLocation(new LocationManager.LocationListener() {
+                @Override
+                public void onLocationSuccess(BDLocation location) {
+                    if(location != null){
+                        MyLocationData.Builder builder = new MyLocationData.Builder();
+                        builder.latitude(location.getLatitude());
+                        builder.longitude(location.getLongitude());
+                        MyLocationData data = builder.build();
+                        mapView.getMap().setMyLocationData(data);
+                        OrderApis.updateLocation(oid, location.getLatitude(), location.getLongitude(), null);
+                    }
+                }
+
+                @Override
+                public void onLocationFail() {
+
+                }
+            });
+        }
+    };
 
     public static void intentTo(Context context, String oid) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -109,6 +136,10 @@ public class OrderDetailActivity extends BaseActivity {
         super.onDestroy();
         if (timer != null) {
             timer.cancel();
+        }
+
+        if(updateLocationTimer != null){
+            updateLocationTimer.cancel();
         }
     }
 
@@ -163,6 +194,23 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
+    private void checkNeedUpdateLocation(){
+        if(orderDetail.needUpdateLocation()){
+            if(updateLocationTimer == null){
+                mapView.getMap().setMyLocationEnabled(true);
+                updateLocationTimer = new Timer();
+                updateLocationTimer.schedule(updateLocationTask, 3000, 3000);
+            }
+        }
+        else {
+            mapView.getMap().setMyLocationEnabled(false);
+            if(updateLocationTimer != null){
+                updateLocationTimer.cancel();
+                updateLocationTimer = null;
+            }
+        }
+    }
+
     private void checkTimer() {
         if (orderDetail.needTimer()) {
             if (timer == null) {
@@ -181,7 +229,6 @@ public class OrderDetailActivity extends BaseActivity {
             orderStatusChanged();
         }
         this.orderDetail = orderDetailInfo;
-        checkTimer();
         scrollView.setVisibility(View.VISIBLE);
         actionView.setVisibility(View.VISIBLE);
         orderInfoView.setOrderDetail(this.orderDetail);
@@ -222,6 +269,8 @@ public class OrderDetailActivity extends BaseActivity {
             actionButton.setTextColor(resources.getColor(R.color.color9));
         }
         actionButton.setText(this.orderDetail.actionTitle());
+        checkTimer();
+        checkNeedUpdateLocation();
     }
 
     private void setupMapView() {
@@ -260,14 +309,13 @@ public class OrderDetailActivity extends BaseActivity {
 
     private void updateOrderStatus() {
         startLoading();
-        OrderApis.updateOrderStatus(oid, new ResponseCallback<OrderDetailResponse>() {
+        final int step = orderDetail.nextStep();
+        OrderApis.updateOrderStatus(oid, step, new ResponseCallback<OrderDetailResponse>() {
             @Override
             public void onSuccess(OrderDetailResponse baseData) {
                 endLoading();
-                OrderDetail order = baseData.getOrder();
-                if (order != null) {
-                    setOrderDetail(order);
-                }
+                orderDetail.step = step;
+                setOrderDetail(orderDetail);
             }
 
             @Override
@@ -321,6 +369,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onSuccess(OrderCompletePhotoResponse baseData) {
                 endLoading();
                 orderDetail.complete_photo = baseData.data.complete_photos;
+                orderDetail.can_change_price = true;
                 setOrderDetail(orderDetail);
             }
 

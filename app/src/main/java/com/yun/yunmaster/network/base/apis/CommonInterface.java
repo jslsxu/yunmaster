@@ -81,13 +81,15 @@ public interface CommonInterface {
 
     public static final String MODIFY_PRICE = "adjust_price";
 
-    public static final String ORDER_COMPLETE = "order_complete";
+    public static final String ORDER_COMPLETE = "uploadOrderImages";
 
     public static final String UPDATE_ORDER_STATUS = "update_order_status";
 
     public static final String CAL_FEE = "cal_fee";
 
     public static final String USER_ADD_YARD = "user/add_yard";
+
+    public static final String UPDATE_LOCATION = "update_location";
 
     /**
      * 上传图片

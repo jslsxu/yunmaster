@@ -75,11 +75,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:textColor="@color/color3"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:text="正在清运"
                     android:gravity="center"
-                    android:drawableTop="@drawable/am"
-                    android:drawablePadding="5dp"
                     />
 
                 <View
