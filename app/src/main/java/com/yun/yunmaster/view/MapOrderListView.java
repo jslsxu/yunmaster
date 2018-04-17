@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/4/2.
@@ -66,13 +67,20 @@ public class MapOrderListView extends RelativeLayout {
                 return false;
             }
         });
+        mapView.getMap().setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                showMarkerFire(marker);
+                return false;
+            }
+        });
     }
 
     public void setOrderList(List<OrderItem> list) {
         this.orderList.clear();
         this.orderList.addAll(list);
         for (int i = 0; i < this.orderList.size(); i++){
-            addMarker(orderList.get(i));
+            addMarker(orderList.get(i), false);
         }
 
     }
@@ -82,40 +90,40 @@ public class MapOrderListView extends RelativeLayout {
     }
 
     public void addOrder(OrderItem order) {
-        this.orderList.add(order);
-        addMarker(order);
+        this.orderList.add(0, order);
+        addMarker(order, true);
     }
 
-    private void addMarker(OrderItem orderPickInfo){
+    private void addMarker(final OrderItem orderPickInfo, boolean isNew){
         LatLng point = new LatLng(orderPickInfo.detail_address.lat, orderPickInfo.detail_address.lng);
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
-
+        Timber.e("addOrder");
         Marker marker = (Marker) mapView.getMap().addOverlay(option);
         Bundle bundle = new Bundle();
         bundle.putSerializable("order", orderPickInfo);
         marker.setExtraInfo(bundle);
-        mapView.getMap().setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+        if(isNew){
+            Timber.e("show marker");
+            showMarkerFire(marker);
+        }
+    }
+
+    private void showMarkerFire(Marker marker){
+        final OrderItem order = (OrderItem)marker.getExtraInfo().getSerializable("order");
+        LayoutParams layoutParams = new RelativeLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
+        MarkerFireView fireView = new MarkerFireView(mContext);
+        fireView.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
-                final OrderItem order = (OrderItem)marker.getExtraInfo().getSerializable("order");
-                LayoutParams layoutParams = new RelativeLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
-                MarkerFireView fireView = new MarkerFireView(mContext);
-                fireView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        OrderDetailActivity.intentTo(mContext, order.oid);
-                    }
-                });
-                fireView.setLayoutParams(layoutParams);
-                fireView.setOrder(order);
-//                BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(fireView);
-                LatLng point = marker.getPosition();
-                mInfoWindow = new InfoWindow(fireView, point, -47);
-                mapView.getMap().showInfoWindow(mInfoWindow);
-                mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
-                return false;
+            public void onClick(View view) {
+                OrderDetailActivity.intentTo(mContext, order.oid);
             }
         });
+        fireView.setLayoutParams(layoutParams);
+        fireView.setOrder(order);
+        LatLng point = marker.getPosition();
+        mInfoWindow = new InfoWindow(fireView, point, -47);
+        mapView.getMap().showInfoWindow(mInfoWindow);
+        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
     }
 }

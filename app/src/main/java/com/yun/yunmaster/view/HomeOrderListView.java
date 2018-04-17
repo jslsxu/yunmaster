@@ -29,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.yun.yunmaster.network.base.presenter.RecyclerViewPresenter.REQUEST_REFRESH;
 
@@ -83,7 +84,9 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
     }
 
     public void receiveNewOrder(OrderItem orderItem){
-        mAdapter.addData(orderItem);
+        mAdapter.addData(0, orderItem);
+//        mRecyclerView.smoothScrollToPosition(0);
+        mAdapter.notifyDataSetChanged();
     }
 
     public void refresh(){

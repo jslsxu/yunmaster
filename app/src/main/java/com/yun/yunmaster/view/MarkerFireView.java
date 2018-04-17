@@ -19,6 +19,7 @@ import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
+import com.yun.yunmaster.utils.ResourceUtil;
 import com.yun.yunmaster.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +48,8 @@ public class MarkerFireView extends RelativeLayout {
     TextView priceTextView;
     @BindView(R.id.accessImageView)
     ImageView accessImageView;
+    @BindView(R.id.newOrderTextView)
+    TextView newOrderTextView;
     @BindView(R.id.acceptButton)
     RoundTextView acceptButton;
     private Context mContext;
@@ -70,34 +73,29 @@ public class MarkerFireView extends RelativeLayout {
         acceptButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeOrder(mOrderInfo.oid);
+                mOrderInfo.takeOrder(mContext, null);
             }
         });
     }
 
     public void setOrder(OrderItem order) {
         this.mOrderInfo = order;
+        timeTextView.setText(order.time);
+        dateTextView.setText(order.date);
+        addressTextView.setText(order.detail_address.address);
+        vehicleNumTextView.setText(order.transport_times + "");
+        priceTextView.setText("￥" + order.total_price);
 
-    }
+        boolean isAm = order.isAm();
+        if(isAm){
+            timeSlotTextView.setText("上午");
+            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.am), null, null, null);
+        }
+        else {
+            timeSlotTextView.setText("下午");
+            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.pm), null, null, null);
+        }
+        newOrderTextView.setVisibility(order.isNew ? View.VISIBLE : View.GONE);
 
-    private void takeOrder(final String oid) {
-        final KProgressHUD mProgress = KProgressHUD.create(mContext)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
-        mProgress.setCancellable(false);
-        mProgress.show();
-        OrderApis.takeOrder(oid, new ResponseCallback<BaseResponse>() {
-            @Override
-            public void onSuccess(BaseResponse baseData) {
-                mProgress.dismiss();
-                EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
-                OrderDetailActivity.intentTo(mContext, oid);
-            }
-
-            @Override
-            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
-                mProgress.dismiss();
-                ToastUtil.showToast(failDate.getErrmsg());
-            }
-        });
     }
 }

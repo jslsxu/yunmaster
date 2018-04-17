@@ -131,4 +131,19 @@
             app:rv_strokeColor="@color/accept_color"
             app:rv_strokeWidth="1dp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/newOrderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:textColor="@color/white"
+        android:background="#FF0000"
+        android:textSize="12sp"
+        android:text="新"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>

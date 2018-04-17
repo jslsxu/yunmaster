@@ -23,6 +23,7 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.yun.yunmaster.BuildConfig;
 import com.yun.yunmaster.activity.MainActivity;
+import com.yun.yunmaster.model.AddressInfo;
 import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.httpapis.CommonApis;
 import com.yun.yunmaster.utils.AppSettingManager;
@@ -185,6 +186,11 @@ public class YunApplication extends Application {
                         orderItem.date = map.get("date");
                         orderItem.time = map.get("time");
                         orderItem.address = map.get("address");
+                        AddressInfo detail_address = new AddressInfo();
+                        detail_address.lat = Double.parseDouble(map.get("lat"));
+                        detail_address.lng = Double.parseDouble(map.get("lng"));
+                        detail_address.address = map.get("address");
+                        orderItem.detail_address = detail_address;
                         String timesString = map.get("times");
                         if(!TextUtils.isEmpty(timesString)){
                             orderItem.transport_times = Integer.parseInt(timesString);
