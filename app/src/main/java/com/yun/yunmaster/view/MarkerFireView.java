@@ -15,7 +15,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.model.EventBusEvent;
-import com.yun.yunmaster.model.OrderPickInfo;
+import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
@@ -50,7 +50,7 @@ public class MarkerFireView extends RelativeLayout {
     @BindView(R.id.acceptButton)
     RoundTextView acceptButton;
     private Context mContext;
-    private OrderPickInfo mOrderInfo;
+    private OrderItem mOrderInfo;
 
     public MarkerFireView(Context context) {
         super(context);
@@ -75,7 +75,7 @@ public class MarkerFireView extends RelativeLayout {
         });
     }
 
-    public void setOrder(OrderPickInfo order) {
+    public void setOrder(OrderItem order) {
         this.mOrderInfo = order;
 
     }

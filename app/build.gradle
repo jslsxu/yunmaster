@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.yun.yunmaster"
         minSdkVersion 18
@@ -66,43 +66,43 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.wang.avi:library:2.1.3'
-    testCompile 'junit:junit:4.12'
-    compile 'com.kaopiz:kprogresshud:1.0.5'
-    compile('com.robin.lazy.cache:CacheLibrary:1.0.6') {
+    implementation 'com.android.support:appcompat-v7:26.+'
+    implementation 'com.android.support:recyclerview-v7:26.+'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.wang.avi:library:2.1.3'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.kaopiz:kprogresshud:1.0.5'
+    implementation('com.robin.lazy.cache:CacheLibrary:1.0.6') {
         exclude module: 'support-v4'
     }
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.32'
-    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
-    compile 'com.zhy:okhttputils:2.6.2'
-    compile 'com.jakewharton.timber:timber:4.4.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    compile 'com.huxq17.xrefreshview:xrefreshview:3.6.6'
-    compile 'com.yuyh.imgsel:library:2.0.2'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.zcw:togglebutton-library:1.0.0'
-    compile 'com.makeramen:roundedimageview:2.3.0'
-    compile 'se.emilsjolander:stickylistheaders:2.7.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-    compile 'com.google.zxing:core:3.3.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.32'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.jakewharton.timber:timber:4.4.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    implementation 'com.huxq17.xrefreshview:xrefreshview:3.6.6'
+    implementation 'com.yuyh.imgsel:library:2.0.2'
+    implementation 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'com.zcw:togglebutton-library:1.0.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.google.zxing:core:3.3.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
-    compile files('libs/MiPush_SDK_Client_3_5_1.jar')
-    compile files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/aliyun-oss-sdk-android-2.3.0.jar')
+    implementation files('libs/MiPush_SDK_Client_3_5_1.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/tbs_sdk_thirdapp_v3.5.0.1004_43500_sharewithdownload_withoutGame_obfs_20170801_113025.jar')
 }

@@ -16,6 +16,7 @@ import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
 import com.yun.yunmaster.model.EventBusEvent;
+import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.model.UserData;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity {
                 OrderListActivity.intentTo(MainActivity.this);
             }
         });
-        updateAccepButton();
+        updateAcceptButton();
         final int tabCount = tabControl.getChildCount();
         tabControl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -101,7 +102,7 @@ public class MainActivity extends BaseActivity {
         selectIndex(0);
     }
 
-    private void updateAccepButton() {
+    private void updateAcceptButton() {
         UserData userData = AppSettingManager.getUserData();
         if (userData.order_push == ACCEPT_ORDER) {
             acceptButton.setText("停止\n接单");
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity {
                     endLoading();
                     userData.setOrderPush(changedOpen);
                     AppSettingManager.setUserData(userData);
-                    updateAccepButton();
+                    updateAcceptButton();
                 }
 
                 @Override
@@ -142,6 +143,11 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void receiveNewOrder(OrderItem orderItem){
+        homeOrderListView.receiveNewOrder(orderItem);
+        mapOrderListView.receiveNewOrder(orderItem);
     }
 
     // 监听点击回退按钮
@@ -173,6 +179,11 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onOrderPickListChanged(EventBusEvent.OrderPickDataChangedEvent event) {
         this.mapOrderListView.setOrderList(homeOrderListView.orderPickInfoList());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onOrderStatusChanged(EventBusEvent.OrderStatusChangedEvent event) {
+        this.homeOrderListView.refresh();
     }
 }
 

@@ -2,7 +2,7 @@ package com.yun.yunmaster.response;
 
 import android.text.TextUtils;
 
-import com.yun.yunmaster.model.OrderPickInfo;
+import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AllOrdersResponse extends BaseResponse {
     public AllOrdersData data;
     public static class AllOrdersData {
-        public List<OrderPickInfo> list;
+        public List<OrderItem> list;
         public String next;
         public boolean hasMore(){
             return !TextUtils.isEmpty(next);

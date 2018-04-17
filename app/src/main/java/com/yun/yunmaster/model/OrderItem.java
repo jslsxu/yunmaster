@@ -1,6 +1,22 @@
 package com.yun.yunmaster.model;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.yun.yunmaster.activity.OrderDetailActivity;
+import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseObject;
+import com.yun.yunmaster.network.base.response.BaseResponse;
+import com.yun.yunmaster.network.httpapis.OrderApis;
+import com.yun.yunmaster.utils.CommonCallback;
+import com.yun.yunmaster.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jslsxu on 2017/9/19.
@@ -15,6 +31,7 @@ public class OrderItem extends BaseObject {
     public static final int ORDER_STATUS_FEE_CONFIRMED = 5;         //费用已确认，待支付
     public static final int ORDER_STATUS_PAYED = 6;   //已支付，待完成
 
+    public boolean isNew;
     public String oid;
     public String time;
     public String date;
@@ -30,6 +47,11 @@ public class OrderItem extends BaseObject {
     public int transport_times;
     public String other_fee;
 
+    public OrderItem.CustomerInfo customer;
+    public AddressInfo detail_address;
+    public List<InfoItem> fee_items;
+    public List<String> photo;
+    public List<String> complete_photo;
     public String statusTitle() {
         String title = "缺省";
         switch (step) {
@@ -80,10 +102,6 @@ public class OrderItem extends BaseObject {
         return title;
     }
 
-    public String arrivedAction(){
-        return "完成订单";
-    }
-
     public boolean canOperation() {
         if (step == ORDER_STATUS_FEE_CONFIRMED
                 || step == ORDER_STATUS_PAYED
@@ -126,5 +144,117 @@ public class OrderItem extends BaseObject {
             return true;
         }
         return false;
+    }
+
+
+    public void takeOrder(final Context context, final CommonCallback callback){
+        final KProgressHUD mProgress = KProgressHUD.create(context)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
+        mProgress.setCancellable(false);
+        mProgress.show();
+        OrderApis.takeOrder(oid, new ResponseCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse baseData) {
+                mProgress.dismiss();
+                if(callback != null){
+                    callback.onFinish(true);
+                }
+                EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
+                OrderDetailActivity.intentTo(context, oid);
+            }
+
+            @Override
+            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                mProgress.dismiss();
+                ToastUtil.showToast(failDate.getErrmsg());
+                if(callback != null){
+                    callback.onFinish(false);
+                }
+            }
+        });
+    }
+
+    public List<InfoItem> orderInfoList(){
+        ArrayList<InfoItem> infoList = new ArrayList<>();
+        InfoItem oidItem = new InfoItem();
+        oidItem.key = "订单号";
+        oidItem.value = oid;
+        infoList.add(oidItem);
+
+        InfoItem item = new InfoItem();
+        item.key = "车型";
+        item.value = vehicle;
+        infoList.add(item);
+
+        InfoItem item2 = new InfoItem();
+        item2.key = "车次";
+        item2.value = transport_times + "";
+        infoList.add(item2);
+
+        InfoItem item3 = new InfoItem();
+        item3.key = "用车时间";
+        item3.value = time;
+        infoList.add(item3);
+
+        if(detail_address != null){
+            if(!TextUtils.isEmpty(detail_address.address)){
+                InfoItem item4 = new InfoItem();
+                item4.key = "地址";
+                item4.value = detail_address.address;
+                item4.isAddress = true;
+                infoList.add(item4);
+            }
+
+            if(!TextUtils.isEmpty(detail_address.name)){
+                InfoItem nameItem = new InfoItem();
+                nameItem.key = "联系人";
+                nameItem.value = detail_address.name;
+                infoList.add(nameItem);
+            }
+
+            if(!TextUtils.isEmpty(detail_address.mobile)){
+                InfoItem mobileItem = new InfoItem();
+                mobileItem.key = "联系电话";
+                mobileItem.value = detail_address.mobile;
+                mobileItem.isMobile = true;
+                infoList.add(mobileItem);
+            }
+        }
+
+        if(!TextUtils.isEmpty(comment)){
+            InfoItem item6 = new InfoItem();
+            item6.key = "订单备注";
+            item6.value = comment;
+            infoList.add(item6);
+        }
+
+        return infoList;
+    }
+
+    public String arrivedAction(){
+        if(step == ORDER_STATUS_ARRIVED){
+            if(needUploadFinishPhoto()){
+                return "清运完成";
+            }
+            else if(can_change_price){
+                return "调整费用";
+            }
+        }
+        return null;
+    }
+
+    public boolean needUploadFinishPhoto(){
+        if(this.complete_photo == null || this.complete_photo.size() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean needTimer(){
+        return this.step == ORDER_STATUS_FEE_CONFIRMED;
+    }
+
+    public boolean needUpdateLocation(){
+        return step == ORDER_STATUS_SET_OUT;
     }
 }

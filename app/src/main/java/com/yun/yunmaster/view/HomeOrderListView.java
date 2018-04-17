@@ -16,7 +16,7 @@ import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.adapter.OrderToPickAdapter;
 import com.yun.yunmaster.model.EventBusEvent;
-import com.yun.yunmaster.model.OrderPickInfo;
+import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.presenter.RecyclerViewPresenter;
 import com.yun.yunmaster.network.base.response.BaseResponse;
@@ -59,7 +59,7 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
         init();
     }
 
-    public List<OrderPickInfo> orderPickInfoList(){
+    public List<OrderItem> orderPickInfoList(){
         return mAdapter.getData();
     }
 
@@ -75,11 +75,19 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                OrderPickInfo orderItem = mAdapter.getItem(position);
+                OrderItem orderItem = mAdapter.getItem(position);
                 OrderDetailActivity.intentTo(getContext(), orderItem.oid);
             }
         });
         requestData(RecyclerViewPresenter.REQUEST_REFRESH);
+    }
+
+    public void receiveNewOrder(OrderItem orderItem){
+        mAdapter.addData(orderItem);
+    }
+
+    public void refresh(){
+        requestData(REQUEST_REFRESH);
     }
 
     @Override

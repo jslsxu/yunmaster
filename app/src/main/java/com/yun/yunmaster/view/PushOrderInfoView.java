@@ -19,6 +19,7 @@ import com.yun.yunmaster.utils.CommonCallback;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2017/9/26.
@@ -37,6 +38,8 @@ public class PushOrderInfoView extends RelativeLayout {
     RoundTextView detailButton;
     @BindView(R.id.cancelButton)
     RoundTextView cancelButton;
+    @BindView(R.id.takeButton)
+    RoundTextView takeButton;
 
     private Context mContext;
     private OrderItem mOrderItem;
@@ -74,23 +77,44 @@ public class PushOrderInfoView extends RelativeLayout {
         return this.mOrderItem;
     }
 
-    @OnClick({R.id.detailButton, R.id.cancelButton})
+    @OnClick({R.id.detailButton, R.id.cancelButton, R.id.takeButton})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.detailButton:
+            case R.id.detailButton: {
                 OrderDetailActivity.intentTo(mContext, mOrderItem.oid);
+                if(this.callback != null){
+                    this.callback.onCallback();
+                }
+            }
                 break;
-            case R.id.cancelButton:
+            case R.id.cancelButton:{
+                if(this.callback != null){
+                    this.callback.onCallback();
+                }
+            }
                 break;
-        }
-        if(this.callback != null){
-            this.callback.onCallback();
+            case R.id.takeButton:{
+                mOrderItem.takeOrder(mContext, new CommonCallback() {
+                    @Override
+                    public void onFinish(boolean success) {
+                        if(callback != null){
+                            callback.onCallback();
+                        }
+                    }
+
+                    @Override
+                    public void onCallback() {
+
+                    }
+                });
+            }
+                break;
         }
     }
 
     public static void presentPushOrder(final Context context, final OrderItem orderInfo) {
         dismissCurrentDialog();
-        PushOrderInfoView orderInfoView = new PushOrderInfoView(context);
+        final PushOrderInfoView orderInfoView = new PushOrderInfoView(context);
         orderInfoView.setCallback(new CommonCallback() {
             @Override
             public void onFinish(boolean success) {
@@ -108,20 +132,6 @@ public class PushOrderInfoView extends RelativeLayout {
 
         currentDialog = CommonDialog.showWithContentView(context, orderInfoView);
         currentDialog.show();
-
-        int visibleTime = 10000;
-        final CountDownTimer timer = new CountDownTimer(visibleTime, visibleTime) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                dismissCurrentDialog();
-            }
-        };
-        timer.start();
     }
 
     public static void dismissCurrentDialog() {

@@ -21,7 +21,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
-import com.yun.yunmaster.model.OrderPickInfo;
+import com.yun.yunmaster.model.OrderItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class MapOrderListView extends RelativeLayout {
     @BindView(R.id.mapView)
     MapView mapView;
     private Context mContext;
-    private ArrayList<OrderPickInfo> orderList = new ArrayList<>();
+    private ArrayList<OrderItem> orderList = new ArrayList<>();
     private InfoWindow mInfoWindow;
     public MapOrderListView(Context context) {
         super(context);
@@ -68,7 +68,7 @@ public class MapOrderListView extends RelativeLayout {
         });
     }
 
-    public void setOrderList(List<OrderPickInfo> list) {
+    public void setOrderList(List<OrderItem> list) {
         this.orderList.clear();
         this.orderList.addAll(list);
         for (int i = 0; i < this.orderList.size(); i++){
@@ -77,12 +77,16 @@ public class MapOrderListView extends RelativeLayout {
 
     }
 
-    public void addOrder(OrderPickInfo order) {
+    public void receiveNewOrder(OrderItem orderItem){
+        addOrder(orderItem);
+    }
+
+    public void addOrder(OrderItem order) {
         this.orderList.add(order);
         addMarker(order);
     }
 
-    private void addMarker(OrderPickInfo orderPickInfo){
+    private void addMarker(OrderItem orderPickInfo){
         LatLng point = new LatLng(orderPickInfo.detail_address.lat, orderPickInfo.detail_address.lng);
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
@@ -94,7 +98,7 @@ public class MapOrderListView extends RelativeLayout {
         mapView.getMap().setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                final OrderPickInfo order = (OrderPickInfo)marker.getExtraInfo().getSerializable("order");
+                final OrderItem order = (OrderItem)marker.getExtraInfo().getSerializable("order");
                 LayoutParams layoutParams = new RelativeLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
                 MarkerFireView fireView = new MarkerFireView(mContext);
                 fireView.setOnClickListener(new OnClickListener() {

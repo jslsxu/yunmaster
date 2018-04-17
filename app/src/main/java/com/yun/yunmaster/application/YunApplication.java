@@ -22,16 +22,25 @@ import com.umeng.analytics.MobclickAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.yun.yunmaster.BuildConfig;
+import com.yun.yunmaster.activity.MainActivity;
+import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.httpapis.CommonApis;
 import com.yun.yunmaster.utils.AppSettingManager;
 import com.yun.yunmaster.utils.LoginManager;
+import com.yun.yunmaster.utils.UrlParamsUtil;
+import com.yun.yunmaster.view.CommonDialog;
+import com.yun.yunmaster.view.PushOrderInfoView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.https.HttpsUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -54,8 +63,8 @@ public class YunApplication extends Application {
     }
 
     public static String mipushregid = "";
-    private static final String Mipush_APP_ID = "2882303761517620333";
-    private static final String Mipush_APP_KEY = "5661762013333";
+    private static final String Mipush_APP_ID = "2882303761517771012";
+    private static final String Mipush_APP_KEY = "5331777126012";
 
     @Override
     public void onCreate() {
@@ -136,7 +145,7 @@ public class YunApplication extends Application {
         if (shouldInit()) {
             MiPushClient.registerPush(this, Mipush_APP_ID, Mipush_APP_KEY);
             mipushregid = MiPushClient.getRegId(getApplicationContext());
-            Timber.d("mipushregid  " + mipushregid);
+            Timber.e("mipushregid  " + mipushregid);
         }
         if (pushHandler == null) {
             pushHandler = new PushHandler();
@@ -145,11 +154,7 @@ public class YunApplication extends Application {
     }
 
     public void saveRegID() {
-        if (TextUtils.isEmpty(mipushregid)) {
-            mipushregid = MiPushClient.getRegId(getApplicationContext());
-        }
-        Timber.e("pushID is " + mipushregid);
-        if (LoginManager.isLogin()) {
+        if (LoginManager.isLogin() && !TextUtils.isEmpty(mipushregid)) {
             CommonApis.saveRegid(mipushregid);
         }
     }
@@ -171,20 +176,31 @@ public class YunApplication extends Application {
                 String content = (String) msg.obj;
                 try {
                     Timber.e(content);
-                    JSONObject jsonObject = new JSONObject(content);
-                    int type = Integer.parseInt(jsonObject.getString("msgtype"));
-                    final Activity topActivity = com.yun.yunmaster.utils.ActivityManager.getInstance().currentActivity();
-//                    if (type == 1) {
-//                        String data = jsonObject.getString("data");
-//                        OrderItem orderItem = GsonManager.getGson().fromJson(data, OrderItem.class);
-//                        if(msg.what == 1){
-//                            PushOrderInfoView.presentPushOrder(topActivity, orderItem);
-//                        }
-//                        else {
-//                            OrderDetailActivity.intentTo(topActivity, orderItem.oid);
-//                        }
-//                    }
-
+                    URI uri = new URI(content);
+                    String host = uri.getHost();
+                    Map<String, String> map = UrlParamsUtil.URLRequest(content);
+                    if(host.equals("newOrder")){
+                        OrderItem orderItem = new OrderItem();
+                        orderItem.isNew = true;
+                        orderItem.date = map.get("date");
+                        orderItem.time = map.get("time");
+                        orderItem.address = map.get("address");
+                        String timesString = map.get("times");
+                        if(!TextUtils.isEmpty(timesString)){
+                            orderItem.transport_times = Integer.parseInt(timesString);
+                        }
+                        orderItem.total_price = map.get("price");
+                        orderItem.oid = map.get("oid");
+                        orderItem.vehicle = map.get("vehicle_type");
+                        final Activity topActivity = com.yun.yunmaster.utils.ActivityManager.getInstance().currentActivity();
+                        if(topActivity instanceof MainActivity){
+                            MainActivity mainActivity = (MainActivity)topActivity;
+                            mainActivity.receiveNewOrder(orderItem);
+                        }
+                        else {
+                            PushOrderInfoView.presentPushOrder(topActivity, orderItem);
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

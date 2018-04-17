@@ -115,27 +115,10 @@
             android:layout_marginRight="10dp">
 
             <com.flyco.roundview.RoundTextView
-                android:id="@+id/detailButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="查看"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:rv_backgroundColor="@color/color_blue"
-                app:rv_cornerRadius="14dp" />
-
-            <View
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                />
-
-            <com.flyco.roundview.RoundTextView
                 android:id="@+id/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="关闭"
                 android:textColor="@color/actionsheet_red"
@@ -145,6 +128,40 @@
                 app:rv_cornerRadius="14dp"
                 app:rv_strokeColor="@color/actionsheet_red"
                 app:rv_strokeWidth="@dimen/line_height" />
+
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/detailButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="查看"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:rv_backgroundColor="@color/color_blue"
+                app:rv_cornerRadius="14dp" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                />
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/takeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="抢单"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:rv_backgroundColor="@color/color_blue"
+                app:rv_cornerRadius="14dp" />
         </LinearLayout>
     </com.flyco.roundview.RoundLinearLayout>
 </RelativeLayout>
