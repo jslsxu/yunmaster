@@ -76,7 +76,7 @@ public class CommonApis extends HttpApiBase {
 
     public static void vehicleDelete(String vehicle_id, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("vehicle_id", vehicle_id);
+        params.put("id", vehicle_id);
         get(USER_VEHICLE_DELETE, params, callback);
     }
 
@@ -213,6 +213,6 @@ public class CommonApis extends HttpApiBase {
     public static void feedback(String content, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("content", content);
-        post(FEEDBACK, params, callback);
+        get(FEEDBACK, params, callback);
     }
 }

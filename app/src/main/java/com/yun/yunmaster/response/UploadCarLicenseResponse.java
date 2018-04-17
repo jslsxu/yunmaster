@@ -1,6 +1,7 @@
 package com.yun.yunmaster.response;
 
 import com.yun.yunmaster.model.UploadImageData;
+import com.yun.yunmaster.network.base.response.BaseObject;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 
 /**
@@ -14,7 +15,7 @@ public class UploadCarLicenseResponse extends BaseResponse {
         public CarLicenseInfo car_license_info;
     }
 
-    public static class CarLicenseInfo{
+    public static class CarLicenseInfo extends BaseObject{
         public String ls_prefix;
         public String ls_num;
         public String ls_type;

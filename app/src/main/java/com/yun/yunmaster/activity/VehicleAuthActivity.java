@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundTextView;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
+import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.model.ImageUploadItem;
 import com.yun.yunmaster.model.VehicleItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
@@ -30,6 +32,8 @@ import com.yun.yunmaster.utils.ImageUtil;
 import com.yun.yunmaster.utils.PhotoManager;
 import com.yun.yunmaster.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.List;
 
@@ -43,6 +47,7 @@ import butterknife.OnClick;
 
 public class VehicleAuthActivity extends BaseActivity {
 
+    public static final String VEHICLE_KEY = "vehicle_key";
     @BindView(R.id.navigationBar)
     NavigationBar navigationBar;
     @BindView(R.id.tv_submit)
@@ -81,7 +86,10 @@ public class VehicleAuthActivity extends BaseActivity {
     private UploadCarLicenseResponse.CarLicenseInfo carLicenseInfo;
 
     public static void intentTo(Context context, VehicleItem vehicleItem) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(VEHICLE_KEY, vehicleItem);
         Intent intent = new Intent(context, VehicleAuthActivity.class);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 
@@ -103,7 +111,22 @@ public class VehicleAuthActivity extends BaseActivity {
             }
         });
 
+        Intent intent = getIntent();
+        vehicleItem = (VehicleItem)intent.getSerializableExtra(VEHICLE_KEY);
+        if(vehicleItem != null){
+            try {
+                frontPhotoItem.full_path = vehicleItem.vehicle_photo.front_photo;
+                sidePhotoItem.full_path = vehicleItem.vehicle_photo.side_photo;
+                licensePhotoItem.full_path = vehicleItem.license_photo.full_path;
+                Glide.with(this).load(frontPhotoItem.full_path).into(vehicleFrontImageView);
+                Glide.with(this).load(sidePhotoItem.full_path).into(vehicleBackImageView);
+                Glide.with(this).load(licensePhotoItem.full_path).into(licenseImageView);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
+            setCarLicenseInfo(vehicleItem.car_license_info);
+        }
     }
 
     @OnClick({R.id.tv_submit, R.id.vehicleFrontImageView, R.id.vehicleBackImageView, R.id.licenseImageView})
@@ -235,6 +258,8 @@ public class VehicleAuthActivity extends BaseActivity {
             public void onSuccess(BaseResponse baseData) {
                 endLoading();
                 ToastUtil.showToast("车辆提交成功");
+                EventBus.getDefault().post(new EventBusEvent.VehicleListChangedEvent());
+                finish();
             }
 
             @Override

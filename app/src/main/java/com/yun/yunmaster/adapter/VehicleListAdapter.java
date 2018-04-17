@@ -19,8 +19,12 @@ import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.CommonApis;
 import com.yun.yunmaster.utils.ResourceUtil;
 import com.yun.yunmaster.utils.ToastUtil;
+import com.yun.yunmaster.view.ActionSheetDialog;
+import com.yun.yunmaster.view.CommonDialog;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 /**
  * Created by jslsxu on 2017/9/19.
@@ -57,9 +61,14 @@ public class VehicleListAdapter extends BaseRecyclerAdapter<VehicleItem> {
 
         LinearLayout editView = helper.getView(R.id.editView);
         editView.setVisibility(item.canEdit() ? View.VISIBLE : View.GONE);
-
         ImageView editButton = helper.getView(R.id.editButton);
         ImageView deleteButton = helper.getView(R.id.deleteButton);
+        if(item.auth_type == VehicleItem.AUTH_TYPE_SUCCESS){
+            editButton.setVisibility(View.GONE);
+        }
+        else {
+            editButton.setVisibility(View.VISIBLE);
+        }
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,23 +85,33 @@ public class VehicleListAdapter extends BaseRecyclerAdapter<VehicleItem> {
 
 
     private void requestVehicleDelete(final String vehicle_id) {
-        final KProgressHUD mProgress = KProgressHUD.create(mContext)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
-        mProgress.setCancellable(false);
-        mProgress.show();
-        CommonApis.vehicleDelete(vehicle_id, new ResponseCallback<BaseResponse>() {
+        CommonDialog.ActionItem cancelItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_CANCEL, "取消", null);
+        CommonDialog.ActionItem confirmItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_NORMAL, "确定", new CommonDialog.ActionCallback() {
             @Override
-            public void onSuccess(BaseResponse baseData) {
-                mProgress.dismiss();
-                EventBus.getDefault().post(new EventBusEvent.VehicleListChangedEvent());
-            }
+            public void onAction() {
+                final KProgressHUD mProgress = KProgressHUD.create(mContext)
+                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
+                mProgress.setCancellable(false);
+                mProgress.show();
+                CommonApis.vehicleDelete(vehicle_id, new ResponseCallback<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseData) {
+                        mProgress.dismiss();
+                        EventBus.getDefault().post(new EventBusEvent.VehicleListChangedEvent());
+                    }
 
-            @Override
-            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
-                mProgress.dismiss();
-                ToastUtil.showToast(failDate.getErrmsg());
+                    @Override
+                    public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                        mProgress.dismiss();
+                        ToastUtil.showToast(failDate.getErrmsg());
+                    }
+                });
             }
         });
+        ArrayList<CommonDialog.ActionItem> actionList = new ArrayList<>();
+        actionList.add(cancelItem);
+        actionList.add(confirmItem);
+        CommonDialog.showDialog(mContext, "提示", "确定删除当前车辆吗?", actionList);
     }
 
 }

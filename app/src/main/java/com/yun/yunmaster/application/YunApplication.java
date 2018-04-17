@@ -113,8 +113,6 @@ public class YunApplication extends Application {
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
         registerMiPush();
-
-        AppSettingManager.requestCityList();
     }
 
     public void runOnUIThread(Runnable action) {

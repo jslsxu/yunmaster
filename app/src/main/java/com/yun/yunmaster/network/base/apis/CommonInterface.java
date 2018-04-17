@@ -40,7 +40,7 @@ public interface CommonInterface {
 
     public static final String USER_DRIVER_INFO = "user/driver_info";
 
-    public static final String USER_VEHICLE_DELETE = "user/vehicle_delete";
+    public static final String USER_VEHICLE_DELETE = "vehicle_del";
 
     public static final String USER_DRIVER_AUTH = "user/driver_auth";
 
@@ -48,7 +48,7 @@ public interface CommonInterface {
 
     public static final String USER_SEND_VERIFY_CODE = "sendSMS";
 
-    public static final String USER_SAVE_REGID = "user/save_regid";
+    public static final String USER_SAVE_REGID = "save_regid";
 
     public static final String USER_SET_ORDER_PUSH = "set_order_push";
 

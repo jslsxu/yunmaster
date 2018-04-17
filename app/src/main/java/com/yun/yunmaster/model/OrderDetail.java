@@ -79,7 +79,7 @@ public class OrderDetail extends OrderItem {
                 return "清运完成";
             }
             else if(can_change_price){
-                return "确定价格";
+                return "调整费用";
             }
         }
         return null;
