@@ -51,18 +51,18 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         Timber.e("onNotificationMessageClicked is called. " + message.toString());
-        if(SystemUtils.isAppAlive(context)){
+//        if(SystemUtils.isAppAlive(context)){
             YunApplication.getApp().handleMessage(message, false);
-        }
-        else {
-            Timber.e("启动应用。。。。。。。。。。。。。。。");
-            Intent launchIntent = context.getPackageManager().
-                    getLaunchIntentForPackage(context.getPackageName());
-            launchIntent.setFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            context.startActivity(launchIntent);
-            YunApplication.getApp().handleMessage(message, false);
-        }
+//        }
+//        else {
+//            Timber.e("启动应用。。。。。。。。。。。。。。。");
+//            Intent launchIntent = context.getPackageManager().
+//                    getLaunchIntentForPackage(context.getPackageName());
+//            launchIntent.setFlags(
+//                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+//            context.startActivity(launchIntent);
+//            YunApplication.getApp().handleMessage(message, false);
+//        }
     }
 
     @Override

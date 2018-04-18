@@ -86,11 +86,6 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
-            android:name=".activity.DriverInfoActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <activity
             android:name=".activity.VehicleAuthActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />

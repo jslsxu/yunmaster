@@ -19,6 +19,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.model.OrderItem;
@@ -40,6 +41,7 @@ public class MapOrderListView extends RelativeLayout {
     private Context mContext;
     private ArrayList<OrderItem> orderList = new ArrayList<>();
     private InfoWindow mInfoWindow;
+
     public MapOrderListView(Context context) {
         super(context);
         mContext = context;
@@ -79,13 +81,19 @@ public class MapOrderListView extends RelativeLayout {
     public void setOrderList(List<OrderItem> list) {
         this.orderList.clear();
         this.orderList.addAll(list);
-        for (int i = 0; i < this.orderList.size(); i++){
-            addMarker(orderList.get(i), false);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (int i = 0; i < this.orderList.size(); i++) {
+            OrderItem orderItem = orderList.get(i);
+            addMarker(orderItem, false);
+            double lat = orderItem.detail_address.lat;
+            double lng = orderItem.detail_address.lng;
+            builder.include(new LatLng(lat, lng));
         }
-
+        LatLngBounds bounds = builder.build();
+        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds));
     }
 
-    public void receiveNewOrder(OrderItem orderItem){
+    public void receiveNewOrder(OrderItem orderItem) {
         addOrder(orderItem);
     }
 
@@ -94,23 +102,21 @@ public class MapOrderListView extends RelativeLayout {
         addMarker(order, true);
     }
 
-    private void addMarker(final OrderItem orderPickInfo, boolean isNew){
+    private void addMarker(final OrderItem orderPickInfo, boolean isNew) {
         LatLng point = new LatLng(orderPickInfo.detail_address.lat, orderPickInfo.detail_address.lng);
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
-        Timber.e("addOrder");
         Marker marker = (Marker) mapView.getMap().addOverlay(option);
         Bundle bundle = new Bundle();
         bundle.putSerializable("order", orderPickInfo);
         marker.setExtraInfo(bundle);
-        if(isNew){
-            Timber.e("show marker");
+        if (isNew) {
             showMarkerFire(marker);
         }
     }
 
-    private void showMarkerFire(Marker marker){
-        final OrderItem order = (OrderItem)marker.getExtraInfo().getSerializable("order");
+    private void showMarkerFire(Marker marker) {
+        final OrderItem order = (OrderItem) marker.getExtraInfo().getSerializable("order");
         LayoutParams layoutParams = new RelativeLayout.LayoutParams(100, ViewGroup.LayoutParams.MATCH_PARENT);
         MarkerFireView fireView = new MarkerFireView(mContext);
         fireView.setOnClickListener(new OnClickListener() {

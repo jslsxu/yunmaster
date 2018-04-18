@@ -74,7 +74,6 @@ public class IncomeExpensesDetailActivity extends BaseActivity implements Recycl
         mPresenter.bind(mRecyclerView, mAdapter, mRefreshLayout, this, true);
 
         requestData(RecyclerViewPresenter.REQUEST_REFRESH);
-
     }
 
     public void refresh() {
@@ -108,7 +107,6 @@ public class IncomeExpensesDetailActivity extends BaseActivity implements Recycl
 
     @OnClick(R.id.tv_submit)
     public void onViewClicked() {
-
         UserData userData = AppSettingManager.getUserData();
         if (userData != null && userData.balance != null) {
             WithdrawCashActivity.intentTo(IncomeExpensesDetailActivity.this);

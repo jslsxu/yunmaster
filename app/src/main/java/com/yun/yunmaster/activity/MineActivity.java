@@ -116,20 +116,10 @@ public class MineActivity extends BaseActivity {
                 break;
             case R.id.rl_driver_cert:
                 DriverAuthActivity.intentTo(this);
-//                UserData userData = AppSettingManager.getUserData();
-//                if (userData.isNeedAuth()) {
-//                    DriverAuthActivity.intentTo(this);
-//                    return;
-//                }
-//                if (userData.auth_type == 2 || userData.auth_type == 4) {
-//                    DriverInfoActivity.intentTo(this);
-//                }
-
                 break;
             case R.id.rl_my_trucks:
                 VehicleListActivity.intentTo(this);
                 break;
-
             case R.id.ll_balance:
                 IncomeExpensesDetailActivity.intentTo(this);
                 break;

@@ -86,13 +86,11 @@ public class CommonApis extends HttpApiBase {
         get(USER_MY_VEHICLE_LIST, params, callback);
     }
 
-    public static void driverAuth(String real_name, String card_no, String card_photo, String driver_license_photo, ResponseCallback<BaseResponse> callback) {
-
+    public static void driverAuth(String id_card_front_img, String id_card_back_img, String driving_license_img, ResponseCallback<BaseResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("real_name", real_name);
-        params.put("card_no", card_no);
-        params.put("card_photo", card_photo);
-        params.put("driver_license_photo", driver_license_photo);
+        params.put("id_card_front", id_card_front_img);
+        params.put("id_card_back", id_card_back_img);
+        params.put("driving_license", driving_license_img);
         get(USER_DRIVER_AUTH, params, callback);
     }
 
@@ -111,22 +109,6 @@ public class CommonApis extends HttpApiBase {
         params.put("vehicle_side_pic", vehicle_side_pic);
         params.put("license_photo", license_photo);
         get(USER_VEHICLE_AUTH, params, callback);
-    }
-
-
-    public static void driverCertificate(String truename, String id_no, String bankcard_num, String bank_deposit, String driving_license_pic_url,
-                                         String vehicle_type, String vehicle_no, String vehicle_license_pic_url, ResponseCallback<BaseResponse> callback) {
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("truename", truename);
-        params.put("id_no", id_no);
-        params.put("bankcard_num", bankcard_num);
-        params.put("bank_deposit", bank_deposit);
-        params.put("driving_license_pic_url", driving_license_pic_url);
-        params.put("vehicle_type", vehicle_type);
-        params.put("vehicle_no", vehicle_no);
-        params.put("vehicle_license_pic_url", vehicle_license_pic_url);
-        get(USER_DRIVER_CERTIFICATE, params, callback);
     }
 
     public static void setOrderPush(int orderPush, ResponseCallback<BaseResponse> callback) {

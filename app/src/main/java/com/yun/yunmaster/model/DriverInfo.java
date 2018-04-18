@@ -10,9 +10,8 @@ import java.util.List;
  */
 
 public class DriverInfo  extends BaseObject {
-    public String real_name;
-    public String card_no;
-    public List<PhotoItem> card_photo;
-    public PhotoItem driver_license_photo;
+    public IDCardInfo.IDCardFrontInfo id_card_front_info;
+    public IDCardInfo.IDCardBackInfo id_card_back_info;
+    public DriverLicenseInfo driving_license;
 }
 

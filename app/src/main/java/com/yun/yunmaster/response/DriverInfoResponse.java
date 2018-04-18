@@ -9,9 +9,5 @@ import com.yun.yunmaster.network.base.response.BaseResponse;
  */
 
 public class DriverInfoResponse  extends BaseResponse {
-    public  DriverInfoData data;
-    public static class DriverInfoData{
-        public DriverInfo user;
-
-    }
+    public  DriverInfo data;
 }

@@ -34,15 +34,13 @@ public interface CommonInterface {
 
     public static final String USER_INFO = "user_info";
 
-    public static final String USER_DRIVER_CERTIFICATE = "user/driver_certificate";
-
     public static final String USER_MY_VEHICLE_LIST = "my_vehicle_list";
 
     public static final String USER_DRIVER_INFO = "user/driver_info";
 
     public static final String USER_VEHICLE_DELETE = "vehicle_del";
 
-    public static final String USER_DRIVER_AUTH = "user/driver_auth";
+    public static final String USER_DRIVER_AUTH = "driver_auth";
 
     public static final String USER_VEHICLE_AUTH = "vehicle_auth";
 
@@ -52,7 +50,7 @@ public interface CommonInterface {
 
     public static final String USER_SET_ORDER_PUSH = "set_order_push";
 
-    public static final String USER_WITHDRAW_CASH = "user/withdraw_cash";
+    public static final String USER_WITHDRAW_CASH = "withdraw_cash";
 
     public static final String USER_BALANCE_LIST = "balance_list";
 

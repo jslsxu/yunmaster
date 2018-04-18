@@ -7,6 +7,7 @@ import com.yun.yunmaster.network.base.response.BaseObject;
  */
 
 public class DriverLicenseInfo extends BaseObject {
+    public String img_url;
     public String license_number;
     public String real_name;
     public String sex;

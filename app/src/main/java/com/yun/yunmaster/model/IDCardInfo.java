@@ -9,6 +9,7 @@ import com.yun.yunmaster.network.base.response.BaseObject;
 public class IDCardInfo extends BaseObject {
 
     public static class IDCardFrontInfo extends BaseObject{
+        public String img_url;
         public String id_card_address;
         public String id_card_birthday;
         public String id_card_name;
@@ -18,6 +19,7 @@ public class IDCardInfo extends BaseObject {
     }
 
     public static class IDCardBackInfo extends BaseObject{
+        public String img_url;
         public String id_card_sign_start;
         public String id_card_sign_end;
         public String id_card_sign_station;
