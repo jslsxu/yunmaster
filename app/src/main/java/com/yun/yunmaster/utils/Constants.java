@@ -22,7 +22,7 @@ public class Constants {
     public static final int REQUEST_CODE_CAPTURE = 2;
     public static final int PERMISSION_SDCARD_REQUEST_CODE = 3;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 4;
-    public static final int SCAN_QR_CODEREQUEST_CODE = 5;
+    public static final int COMPLETE_ORDER_REQUEST_CODE = 5;
 
 }
 

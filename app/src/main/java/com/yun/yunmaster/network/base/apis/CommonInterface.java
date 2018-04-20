@@ -77,6 +77,8 @@ public interface CommonInterface {
 
     public static final String ORDER_DETAIL = "order_detail";
 
+    public static final String COMPLETE_ORDER = "complete_order";
+
     public static final String MODIFY_PRICE = "adjust_price";
 
     public static final String ORDER_COMPLETE = "uploadOrderImages";

@@ -77,4 +77,12 @@ public class OrderApis extends HttpApiBase {
         get(UPDATE_LOCATION, params, callback);
     }
 
+    public static void completeOrder(String oid, String photos, int times, String extra, ResponseCallback<OrderDetailResponse> callback){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("oid", oid);
+        params.put("photos", photos);
+        params.put("times", times + "");
+        params.put("extra", extra);
+        get(COMPLETE_ORDER, params, callback);
+    }
 }

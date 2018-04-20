@@ -87,6 +87,7 @@ public class MainActivity extends BaseActivity {
                 OrderListActivity.intentTo(MainActivity.this);
             }
         });
+        homeOrderListView.refresh();
         updateAcceptButton();
         final int tabCount = tabControl.getChildCount();
         tabControl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

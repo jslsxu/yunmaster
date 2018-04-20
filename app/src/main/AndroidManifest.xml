@@ -91,6 +91,9 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".activity.FeedbackActivity"/>
 
+        <activity android:name=".activity.CompleteOrderActivity"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name="com.xiaomi.push.service.XMJobService"
             android:enabled="true"

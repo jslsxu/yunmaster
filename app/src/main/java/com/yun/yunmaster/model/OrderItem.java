@@ -151,6 +151,7 @@ public class OrderItem extends BaseObject {
         final KProgressHUD mProgress = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
         mProgress.setCancellable(false);
+        mProgress.setLabel("      PK中      ");
         mProgress.show();
         OrderApis.takeOrder(oid, new ResponseCallback<BaseResponse>() {
             @Override
@@ -159,6 +160,7 @@ public class OrderItem extends BaseObject {
                 if(callback != null){
                     callback.onFinish(true);
                 }
+                ToastUtil.showToast("抢单成功");
                 EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
                 OrderDetailActivity.intentTo(context, oid);
             }

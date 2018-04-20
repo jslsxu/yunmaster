@@ -28,6 +28,7 @@ import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
 import com.yun.yunmaster.model.EventBusEvent;
+import com.yun.yunmaster.model.Location;
 import com.yun.yunmaster.model.OrderDetail;
 import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
@@ -38,9 +39,9 @@ import com.yun.yunmaster.response.OrderCompletePhotoResponse;
 import com.yun.yunmaster.response.OrderDetailResponse;
 import com.yun.yunmaster.utils.Constants;
 import com.yun.yunmaster.utils.LocationManager;
+import com.yun.yunmaster.utils.MyDistanceUtil;
 import com.yun.yunmaster.utils.PhotoManager;
 import com.yun.yunmaster.utils.ToastUtil;
-import com.yun.yunmaster.view.AdjustPriceView;
 import com.yun.yunmaster.view.CommonDialog;
 import com.yun.yunmaster.view.CommonFeeView;
 import com.yun.yunmaster.view.CustomScrollView;
@@ -91,6 +92,7 @@ public class OrderDetailActivity extends BaseActivity {
     @BindView(R.id.orderInfoView)
     OrderDetailInfoView orderInfoView;
 
+    private boolean mapSet = false;
     private String oid;
     private OrderDetail orderDetail;
     private Timer timer;
@@ -107,12 +109,18 @@ public class OrderDetailActivity extends BaseActivity {
             LocationManager.getLocation(new LocationManager.LocationListener() {
                 @Override
                 public void onLocationSuccess(BDLocation location) {
-                    if(location != null){
+                    if (location != null) {
                         MyLocationData.Builder builder = new MyLocationData.Builder();
                         builder.latitude(location.getLatitude());
                         builder.longitude(location.getLongitude());
                         MyLocationData data = builder.build();
                         mapView.getMap().setMyLocationData(data);
+                        Location myLocation = new Location(location.getLatitude(), location.getLongitude());
+                        Location orderLocation = new Location(orderDetail.detail_address.lat, orderDetail.detail_address.lng);
+                        LatLng center = new LatLng((myLocation.getLat() + orderLocation.getLat()) / 2, (myLocation.getLng() + orderLocation.getLng()) / 2);
+                        int zoomLevel = MyDistanceUtil.getZoomForMap(myLocation, orderLocation);
+                        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(center));
+                        mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(zoomLevel).build()));
                         OrderApis.updateLocation(oid, location.getLatitude(), location.getLongitude(), null);
                     }
                 }
@@ -138,7 +146,7 @@ public class OrderDetailActivity extends BaseActivity {
             timer.cancel();
         }
 
-        if(updateLocationTimer != null){
+        if (updateLocationTimer != null) {
             updateLocationTimer.cancel();
         }
     }
@@ -194,17 +202,16 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
-    private void checkNeedUpdateLocation(){
-        if(orderDetail.needUpdateLocation()){
-            if(updateLocationTimer == null){
+    private void checkNeedUpdateLocation() {
+        if (orderDetail.needUpdateLocation()) {
+            if (updateLocationTimer == null) {
                 mapView.getMap().setMyLocationEnabled(true);
                 updateLocationTimer = new Timer();
                 updateLocationTimer.schedule(updateLocationTask, 3000, 3000);
             }
-        }
-        else {
+        } else {
             mapView.getMap().setMyLocationEnabled(false);
-            if(updateLocationTimer != null){
+            if (updateLocationTimer != null) {
                 updateLocationTimer.cancel();
                 updateLocationTimer = null;
             }
@@ -274,13 +281,16 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void setupMapView() {
-        LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
-        OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
+        if (!mapSet) {
+            mapSet = true;
+            LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
+            OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
 
-        mapView.getMap().addOverlay(option);
-        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
-        mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
+            mapView.getMap().addOverlay(option);
+            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
+            mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
+        }
     }
 
 
@@ -295,11 +305,7 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case OrderItem.ORDER_STATUS_ARRIVED://已到达，上传完成照片和调价
             {
-                if (orderDetail.needUploadFinishPhoto()) {
-                    addPhoto();
-                } else if (orderDetail.can_change_price) {
-                    adjustPrice();
-                }
+                CompleteOrderActivity.intentTo(this, orderDetail);
             }
             break;
             default:
@@ -325,11 +331,6 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
     }
-
-    private void addPhoto() {//完成，添加照片
-        PhotoManager.requestPhoto(this, 1);
-    }
-
 
     /**
      * 网络请求
@@ -362,55 +363,6 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    private void orderComplete(String imagePath) {
-        startLoading();
-        UploadApis.orderComplete(oid, imagePath, new ResponseCallback<OrderCompletePhotoResponse>() {
-            @Override
-            public void onSuccess(OrderCompletePhotoResponse baseData) {
-                endLoading();
-                orderDetail.complete_photo = baseData.data.complete_photos;
-                orderDetail.can_change_price = true;
-                setOrderDetail(orderDetail);
-            }
-
-            @Override
-            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
-                endLoading();
-                ToastUtil.showToast(failDate.getErrmsg());
-            }
-        });
-    }
-
-    private void adjustPrice() {
-        AdjustPriceView.showAdjustPrice(this, this.orderDetail, new AdjustPriceView.AdjustPriceCallback() {
-            @Override
-            public void onAdjustPriceFinish(int times, String extra) {
-                adjustPrice(times, extra);
-            }
-        });
-    }
-
-    private void adjustPrice(int times, String extra) {
-        startLoading();
-        OrderApis.modifyPrice(oid, times, extra, new ResponseCallback<OrderDetailResponse>() {
-            @Override
-            public void onSuccess(OrderDetailResponse baseData) {
-                endLoading();
-                ToastUtil.showToast("调整价格成功");
-                OrderDetail order = baseData.getOrder();
-                if (order != null) {
-                    setOrderDetail(order);
-                }
-            }
-
-            @Override
-            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
-                endLoading();
-                ToastUtil.showToast(failDate.getErrmsg());
-            }
-        });
-    }
-
 
     private void orderStatusChanged() {
         EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
@@ -420,14 +372,9 @@ public class OrderDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Constants.REQUEST_CODE_CAPTURE) {
-                String imagePath = PhotoManager.getImagePath();
-                orderComplete(imagePath);
-            } else if (requestCode == Constants.REQUEST_CODE_IMAGE) {
-                List<String> pathList = data.getStringArrayListExtra("result");
-                if (pathList != null && pathList.size() > 0) {
-                    orderComplete(pathList.get(0));
-                }
+            if (requestCode == Constants.COMPLETE_ORDER_REQUEST_CODE) {
+                OrderDetail completeOrderDetail = (OrderDetail) data.getSerializableExtra(CompleteOrderActivity.ORDER_KEY);
+                setOrderDetail(completeOrderDetail);
             }
         }
     }
