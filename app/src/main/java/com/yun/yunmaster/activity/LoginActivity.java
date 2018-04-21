@@ -107,10 +107,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSuccess(LoginResponse response) {
                 endLoading();
-                LoginManager.setLoginData(response.data);
-                LoginManager.setUserRegid();
-                MainActivity.intentTo(LoginActivity.this);
-                LoginActivity.this.finish();
+                if(!TextUtils.isEmpty(response.data.token)){
+                    LoginManager.setLoginData(response.data);
+                    LoginManager.setUserRegid();
+                    MainActivity.intentTo(LoginActivity.this);
+                    LoginActivity.this.finish();
+                }
+                else {
+                    ToastUtil.showToast("网络请求失败，请稍后再试");
+                }
 
             }
 

@@ -39,7 +39,7 @@ public class OrderItem extends BaseObject {
     public String address;
     public String total_price;
     public String comment;
-//    public boolean is_cancel;
+    //    public boolean is_cancel;
 //    public boolean can_cancel;
 //    public String cancel_msg;
     public boolean can_change_price;
@@ -52,6 +52,7 @@ public class OrderItem extends BaseObject {
     public List<InfoItem> fee_items;
     public List<String> photo;
     public List<String> complete_photo;
+
     public String statusTitle() {
         String title = "缺省";
         switch (step) {
@@ -126,28 +127,26 @@ public class OrderItem extends BaseObject {
         public String mobile;
     }
 
-    public int nextStep(){
-        if(step == ORDER_STATUS_WAITING_ACCEPT){
+    public int nextStep() {
+        if (step == ORDER_STATUS_WAITING_ACCEPT) {
             return ORDER_STATUS_ACCEPTED;
-        }
-        else if(step == ORDER_STATUS_ACCEPTED){
+        } else if (step == ORDER_STATUS_ACCEPTED) {
             return ORDER_STATUS_SET_OUT;
-        }
-        else if(step == ORDER_STATUS_SET_OUT){
+        } else if (step == ORDER_STATUS_SET_OUT) {
             return ORDER_STATUS_ARRIVED;
         }
         return 0;
     }
 
-    public boolean isAm(){
-        if(time.compareTo("12:00") < 0){
+    public boolean isAm() {
+        if (time.compareTo("12:00") < 0) {
             return true;
         }
         return false;
     }
 
 
-    public void takeOrder(final Context context, final CommonCallback callback){
+    public void takeOrder(final Context context, final CommonCallback callback) {
         final KProgressHUD mProgress = KProgressHUD.create(context)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
         mProgress.setCancellable(false);
@@ -157,7 +156,7 @@ public class OrderItem extends BaseObject {
             @Override
             public void onSuccess(BaseResponse baseData) {
                 mProgress.dismiss();
-                if(callback != null){
+                if (callback != null) {
                     callback.onFinish(true);
                 }
                 ToastUtil.showToast("抢单成功");
@@ -169,14 +168,14 @@ public class OrderItem extends BaseObject {
             public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
                 mProgress.dismiss();
                 ToastUtil.showToast(failDate.getErrmsg());
-                if(callback != null){
+                if (callback != null) {
                     callback.onFinish(false);
                 }
             }
         });
     }
 
-    public List<InfoItem> orderInfoList(){
+    public List<InfoItem> orderInfoList() {
         ArrayList<InfoItem> infoList = new ArrayList<>();
         InfoItem oidItem = new InfoItem();
         oidItem.key = "订单号";
@@ -198,8 +197,8 @@ public class OrderItem extends BaseObject {
         item3.value = time;
         infoList.add(item3);
 
-        if(detail_address != null){
-            if(!TextUtils.isEmpty(detail_address.address)){
+        if (detail_address != null) {
+            if (!TextUtils.isEmpty(detail_address.address)) {
                 InfoItem item4 = new InfoItem();
                 item4.key = "地址";
                 item4.value = detail_address.address;
@@ -207,14 +206,14 @@ public class OrderItem extends BaseObject {
                 infoList.add(item4);
             }
 
-            if(!TextUtils.isEmpty(detail_address.name)){
+            if (!TextUtils.isEmpty(detail_address.name)) {
                 InfoItem nameItem = new InfoItem();
                 nameItem.key = "联系人";
                 nameItem.value = detail_address.name;
                 infoList.add(nameItem);
             }
 
-            if(!TextUtils.isEmpty(detail_address.mobile)){
+            if (!TextUtils.isEmpty(detail_address.mobile)) {
                 InfoItem mobileItem = new InfoItem();
                 mobileItem.key = "联系电话";
                 mobileItem.value = detail_address.mobile;
@@ -223,7 +222,7 @@ public class OrderItem extends BaseObject {
             }
         }
 
-        if(!TextUtils.isEmpty(comment)){
+        if (!TextUtils.isEmpty(comment)) {
             InfoItem item6 = new InfoItem();
             item6.key = "订单备注";
             item6.value = comment;
@@ -233,30 +232,37 @@ public class OrderItem extends BaseObject {
         return infoList;
     }
 
-    public String arrivedAction(){
-        if(step == ORDER_STATUS_ARRIVED){
-            if(needUploadFinishPhoto()){
+    public String arrivedAction() {
+        if (step == ORDER_STATUS_ARRIVED) {
+            if (needUploadFinishPhoto()) {
                 return "清运完成";
-            }
-            else if(can_change_price){
+            } else if (can_change_price) {
                 return "调整费用";
             }
         }
         return null;
     }
 
-    public boolean needUploadFinishPhoto(){
-        if(this.complete_photo == null || this.complete_photo.size() == 0){
+    public boolean needUploadFinishPhoto() {
+        if (this.complete_photo == null || this.complete_photo.size() == 0) {
             return true;
         }
         return false;
     }
 
-    public boolean needTimer(){
+    public boolean needTimer() {
         return this.step == ORDER_STATUS_FEE_CONFIRMED;
     }
 
-    public boolean needUpdateLocation(){
+    public boolean needUpdateLocation() {
         return step == ORDER_STATUS_SET_OUT;
+    }
+
+    public boolean needMap() {
+        if (step == ORDER_STATUS_WAITING_ACCEPT || step == ORDER_STATUS_ACCEPTED ||
+                step == ORDER_STATUS_ARRIVED || step == ORDER_STATUS_SET_OUT) {
+            return true;
+        }
+        return false;
     }
 }

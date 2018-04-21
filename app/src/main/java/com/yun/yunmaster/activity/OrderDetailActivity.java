@@ -37,6 +37,7 @@ import com.yun.yunmaster.network.httpapis.OrderApis;
 import com.yun.yunmaster.network.httpapis.UploadApis;
 import com.yun.yunmaster.response.OrderCompletePhotoResponse;
 import com.yun.yunmaster.response.OrderDetailResponse;
+import com.yun.yunmaster.utils.CommonCallback;
 import com.yun.yunmaster.utils.Constants;
 import com.yun.yunmaster.utils.LocationManager;
 import com.yun.yunmaster.utils.MyDistanceUtil;
@@ -276,15 +277,12 @@ public class OrderDetailActivity extends BaseActivity {
             actionButton.setTextColor(resources.getColor(R.color.color9));
         }
         actionButton.setText(this.orderDetail.actionTitle());
-        checkTimer();
+//        checkTimer();
         checkNeedUpdateLocation();
     }
 
     private void setupMapView() {
-        if(orderDetail.step >= OrderItem.ORDER_STATUS_ARRIVED){
-            mapView.setVisibility(View.GONE);
-        }
-        else {
+        if (orderDetail.needMap()) {
             mapView.setVisibility(View.VISIBLE);
             if (!mapSet) {
                 mapSet = true;
@@ -296,6 +294,8 @@ public class OrderDetailActivity extends BaseActivity {
                 mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
                 mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
             }
+        } else {
+            mapView.setVisibility(View.GONE);
         }
     }
 
@@ -342,31 +342,17 @@ public class OrderDetailActivity extends BaseActivity {
      * 网络请求
      */
     private void takeOrder() {
-        CommonDialog.ActionItem cancelItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_CANCEL, "取消", null);
-        CommonDialog.ActionItem confirmItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_NORMAL, "确定", new CommonDialog.ActionCallback() {
+        orderDetail.takeOrder(this, new CommonCallback() {
             @Override
-            public void onAction() {
-                startLoading();
-                OrderApis.takeOrder(oid, new ResponseCallback<BaseResponse>() {
-                    @Override
-                    public void onSuccess(BaseResponse baseData) {
-                        endLoading();
-                        requestOrderDetail(false);
-                    }
+            public void onFinish(boolean success) {
+                requestOrderDetail(false);
+            }
 
-                    @Override
-                    public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
-                        endLoading();
-                        ToastUtil.showToast(failDate.getErrmsg());
-                    }
-                });
+            @Override
+            public void onCallback() {
+
             }
         });
-        ArrayList<CommonDialog.ActionItem> list = new ArrayList<>();
-        list.add(cancelItem);
-        list.add(confirmItem);
-        CommonDialog.showDialog(this, "提示", "确定接受此订单吗?", list);
-
     }
 
 

@@ -87,6 +87,7 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
         mAdapter.addData(0, orderItem);
 //        mRecyclerView.smoothScrollToPosition(0);
         mAdapter.notifyDataSetChanged();
+        emptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public void refresh(){

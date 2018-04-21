@@ -69,6 +69,7 @@ public class OrderDetailInfoView extends RelativeLayout {
     }
 
     public void setOrderDetail(OrderDetail orderDetail) {
+        mOrderDetail = orderDetail;
         OrderItem.CustomerInfo customerInfo = orderDetail.customer;
         if(customerInfo != null){
             customerView.setVisibility(View.VISIBLE);

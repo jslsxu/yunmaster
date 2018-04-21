@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -23,6 +24,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.activity.OrderDetailActivity;
 import com.yun.yunmaster.model.OrderItem;
+import com.yun.yunmaster.utils.LocationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ public class MapOrderListView extends RelativeLayout {
     MapView mapView;
     private Context mContext;
     private ArrayList<OrderItem> orderList = new ArrayList<>();
+    private ArrayList<Marker> markerList = new ArrayList<>();
     private InfoWindow mInfoWindow;
 
     public MapOrderListView(Context context) {
@@ -82,15 +85,36 @@ public class MapOrderListView extends RelativeLayout {
         this.orderList.clear();
         this.orderList.addAll(list);
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < this.orderList.size(); i++) {
-            OrderItem orderItem = orderList.get(i);
-            addMarker(orderItem, false);
-            double lat = orderItem.detail_address.lat;
-            double lng = orderItem.detail_address.lng;
-            builder.include(new LatLng(lat, lng));
+        if(this.orderList.size() == 0){
+            mapView.getMap().hideInfoWindow();
+            for (int i = 0; i < markerList.size(); i++){
+                Marker marker = markerList.get(i);
+                marker.remove();
+            }
+            LocationManager.getLocation(new LocationManager.LocationListener() {
+                @Override
+                public void onLocationSuccess(BDLocation location) {
+                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(myLocation));
+                }
+
+                @Override
+                public void onLocationFail() {
+
+                }
+            });
         }
-        LatLngBounds bounds = builder.build();
-        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds));
+        else {
+            for (int i = 0; i < this.orderList.size(); i++) {
+                OrderItem orderItem = orderList.get(i);
+                addMarker(orderItem, false);
+                double lat = orderItem.detail_address.lat;
+                double lng = orderItem.detail_address.lng;
+                builder.include(new LatLng(lat, lng));
+            }
+            LatLngBounds bounds = builder.build();
+            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds));
+        }
     }
 
     public void receiveNewOrder(OrderItem orderItem) {
@@ -107,6 +131,7 @@ public class MapOrderListView extends RelativeLayout {
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
         OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
         Marker marker = (Marker) mapView.getMap().addOverlay(option);
+        markerList.add(marker);
         Bundle bundle = new Bundle();
         bundle.putSerializable("order", orderPickInfo);
         marker.setExtraInfo(bundle);
