@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundTextView;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
@@ -20,6 +21,8 @@ import com.yun.yunmaster.model.DriverLicenseInfo;
 import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.model.IDCardInfo;
 import com.yun.yunmaster.model.UserData;
+import com.yun.yunmaster.network.base.apis.CommonInterface;
+import com.yun.yunmaster.network.base.apis.HttpApiBase;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.CommonApis;
@@ -32,6 +35,7 @@ import com.yun.yunmaster.utils.AppSettingManager;
 import com.yun.yunmaster.utils.CameraUtils;
 import com.yun.yunmaster.utils.Constants;
 import com.yun.yunmaster.utils.ImageUtil;
+import com.yun.yunmaster.utils.LoginManager;
 import com.yun.yunmaster.utils.PhotoManager;
 import com.yun.yunmaster.utils.ToastUtil;
 
@@ -117,34 +121,49 @@ public class DriverAuthActivity extends BaseActivity {
 
         UserData userData = AppSettingManager.getUserData();
         if (userData.auth_type == 0) {
-            canEdit = true;
+            setCanEdit(true);
         } else if (userData.auth_type == 1 || userData.auth_type == 2 || userData.auth_type == 4) {
-            canEdit = false;
+            setCanEdit(false);
             getDriverInfo();
         } else if (userData.auth_type == 3) {
             getDriverInfo();
-            canEdit = true;
+            setCanEdit(true);
         }
+
     }
 
     private void setCanEdit(boolean edit) {
         canEdit = edit;
-
+        if (canEdit) {
+            tvSubmit.setVisibility(View.VISIBLE);
+        } else {
+            tvSubmit.setVisibility(View.GONE);
+        }
     }
 
     private void setDriverInfo(DriverInfo driverInfo) {
         mDriverInfo = driverInfo;
-        if(null != driverInfo.id_card_front_info){
+        if (null != driverInfo.id_card_front_info) {
             IDCardInfo.IDCardFrontInfo frontInfo = driverInfo.id_card_front_info;
             nameTextView.setText(frontInfo.id_card_name);
             idNoTextView.setText(frontInfo.id_card_no);
             birthdayTextView.setText(frontInfo.id_card_birthday);
             addressTextView.setText(frontInfo.id_card_address);
+            if (!canEdit) {
+                String url = HttpApiBase.getSecureBaseUrl() + CommonInterface.SHOW_IMG + "?" + "pic=" + driverInfo.id_card_front_info.img_url
+                        + "&token=" + LoginManager.getToken();
+                Glide.with(this).load(url).into(idCardFrontImageView);
+            }
         }
-        if(null != driverInfo.id_card_back_info){
+        if (null != driverInfo.id_card_back_info) {
             validateDateTextView.setText(driverInfo.id_card_back_info.id_card_sign_start + "-" + driverInfo.id_card_back_info.id_card_sign_end);
+            if (!canEdit) {
+                String url = HttpApiBase.getSecureBaseUrl() + CommonInterface.SHOW_IMG + "?" + "pic=" + driverInfo.id_card_back_info.img_url
+                        + "&token=" + LoginManager.getToken();
+                Glide.with(this).load(url).into(idCardBackImageView);
+            }
         }
-        if(null != driverInfo.driving_license){
+        if (null != driverInfo.driving_license) {
             DriverLicenseInfo licenseInfo = driverInfo.driving_license;
             licenseNoTextView.setText(licenseInfo.license_number);
             licenseNameTextView.setText(licenseInfo.real_name);
@@ -155,6 +174,11 @@ public class DriverAuthActivity extends BaseActivity {
             driveVehicleTextView.setText(licenseInfo.type);
             startDateTextView.setText(licenseInfo.start_date);
             endDateTextView.setText(licenseInfo.end_date);
+            if (!canEdit) {
+                String url = HttpApiBase.getSecureBaseUrl() + CommonInterface.SHOW_IMG + "?" + "pic=" + driverInfo.driving_license.img_url
+                        + "&token=" + LoginManager.getToken();
+                Glide.with(this).load(url).into(licenseImageView);
+            }
         }
     }
 
@@ -176,6 +200,9 @@ public class DriverAuthActivity extends BaseActivity {
 
     @OnClick({R.id.tv_submit, R.id.idCardFrontImageView, R.id.idCardBackImageView, R.id.licenseImageView})
     public void onViewClicked(View view) {
+        if (!canEdit) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.idCardFrontImageView: {
                 currentImageView = idCardFrontImageView;

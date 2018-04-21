@@ -51,24 +51,26 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         Timber.e("onNotificationMessageClicked is called. " + message.toString());
-//        if(SystemUtils.isAppAlive(context)){
+        if(!SystemUtils.isBackground(context)){
+            Timber.e("message clicked on app background");
             YunApplication.getApp().handleMessage(message, false);
-//        }
-//        else {
-//            Timber.e("启动应用。。。。。。。。。。。。。。。");
-//            Intent launchIntent = context.getPackageManager().
-//                    getLaunchIntentForPackage(context.getPackageName());
-//            launchIntent.setFlags(
-//                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//            context.startActivity(launchIntent);
-//            YunApplication.getApp().handleMessage(message, false);
-//        }
+        }
+        else {
+            Timber.e("启动应用。。。。。。。。。。。。。。。");
+            Intent launchIntent = context.getPackageManager().
+                    getLaunchIntentForPackage(context.getPackageName());
+            launchIntent.setFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            context.startActivity(launchIntent);
+            YunApplication.getApp().handleMessage(message, false);
+        }
     }
 
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         Timber.e("onNotificationMessageArrived is called. " + message.toString());
         if (SystemUtils.isAppAlive(context)) {
+            Timber.e("message arrived on appalive");
             YunApplication.getApp().handleMessage(message, true);
         }
     }

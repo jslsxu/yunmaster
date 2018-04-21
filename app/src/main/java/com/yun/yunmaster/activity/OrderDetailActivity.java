@@ -281,15 +281,21 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void setupMapView() {
-        if (!mapSet) {
-            mapSet = true;
-            LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
-            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
-            OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
+        if(orderDetail.step >= OrderItem.ORDER_STATUS_ARRIVED){
+            mapView.setVisibility(View.GONE);
+        }
+        else {
+            mapView.setVisibility(View.VISIBLE);
+            if (!mapSet) {
+                mapSet = true;
+                LatLng point = new LatLng(this.orderDetail.detail_address.lat, this.orderDetail.detail_address.lng);
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.order_pin);
+                OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
 
-            mapView.getMap().addOverlay(option);
-            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
-            mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
+                mapView.getMap().addOverlay(option);
+                mapView.getMap().setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
+                mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newLatLng(point));
+            }
         }
     }
 

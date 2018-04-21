@@ -36,7 +36,7 @@ public interface CommonInterface {
 
     public static final String USER_MY_VEHICLE_LIST = "my_vehicle_list";
 
-    public static final String USER_DRIVER_INFO = "user/driver_info";
+    public static final String USER_DRIVER_INFO = "driver_info";
 
     public static final String USER_VEHICLE_DELETE = "vehicle_del";
 
@@ -63,6 +63,8 @@ public interface CommonInterface {
     public static final String DRIVER_LOCATION = "user/driver_location";
 
     public static final String FEEDBACK = "feedback";
+
+    public static final String SHOW_IMG = "showImg";
     /**
      * 订单
      */

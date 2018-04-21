@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/3/27.
@@ -94,7 +95,6 @@ public class MineActivity extends BaseActivity {
             }
         });
         setUserInfo();
-
     }
 
     @OnClick({R.id.logoutButton, R.id.rl_driver_cert, R.id.rl_my_trucks, R.id.ll_balance, R.id.userProtocolView, R.id.serverContactView, R.id.feedbackView, R.id.checkVersionView})
@@ -160,13 +160,9 @@ public class MineActivity extends BaseActivity {
 
             balanceTextView.setText(userData.balance == null ? "0元" : userData.balance + "元");
             cashTextView.setText(userData.encashment == null ? "0元" : userData.encashment + "元");
+            Timber.e("auth type is " + userData.auth_type);
             tvCarInfo.setText(userData.getAuthType());
         }
-    }
-
-
-    public void requestSetOrderPush(final boolean isOpen) {
-
     }
 
     @Override

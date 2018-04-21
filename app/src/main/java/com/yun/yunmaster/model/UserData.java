@@ -16,7 +16,6 @@ public class UserData extends BaseObject {
     public String encashment;           //提现数
     public String balance;              //余额
     public int order_push;
-    public CarInfo car_info;
     public int auth_type; //0 未认证，1认证中，2已认证，3认证失败，4其他状态
 
     public void setOrderPush(int order_push) {

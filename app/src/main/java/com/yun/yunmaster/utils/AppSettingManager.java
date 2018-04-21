@@ -18,6 +18,8 @@ import com.yun.yunmaster.model.CityInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
+import timber.log.Timber;
+
 /**
  * Created by jslsxu on 2018/3/24.
  */
@@ -37,12 +39,12 @@ public class AppSettingManager {
                 if(userData != null){
                     setUserData(userData);
                     EventBus.getDefault().post(new EventBusEvent.UserDataUpdateEvent());
-                    return;
                 }
             }
 
             @Override
             public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+
             }
         });
     }
@@ -84,6 +86,7 @@ public class AppSettingManager {
     public static void setUserData(UserData userData){
         if(userData != null){
             String jsonString = GsonManager.getGson().toJson(userData);
+            Timber.e(jsonString);
             CacheLoaderManager.getInstance().saveString(USER_DATA_KEY, jsonString, Constants.CACHE_TIME);
         }
         else {
