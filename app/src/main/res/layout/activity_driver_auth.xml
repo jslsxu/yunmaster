@@ -62,6 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        android:background="@color/color_c"
                         android:src="@drawable/icon_list_tianjia_nor"/>
                 </com.yun.yunmaster.view.GridSquareCell>
                 <View
@@ -76,6 +77,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        android:background="@color/color_c"
                         android:src="@drawable/icon_list_tianjia_nor"/>
                 </com.yun.yunmaster.view.GridSquareCell>
             </LinearLayout>
@@ -240,6 +242,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        android:background="@color/color_c"
                         android:src="@drawable/icon_list_tianjia_nor"/>
                 </com.yun.yunmaster.view.GridSquareCell>
                 <View

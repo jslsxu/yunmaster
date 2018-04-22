@@ -1,6 +1,7 @@
 package com.yun.yunmaster.adapter;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -30,16 +31,9 @@ public class OrderListAdapter extends BaseRecyclerAdapter<OrderItem> {
         helper.setText(R.id.priceTextView, "￥" + item.total_price);
         helper.setText(R.id.vehicleNumTextView, "" + item.transport_times);
         helper.setText(R.id.stepTextView, item.statusTitle());
-        TextView timeSlotTextView = helper.getView(R.id.timeSlotTextView);
-        boolean isAm = item.isAm();
-        if(isAm){
-            timeSlotTextView.setText("上午");
-            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.am), null, null, null);
-        }
-        else {
-            timeSlotTextView.setText("下午");
-            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.pm), null, null, null);
-        }
+        helper.setText(R.id.timeSlotTextView, item.isAm() ? "上午" : "下午");
+        ImageView timeSlotImageView = helper.getView(R.id.timeSlotImageView);
+        timeSlotImageView.setImageDrawable(ResourceUtil.getDrawable(mContext, item.isAm() ? R.drawable.am : R.drawable.pm));
     }
 
 }

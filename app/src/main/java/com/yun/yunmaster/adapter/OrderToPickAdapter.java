@@ -2,6 +2,7 @@ package com.yun.yunmaster.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,17 +30,9 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderItem> {
         helper.setText(R.id.addressTextView, item.detail_address.address);
         helper.setText(R.id.priceTextView, "￥" + item.total_price);
         helper.setText(R.id.vehicleNumTextView, "" + item.transport_times);
-
-        TextView timeSlotTextView = helper.getView(R.id.timeSlotTextView);
-        boolean isAm = item.isAm();
-        if(isAm){
-            timeSlotTextView.setText("上午");
-            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.am), null, null, null);
-        }
-        else {
-            timeSlotTextView.setText("下午");
-            timeSlotTextView.setCompoundDrawables(ResourceUtil.getDrawable(mContext, R.drawable.pm), null, null, null);
-        }
+        helper.setText(R.id.timeSlotTextView, item.isAm() ? "上午" : "下午");
+        ImageView timeSlotImageView = helper.getView(R.id.timeSlotImageView);
+        timeSlotImageView.setImageDrawable(ResourceUtil.getDrawable(mContext, item.isAm() ? R.drawable.am : R.drawable.pm));
 
         TextView acceptButton = helper.getView(R.id.acceptButton);
         acceptButton.setOnClickListener(new View.OnClickListener() {

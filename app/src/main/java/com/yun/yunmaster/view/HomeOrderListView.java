@@ -22,6 +22,7 @@ import com.yun.yunmaster.network.base.presenter.RecyclerViewPresenter;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
 import com.yun.yunmaster.response.AllOrdersResponse;
+import com.yun.yunmaster.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -108,6 +109,7 @@ public class HomeOrderListView extends RelativeLayout implements RecyclerViewPre
 
             @Override
             public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+                ToastUtil.showToast(failDate.getErrmsg());
                 mPresenter.endRequest(requestType);
                 emptyView.setVisibility(mAdapter.isEmpty() ? View.VISIBLE : View.GONE);
             }

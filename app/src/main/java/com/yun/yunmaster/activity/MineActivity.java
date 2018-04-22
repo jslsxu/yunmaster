@@ -160,8 +160,14 @@ public class MineActivity extends BaseActivity {
 
             balanceTextView.setText(userData.balance == null ? "0元" : userData.balance + "元");
             cashTextView.setText(userData.encashment == null ? "0元" : userData.encashment + "元");
-            Timber.e("auth type is " + userData.auth_type);
             tvCarInfo.setText(userData.getAuthType());
+            verifyTextView.setText(userData.getAuthType());
+            if(userData.auth_type == 2){
+                verifyImageView.setVisibility(View.VISIBLE);
+            }
+            else {
+                verifyImageView.setVisibility(View.GONE);
+            }
         }
     }
 

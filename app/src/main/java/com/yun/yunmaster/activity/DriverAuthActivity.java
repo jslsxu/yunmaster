@@ -37,8 +37,10 @@ import com.yun.yunmaster.utils.Constants;
 import com.yun.yunmaster.utils.ImageUtil;
 import com.yun.yunmaster.utils.LoginManager;
 import com.yun.yunmaster.utils.PhotoManager;
+import com.yun.yunmaster.utils.ResourceUtil;
 import com.yun.yunmaster.utils.ToastUtil;
 
+import org.apache.log4j.lf5.util.Resource;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -138,6 +140,9 @@ public class DriverAuthActivity extends BaseActivity {
             tvSubmit.setVisibility(View.VISIBLE);
         } else {
             tvSubmit.setVisibility(View.GONE);
+            idCardFrontImageView.setImageDrawable(ResourceUtil.getDrawable(this, R.drawable.icon_list_tianjia_nor));
+            idCardBackImageView.setImageDrawable(ResourceUtil.getDrawable(this, R.drawable.icon_list_tianjia_nor));
+            licenseImageView.setImageDrawable(ResourceUtil.getDrawable(this, R.drawable.icon_list_tianjia_nor));
         }
     }
 

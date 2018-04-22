@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -66,6 +67,11 @@ public class YunApplication extends Application {
     public static String mipushregid = "";
     private static final String Mipush_APP_ID = "2882303761517771012";
     private static final String Mipush_APP_KEY = "5331777126012";
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
     @Override
     public void onCreate() {
