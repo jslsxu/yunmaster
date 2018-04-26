@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -21,12 +25,25 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
+import com.yun.yunmaster.model.AddressInfo;
 import com.yun.yunmaster.model.EventBusEvent;
 import com.yun.yunmaster.model.Location;
 import com.yun.yunmaster.model.OrderDetail;
@@ -46,6 +63,7 @@ import com.yun.yunmaster.utils.ToastUtil;
 import com.yun.yunmaster.view.CommonDialog;
 import com.yun.yunmaster.view.CommonFeeView;
 import com.yun.yunmaster.view.CustomScrollView;
+import com.yun.yunmaster.view.DrivingRouteOverlay;
 import com.yun.yunmaster.view.OrderDetail.PhotoGridView;
 import com.yun.yunmaster.view.OrderDetailInfoView;
 
@@ -59,12 +77,13 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/3/25.
  */
 
-public class OrderDetailActivity extends BaseActivity {
+public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanResultListener {
     public static final String OID_KEY = "OID_KEY";
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -93,6 +112,8 @@ public class OrderDetailActivity extends BaseActivity {
     @BindView(R.id.orderInfoView)
     OrderDetailInfoView orderInfoView;
 
+    private RoutePlanSearch routePlanSearch;
+    private LatLng start = null;
     private boolean mapSet = false;
     private String oid;
     private OrderDetail orderDetail;
@@ -116,12 +137,16 @@ public class OrderDetailActivity extends BaseActivity {
                         builder.longitude(location.getLongitude());
                         MyLocationData data = builder.build();
                         mapView.getMap().setMyLocationData(data);
-                        Location myLocation = new Location(location.getLatitude(), location.getLongitude());
-                        Location orderLocation = new Location(orderDetail.detail_address.lat, orderDetail.detail_address.lng);
-                        LatLng center = new LatLng((myLocation.getLat() + orderLocation.getLat()) / 2, (myLocation.getLng() + orderLocation.getLng()) / 2);
-                        int zoomLevel = MyDistanceUtil.getZoomForMap(myLocation, orderLocation);
-                        mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(center));
-                        mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(zoomLevel).build()));
+                        if(start == null){
+                            start = new LatLng(location.getLatitude(), location.getLongitude());
+                            routPlan();
+                            Location myLocation = new Location(location.getLatitude(), location.getLongitude());
+                            Location orderLocation = new Location(orderDetail.detail_address.lat, orderDetail.detail_address.lng);
+                            LatLng center = new LatLng((myLocation.getLat() + orderLocation.getLat()) / 2, (myLocation.getLng() + orderLocation.getLng()) / 2);
+                            int zoomLevel = MyDistanceUtil.getZoomForMap(myLocation, orderLocation);
+                            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(center));
+                            mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(zoomLevel).build()));
+                        }
                         OrderApis.updateLocation(oid, location.getLatitude(), location.getLongitude(), null);
                     }
                 }
@@ -219,17 +244,15 @@ public class OrderDetailActivity extends BaseActivity {
         }
     }
 
-    private void checkTimer() {
-        if (orderDetail.needTimer()) {
-            if (timer == null) {
-                timer = new Timer();
-                timer.schedule(timerTask, 3000, 3000);
-            }
-        } else {
-            if (timer != null) {
-                timer.cancel();
-            }
+    private void routPlan(){
+        if(routePlanSearch == null){
+            routePlanSearch = RoutePlanSearch.newInstance();
+            routePlanSearch.setOnGetRoutePlanResultListener(this);
         }
+        PlanNode stNode = PlanNode.withLocation(start);
+        PlanNode enNode = PlanNode.withLocation(new LatLng(orderDetail.detail_address.lat, orderDetail.detail_address.lng));
+        routePlanSearch.drivingSearch((new DrivingRoutePlanOption())
+                .from(stNode).to(enNode));
     }
 
     public void setOrderDetail(OrderDetail orderDetailInfo) {
@@ -379,5 +402,97 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+    }
+
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+        if (drivingRouteResult == null || drivingRouteResult.error != SearchResult.ERRORNO.NO_ERROR) {
+            ToastUtil.showToast("抱歉，未找到结果");
+        }
+        if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            //result.getSuggestAddrInfo();
+            return;
+        }
+        if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+            if (drivingRouteResult.getRouteLines().size() >= 1) {
+                DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mapView.getMap());
+
+                mapView.getMap().setOnMarkerClickListener(overlay);
+
+                RelativeLayout Pop_layout = ((RelativeLayout) LayoutInflater.from(this).inflate(
+                        R.layout.baidumap_top_pop, null));
+//                TextView tv_site = (TextView) Pop_layout.findViewById(R.id.tv_site);
+//                tv_site.setText(site)
+
+
+                //路线查询成功
+                try {
+                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Timber.e("路径规划异常");
+                }
+
+            } else {
+                Timber.e("route result"+"结果数<0");
+            }
+
+        }
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+    }
+
+    private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
+
+        public MyDrivingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public int getLineColor() {
+            // return  Color.argb(255,5,144,255);
+            return Color.argb(255, 255, 0, 0);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+
+            return BitmapDescriptorFactory.fromResource(R.drawable.icon_button_qidian_nor);
+
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+
+            return BitmapDescriptorFactory.fromResource(R.drawable.icon_button_zhongdian_nor);
+
+        }
+    }
+
 }
 

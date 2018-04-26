@@ -10,7 +10,7 @@ public interface CommonInterface {
      * 公共
      */
 
-    public static final String GET_VERSION_INFO = "common/get_config";
+    public static final String GET_VERSION_INFO = "appVersion";
 
     public static final String COMMON_PUBLIC_PARAMS = "common/public_params";
 

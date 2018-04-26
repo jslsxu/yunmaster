@@ -31,6 +31,10 @@ public class OrderItem extends BaseObject {
     public static final int ORDER_STATUS_FEE_CONFIRMED = 5;         //费用已确认，待支付
     public static final int ORDER_STATUS_PAYED = 6;   //已支付，待完成
 
+    public static final int GET_ORDER_NORMAL = 0;       //可抢单
+    public static final int GET_ORDER_GET = 1;          //已抢到，未完成
+    public static final int GET_ORDER_FAILED = 2;       //未抢到
+    public int is_get_order;            //订单是否接单
     public boolean isNew;
     public String oid;
     public String time;

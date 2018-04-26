@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.flyco.roundview.RoundTextView;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.presenter.BaseRecyclerAdapter;
@@ -34,7 +35,22 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderItem> {
         ImageView timeSlotImageView = helper.getView(R.id.timeSlotImageView);
         timeSlotImageView.setImageDrawable(ResourceUtil.getDrawable(mContext, item.isAm() ? R.drawable.am : R.drawable.pm));
 
-        TextView acceptButton = helper.getView(R.id.acceptButton);
+        int color = R.color.accept_color;
+        String takeTitle = null;
+        if(item.is_get_order == OrderItem.GET_ORDER_NORMAL){
+            takeTitle = "抢单";
+        }
+        else if(item.is_get_order == OrderItem.GET_ORDER_GET){
+            takeTitle = "已抢到";
+        }
+        else if(item.is_get_order == OrderItem.GET_ORDER_FAILED){
+            takeTitle = "未抢到";
+            color = R.color.color_blue;
+        }
+        RoundTextView acceptButton = helper.getView(R.id.acceptButton);
+        acceptButton.setText(takeTitle);
+        acceptButton.setTextColor(ResourceUtil.getColor(mContext, color));
+        acceptButton.getDelegate().setStrokeColor(ResourceUtil.getColor(mContext, color));
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

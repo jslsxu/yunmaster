@@ -70,13 +70,14 @@ public class AppInfoUtil {
         CommonApis.getConfig(new ResponseCallback<VersionResponse>() {
             @Override
             public void onSuccess(final VersionResponse response) {
-                final VersionResponse.DataBean data = response.getData();
-                if (data == null) {
+                final VersionResponse.VersionInfo versionInfo = response.data.version;
+                if (versionInfo == null) {
                     return;
                 }
-                if (AppInfoUtil.getVerCode(getApp()) < data.getVersionCode()) {
+                if (AppInfoUtil.getVerCode(getApp()) < versionInfo.versionNum) {
                     ArrayList<CommonDialog.ActionItem> actionList = new ArrayList<>();
-                    if (!response.getData().isForce()) {
+                    final boolean isForce = (versionInfo.updateType == VersionResponse.VersionInfo.UPDATE_TYPE_FOREC);
+                    if (!isForce) {
                         CommonDialog.ActionItem cancelItem = new CommonDialog.ActionItem(CommonDialog.ActionItem.ACTION_TYPE_CANCEL, "下次再说", new CommonDialog.ActionCallback() {
                             @Override
                             public void onAction() {
@@ -90,16 +91,16 @@ public class AppInfoUtil {
                         public void onAction() {
                             boolean result = SystemUtils.goToMarket(context);
                             if (result) {
-                                if (data.isForce()) {
+                                if (isForce) {
                                     System.exit(0);
                                 }
                             } else {
-                                downloadApk(context, response.getData().getUrl(), data.isForce());
+                                downloadApk(context, versionInfo.downloadUrl, isForce);
                             }
                         }
                     });
                     actionList.add(confirmItem);
-                    CommonDialog.showDialog(context, "升级提醒", data.getIntro(), actionList);
+                    CommonDialog.showDialog(context, "升级提醒", versionInfo.remark, actionList);
 
                 }
             }
