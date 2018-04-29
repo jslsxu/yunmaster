@@ -40,6 +40,7 @@ import com.baidu.mapapi.utils.route.BaiduMapRoutePlan;
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
@@ -113,17 +114,11 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
     OrderDetailInfoView orderInfoView;
 
     private RoutePlanSearch routePlanSearch;
-    private LatLng start = null;
     private boolean mapSet = false;
+    private LatLng start = null;
+    private DrivingRouteOverlay overlay = null;
     private String oid;
     private OrderDetail orderDetail;
-    private Timer timer;
-    private TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            requestOrderDetail(false);
-        }
-    };
     private Timer updateLocationTimer;
     private TimerTask updateLocationTask = new TimerTask() {
         @Override
@@ -137,16 +132,6 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
                         builder.longitude(location.getLongitude());
                         MyLocationData data = builder.build();
                         mapView.getMap().setMyLocationData(data);
-                        if(start == null){
-                            start = new LatLng(location.getLatitude(), location.getLongitude());
-                            routPlan();
-                            Location myLocation = new Location(location.getLatitude(), location.getLongitude());
-                            Location orderLocation = new Location(orderDetail.detail_address.lat, orderDetail.detail_address.lng);
-                            LatLng center = new LatLng((myLocation.getLat() + orderLocation.getLat()) / 2, (myLocation.getLng() + orderLocation.getLng()) / 2);
-                            int zoomLevel = MyDistanceUtil.getZoomForMap(myLocation, orderLocation);
-                            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(center));
-                            mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(zoomLevel).build()));
-                        }
                         OrderApis.updateLocation(oid, location.getLatitude(), location.getLongitude(), null);
                     }
                 }
@@ -168,9 +153,6 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-        }
 
         if (updateLocationTimer != null) {
             updateLocationTimer.cancel();
@@ -244,15 +226,41 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
         }
     }
 
-    private void routPlan(){
-        if(routePlanSearch == null){
-            routePlanSearch = RoutePlanSearch.newInstance();
-            routePlanSearch.setOnGetRoutePlanResultListener(this);
+    private void routPlan() {
+        if(start != null){
+            return;
         }
-        PlanNode stNode = PlanNode.withLocation(start);
-        PlanNode enNode = PlanNode.withLocation(new LatLng(orderDetail.detail_address.lat, orderDetail.detail_address.lng));
-        routePlanSearch.drivingSearch((new DrivingRoutePlanOption())
-                .from(stNode).to(enNode));
+        final KProgressHUD mProgress = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE);
+        mProgress.setCancellable(false);
+        mProgress.setLabel("路线规划中");
+        mProgress.show();
+        LocationManager.getLocation(new LocationManager.LocationListener() {
+            @Override
+            public void onLocationSuccess(BDLocation location) {
+                mProgress.dismiss();
+                if (routePlanSearch == null) {
+                    routePlanSearch = RoutePlanSearch.newInstance();
+                    routePlanSearch.setOnGetRoutePlanResultListener(OrderDetailActivity.this);
+                }
+                start = new LatLng(location.getLatitude(), location.getLongitude());
+                Location myLocation = new Location(location.getLatitude(), location.getLongitude());
+                Location orderLocation = new Location(orderDetail.detail_address.lat, orderDetail.detail_address.lng);
+                LatLng center = new LatLng((myLocation.getLat() + orderLocation.getLat()) / 2, (myLocation.getLng() + orderLocation.getLng()) / 2);
+                int zoomLevel = MyDistanceUtil.getZoomForMap(myLocation, orderLocation);
+                mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(center));
+                mapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(zoomLevel).build()));
+                PlanNode stNode = PlanNode.withLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                PlanNode enNode = PlanNode.withLocation(new LatLng(orderDetail.detail_address.lat, orderDetail.detail_address.lng));
+                routePlanSearch.drivingSearch((new DrivingRoutePlanOption())
+                        .from(stNode).to(enNode));
+            }
+
+            @Override
+            public void onLocationFail() {
+                mProgress.dismiss();
+            }
+        });
     }
 
     public void setOrderDetail(OrderDetail orderDetailInfo) {
@@ -301,6 +309,16 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
         }
         actionButton.setText(this.orderDetail.actionTitle());
 //        checkTimer();
+        if(orderDetail.step == OrderItem.ORDER_STATUS_SET_OUT){
+            routPlan();
+        }
+        else {
+            if(overlay != null){
+                overlay.removeFromMap();
+                mapSet = false;
+                setupMapView();
+            }
+        }
         checkNeedUpdateLocation();
     }
 
@@ -430,7 +448,7 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
         }
         if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
             if (drivingRouteResult.getRouteLines().size() >= 1) {
-                DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mapView.getMap());
+                overlay = new MyDrivingRouteOverlay(mapView.getMap());
 
                 mapView.getMap().setOnMarkerClickListener(overlay);
 
@@ -451,7 +469,7 @@ public class OrderDetailActivity extends BaseActivity implements OnGetRoutePlanR
                 }
 
             } else {
-                Timber.e("route result"+"结果数<0");
+                Timber.e("route result" + "结果数<0");
             }
 
         }

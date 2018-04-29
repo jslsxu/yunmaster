@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,29 +182,54 @@ public class YunApplication extends Application {
             super.handleMessage(msg);
             if (LoginManager.isLogin()) {
                 String content = (String) msg.obj;
+                Timber.e("content is " + content);
+                URI uri = null;
                 try {
-                    Timber.e(content);
-                    URI uri = new URI(content);
+                    uri = new URI(content);
+                }
+                catch (Exception e) {
+                    Timber.e("exception is" + e.toString());
+                    e.printStackTrace();
+                }
+                if(uri != null){
+                    Timber.e("URI is " + uri);
                     String host = uri.getHost();
+                    Timber.e("host is " + host);
                     Map<String, String> map = UrlParamsUtil.URLRequest(content);
                     if(host.equals("newOrder")){
+                        HashMap<String, String> params = new HashMap<>();
+                        try {
+                            for (String key : map.keySet()){
+                                params.put(key, URLDecoder.decode(map.get(key), "UTF-8"));
+                            }
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        Timber.e("order is complete");
                         OrderItem orderItem = new OrderItem();
                         orderItem.isNew = true;
-                        orderItem.date = map.get("date");
-                        orderItem.time = map.get("time");
-                        orderItem.address = map.get("address");
+                        orderItem.date = params.get("date");
+                        orderItem.time = params.get("time");
+                        orderItem.address = params.get("address");
                         AddressInfo detail_address = new AddressInfo();
-                        detail_address.lat = Double.parseDouble(map.get("lat"));
-                        detail_address.lng = Double.parseDouble(map.get("lng"));
-                        detail_address.address = map.get("address");
+                        String lat = params.get("lat");
+                        if(!TextUtils.isEmpty(lat)){
+                            detail_address.lat = Double.parseDouble(lat);
+                        }
+                        String lng = params.get("lng");
+                        if(!TextUtils.isEmpty(lng)){
+                            detail_address.lng = Double.parseDouble(lng);
+                        }
+                        detail_address.address = params.get("address");
                         orderItem.detail_address = detail_address;
-                        String timesString = map.get("times");
+                        String timesString = params.get("times");
                         if(!TextUtils.isEmpty(timesString)){
                             orderItem.transport_times = Integer.parseInt(timesString);
                         }
-                        orderItem.total_price = map.get("price");
-                        orderItem.oid = map.get("oid");
-                        orderItem.vehicle = map.get("vehicle_type");
+                        orderItem.total_price = params.get("price");
+                        orderItem.oid = params.get("oid");
+                        orderItem.vehicle = params.get("vehicle_type");
                         final Activity topActivity = com.yun.yunmaster.utils.ActivityManager.getInstance().currentActivity();
                         if(topActivity instanceof MainActivity){
                             MainActivity mainActivity = (MainActivity)topActivity;
@@ -213,8 +239,9 @@ public class YunApplication extends Application {
                             PushOrderInfoView.presentPushOrder(topActivity, orderItem);
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    else {
+                        Timber.e("错误");
+                    }
                 }
             }
         }

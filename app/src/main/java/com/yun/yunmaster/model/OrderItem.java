@@ -10,6 +10,7 @@ import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseObject;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
+import com.yun.yunmaster.response.PickOrderResponse;
 import com.yun.yunmaster.utils.CommonCallback;
 import com.yun.yunmaster.utils.ToastUtil;
 
@@ -156,16 +157,19 @@ public class OrderItem extends BaseObject {
         mProgress.setCancellable(false);
         mProgress.setLabel("      PK中      ");
         mProgress.show();
-        OrderApis.takeOrder(oid, new ResponseCallback<BaseResponse>() {
+        OrderApis.takeOrder(oid, new ResponseCallback<PickOrderResponse>() {
             @Override
-            public void onSuccess(BaseResponse baseData) {
+            public void onSuccess(PickOrderResponse baseData) {
                 mProgress.dismiss();
+                is_get_order = baseData.data.is_get_order;
+                if(is_get_order == GET_ORDER_GET){
+                    EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
+                }
                 if (callback != null) {
                     callback.onFinish(true);
                 }
-                ToastUtil.showToast("抢单成功");
-                EventBus.getDefault().post(new EventBusEvent.OrderStatusChangedEvent());
-                OrderDetailActivity.intentTo(context, oid);
+                ToastUtil.showToast(baseData.getErrmsg());
+
             }
 
             @Override

@@ -6,6 +6,7 @@ import com.yun.yunmaster.network.base.apis.HttpApiBase;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.response.CityListResponse;
+import com.yun.yunmaster.response.DateInfoResponse;
 import com.yun.yunmaster.response.DriverInfoResponse;
 import com.yun.yunmaster.response.ExpCodeResponse;
 import com.yun.yunmaster.response.IncomeExpensesResponse;
@@ -198,5 +199,8 @@ public class CommonApis extends HttpApiBase {
         get(FEEDBACK, params, callback);
     }
 
+    public static void dateInfo(ResponseCallback<DateInfoResponse> callback){
+        get(DATE_INFO, null, callback);
+    }
 
 }

@@ -7,6 +7,7 @@ import com.yun.yunmaster.response.AllOrdersResponse;
 import com.yun.yunmaster.response.CalFeeResponse;
 import com.yun.yunmaster.response.OrderDetailResponse;
 import com.yun.yunmaster.response.OrderListResponse;
+import com.yun.yunmaster.response.PickOrderResponse;
 
 import java.util.HashMap;
 
@@ -28,7 +29,7 @@ public class OrderApis extends HttpApiBase {
         get(ALL_ORDER_LIST, params, callback);
     }
 
-    public static void takeOrder(String oid, ResponseCallback<BaseResponse> callback) {
+    public static void takeOrder(String oid, ResponseCallback<PickOrderResponse> callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("oid", oid);
         get(TAKE_ORDER, params, callback);

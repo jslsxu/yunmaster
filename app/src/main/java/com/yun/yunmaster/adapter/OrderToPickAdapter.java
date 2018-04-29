@@ -10,6 +10,7 @@ import com.flyco.roundview.RoundTextView;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.presenter.BaseRecyclerAdapter;
+import com.yun.yunmaster.utils.CommonCallback;
 import com.yun.yunmaster.utils.ResourceUtil;
 
 /**
@@ -25,7 +26,7 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderItem> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final OrderItem item) {
+    protected void convert(final BaseViewHolder helper, final OrderItem item) {
         helper.setText(R.id.timeTextView, item.time);
         helper.setText(R.id.dateTextView, item.date);
         helper.setText(R.id.addressTextView, item.detail_address.address);
@@ -41,7 +42,8 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderItem> {
             takeTitle = "抢单";
         }
         else if(item.is_get_order == OrderItem.GET_ORDER_GET){
-            takeTitle = "已抢到";
+            takeTitle = "抢单\n成功";
+            color = R.color.color_blue;
         }
         else if(item.is_get_order == OrderItem.GET_ORDER_FAILED){
             takeTitle = "未抢到";
@@ -54,7 +56,19 @@ public class OrderToPickAdapter extends BaseRecyclerAdapter<OrderItem> {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                item.takeOrder(mContext, null);
+                if(item.is_get_order == OrderItem.GET_ORDER_NORMAL){
+                    item.takeOrder(mContext, new CommonCallback() {
+                        @Override
+                        public void onFinish(boolean success) {
+                            convert(helper, item);
+                        }
+
+                        @Override
+                        public void onCallback() {
+
+                        }
+                    });
+                }
             }
         });
 

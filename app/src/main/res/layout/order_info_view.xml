@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.flyco.roundview.RoundLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:rv_backgroundColor="@color/white"
         app:rv_cornerRadius="10dp">
@@ -20,117 +19,152 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:background="@color/transparent"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:background="@color/transparent">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/avatarImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/icon_nav_touxiang_nor"/>
+                    android:src="@drawable/icon_nav_touxiang_nor" />
+
                 <TextView
                     android:id="@+id/nameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/avatarImageView"
-                    android:layout_toRightOf="@id/avatarImageView"
                     android:layout_marginLeft="5dp"
-                    android:textSize="15sp"
+                    android:layout_toRightOf="@id/avatarImageView"
+                    android:text="网颠三倒四多"
                     android:textColor="@color/color3"
-                    android:text="网颠三倒四多"/>
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/mobileTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color9"
-                    android:textSize="15sp"
                     android:layout_alignBottom="@id/avatarImageView"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/avatarImageView"
                     android:drawableLeft="@drawable/phone"
                     android:drawablePadding="2dp"
                     android:text="12345678909"
-                    />
+                    android:textColor="@color/color9"
+                    android:textSize="15sp" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_height"
-                android:background="@color/line_color"/>
+                android:background="@color/line_color" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/transparent"
             android:layout_margin="10dp"
-            >
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_blue"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="2018-3-22 06:30"/>
+            android:background="@color/transparent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/addressTextView"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/time_icon"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="2018-3-22 06:30"
+                    android:textColor="@color/color_blue"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:textSize="15sp"
-                android:textColor="@color/color3"
-                android:text="北京市朝阳区大悦城A做是的是的所多所 是的是的所"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/addressTextView"
+                    android:layout_toLeftOf="@id/locationImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="北京市朝阳区大悦城A做是的是的所多所 是的是的所"
+                    android:textColor="@color/color3"
+                    android:textSize="15sp"
+                    android:layout_marginRight="20dp"/>
+                <ImageView
+                    android:id="@+id/locationImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/order_pin"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp">
+
                 <TextView
                     android:id="@+id/numTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color3"
-                    android:textSize="15sp"
                     android:text="3"
-                    />
+                    android:textColor="@color/color3"
+                    android:textSize="15sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/color9"
                     android:layout_gravity="bottom"
-                    android:text="车"/>
+                    android:text="车"
+                    android:textColor="@color/color9"
+                    android:textSize="13sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color9"
-                    android:textSize="14sp"
+                    android:layout_marginLeft="20dp"
                     android:text="约"
-                    android:layout_marginLeft="20dp"/>
+                    android:textColor="@color/color9"
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/priceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="￥1290"
                     android:textColor="@color/color_blue"
-                    android:textSize="14sp"
-                    android:text="￥1290" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
-            <TextView
+
+            <com.flyco.roundview.RoundTextView
                 android:id="@+id/commentTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:textSize="14sp"
+                android:text="备注:需要从5楼搬运djshdjshdjshjdhssdsdsdssdsdsdsjhdjshdjshdjsh"
                 android:textColor="@color/color9"
-                android:text="备注:需要从5楼搬运djshdjshdjshjdhssdsdsdssdsdsdsjhdjshdjshdjsh"/>
+                android:textSize="14sp"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="@color/line_color"
+                app:rv_strokeWidth="@dimen/line_height" />
         </LinearLayout>
     </com.flyco.roundview.RoundLinearLayout>
 

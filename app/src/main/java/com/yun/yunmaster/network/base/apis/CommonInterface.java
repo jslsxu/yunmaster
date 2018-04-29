@@ -20,6 +20,8 @@ public interface CommonInterface {
 
     public static final String PAY_WASTE_FEE = "pay/pay_waste_fee";
 
+    public static final String DATE_INFO = "date_info";
+
     /**
      * 用户
      */

@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flyco.roundview.RoundTextView;
 import com.umeng.analytics.MobclickAgent;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
@@ -21,11 +22,13 @@ import com.yun.yunmaster.model.UserData;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.CommonApis;
+import com.yun.yunmaster.response.DateInfoResponse;
 import com.yun.yunmaster.utils.AppInfoUtil;
 import com.yun.yunmaster.utils.AppSettingManager;
 import com.yun.yunmaster.utils.LoginManager;
 import com.yun.yunmaster.view.HomeOrderListView;
 import com.yun.yunmaster.view.MapOrderListView;
+import com.zcw.togglebutton.ToggleButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,14 +45,22 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.navigationBar)
     NavigationBar navigationBar;
-    @BindView(R.id.acceptButton)
-    RoundTextView acceptButton;
     @BindView(R.id.homeOrderListView)
     HomeOrderListView homeOrderListView;
     @BindView(R.id.mapOrderListView)
     MapOrderListView mapOrderListView;
     @BindView(R.id.tab_control)
     RadioGroup tabControl;
+    @BindView(R.id.togglebutton)
+    ToggleButton togglebutton;
+    @BindView(R.id.acceptStatusTextView)
+    TextView acceptStatusTextView;
+    @BindView(R.id.dateTextView)
+    TextView dateTextView;
+    @BindView(R.id.weekdayTextView)
+    TextView weekdayTextView;
+    @BindView(R.id.extraTextView)
+    TextView extraTextView;
     private long exitTime = 0;
 
     public static void intentTo(Context context) {
@@ -88,6 +99,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         homeOrderListView.refresh();
+        updateExtraView();
         updateAcceptButton();
         final int tabCount = tabControl.getChildCount();
         tabControl.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -103,12 +115,35 @@ public class MainActivity extends BaseActivity {
         selectIndex(0);
     }
 
+    private void updateExtraView(){
+        CommonApis.dateInfo(new ResponseCallback<DateInfoResponse>() {
+            @Override
+            public void onSuccess(DateInfoResponse baseData) {
+                if(baseData.data != null){
+                    dateTextView.setVisibility(TextUtils.isEmpty(baseData.data.date) ? View.GONE : View.VISIBLE);
+                    weekdayTextView.setVisibility(TextUtils.isEmpty(baseData.data.week) ? View.GONE : View.VISIBLE);
+                    extraTextView.setVisibility(TextUtils.isEmpty(baseData.data.limit) ? View.GONE : View.VISIBLE);
+                    dateTextView.setText(baseData.data.date);
+                    weekdayTextView.setText(baseData.data.week);
+                    extraTextView.setText(baseData.data.limit);
+                }
+            }
+
+            @Override
+            public void onFail(int statusCode, @Nullable BaseResponse failDate, @Nullable Throwable error) {
+
+            }
+        });
+    }
+
     private void updateAcceptButton() {
         UserData userData = AppSettingManager.getUserData();
         if (userData.order_push == ACCEPT_ORDER) {
-            acceptButton.setText("停止\n接单");
+            togglebutton.setToggleOn();
+            acceptStatusTextView.setText("接单中");
         } else {
-            acceptButton.setText("开始\n接单");
+            togglebutton.setToggleOff();
+            acceptStatusTextView.setText("停止接单了");
         }
     }
 
@@ -122,9 +157,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.acceptButton})
+    @OnClick({R.id.togglebutton})
     public void onClick(View view) {
-        if (view.getId() == R.id.acceptButton) {
+        if (view.getId() == R.id.togglebutton) {
             final UserData userData = AppSettingManager.getUserData();
             final boolean isOpen = userData.order_push == ACCEPT_ORDER;
             final int changedOpen = isOpen ? NOT_ACCEPT_ORDER : ACCEPT_ORDER;
@@ -146,7 +181,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void receiveNewOrder(OrderItem orderItem){
+    public void receiveNewOrder(OrderItem orderItem) {
         homeOrderListView.receiveNewOrder(orderItem);
         mapOrderListView.receiveNewOrder(orderItem);
     }

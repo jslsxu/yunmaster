@@ -82,15 +82,16 @@ public class MapOrderListView extends RelativeLayout {
     }
 
     public void setOrderList(List<OrderItem> list) {
+        mapView.getMap().hideInfoWindow();
         this.orderList.clear();
         this.orderList.addAll(list);
+        for (int i = 0; i < markerList.size(); i++){
+            Marker marker = markerList.get(i);
+            marker.remove();
+        }
+        markerList.clear();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         if(this.orderList.size() == 0){
-            mapView.getMap().hideInfoWindow();
-            for (int i = 0; i < markerList.size(); i++){
-                Marker marker = markerList.get(i);
-                marker.remove();
-            }
             LocationManager.getLocation(new LocationManager.LocationListener() {
                 @Override
                 public void onLocationSuccess(BDLocation location) {

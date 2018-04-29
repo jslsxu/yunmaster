@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/page_bg"
+    >
 
     <com.yun.yunmaster.base.NavigationBar
         android:id="@+id/navigationBar"
@@ -16,53 +18,106 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_below="@id/navigationBar"
         android:background="@color/home_head_bg_color">
 
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/acceptButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:lines="2"
-            android:text="开始\n接单"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:rv_backgroundColor="@color/actionsheet_blue"
-            app:rv_cornerRadius="40dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/actionView"
+            android:background="#FDBC54"
+            android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/tab_control"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/acceptButton"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/tab_home"
-                style="@style/HomeRbBg"
-                android:checked="true"
-                android:drawableTop="@drawable/tab_list"
-                android:text="@string/tab_list" />
+            <TextView
+                android:id="@+id/weekdayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/tab_order"
-                style="@style/HomeRbBg"
-                android:drawableTop="@drawable/tab_map"
-                android:text="@string/tab_map" />
+            <TextView
+                android:id="@+id/extraTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </LinearLayout>
 
-        </RadioGroup>
+        <RelativeLayout
+            android:id="@+id/actionView"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <com.zcw.togglebutton.ToggleButton
+                android:id="@+id/togglebutton"
+                android:layout_width="60dp"
+                android:layout_height="26dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:tbBorderWidth="0.5dp"
+                app:tbOffBorderColor="@color/togglebutton_OffBorderColor"
+                app:tbOffColor="@color/white"
+                app:tbOnColor="#FDBC54"
+                app:tbSpotColor="@color/white" />
+
+            <TextView
+                android:id="@+id/acceptStatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/togglebutton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+
+            <RadioGroup
+                android:id="@+id/tab_control"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/tab_home"
+                    style="@style/HomeRbBg"
+                    android:checked="true"
+                    android:drawableTop="@drawable/tab_list"
+                    android:text="@string/tab_list" />
+
+                <RadioButton
+                    android:id="@+id/tab_order"
+                    style="@style/HomeRbBg"
+                    android:drawableTop="@drawable/tab_map"
+                    android:text="@string/tab_map" />
+
+            </RadioGroup>
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_bg_color">
+        android:background="@color/transparent">
 
         <com.yun.yunmaster.view.HomeOrderListView
             android:id="@+id/homeOrderListView"

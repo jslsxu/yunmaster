@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/white">
+        android:background="@drawable/round_cell_bg">
 
 
         <RelativeLayout
@@ -144,7 +144,7 @@
                 android:gravity="center"
                 android:text="@string/accept_order"
                 android:textColor="@color/accept_color"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 app:rv_cornerRadius="25dp"
                 app:rv_strokeColor="@color/accept_color"
                 app:rv_strokeWidth="1dp" />

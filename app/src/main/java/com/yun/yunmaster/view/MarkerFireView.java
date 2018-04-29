@@ -19,6 +19,7 @@ import com.yun.yunmaster.model.OrderItem;
 import com.yun.yunmaster.network.base.callback.ResponseCallback;
 import com.yun.yunmaster.network.base.response.BaseResponse;
 import com.yun.yunmaster.network.httpapis.OrderApis;
+import com.yun.yunmaster.utils.CommonCallback;
 import com.yun.yunmaster.utils.ResourceUtil;
 import com.yun.yunmaster.utils.ToastUtil;
 
@@ -78,7 +79,7 @@ public class MarkerFireView extends RelativeLayout {
         });
     }
 
-    public void setOrder(OrderItem order) {
+    public void setOrder(final OrderItem order) {
         this.mOrderInfo = order;
         timeTextView.setText(order.time);
         dateTextView.setText(order.date);
@@ -97,5 +98,40 @@ public class MarkerFireView extends RelativeLayout {
         }
         newOrderTextView.setVisibility(order.isNew ? View.VISIBLE : View.GONE);
 
+        int color = R.color.accept_color;
+        String takeTitle = null;
+        if(order.is_get_order == OrderItem.GET_ORDER_NORMAL){
+            takeTitle = "抢单";
+        }
+        else if(order.is_get_order == OrderItem.GET_ORDER_GET){
+            takeTitle = "抢单\n成功";
+            color = R.color.color_blue;
+        }
+        else if(order.is_get_order == OrderItem.GET_ORDER_FAILED){
+            takeTitle = "未抢到";
+            color = R.color.color_blue;
+        }
+
+        acceptButton.setText(takeTitle);
+        acceptButton.setTextColor(ResourceUtil.getColor(mContext, color));
+        acceptButton.getDelegate().setStrokeColor(ResourceUtil.getColor(mContext, color));
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(order.is_get_order == OrderItem.GET_ORDER_NORMAL){
+                    order.takeOrder(mContext, new CommonCallback() {
+                        @Override
+                        public void onFinish(boolean success) {
+                            setOrder(order);
+                        }
+
+                        @Override
+                        public void onCallback() {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 }
