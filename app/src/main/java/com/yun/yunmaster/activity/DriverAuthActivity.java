@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.flyco.roundview.RoundTextView;
+import com.robin.lazy.util.extend.draw.ImageUtils;
 import com.yun.yunmaster.R;
 import com.yun.yunmaster.base.BaseActivity;
 import com.yun.yunmaster.base.NavigationBar;
@@ -49,6 +50,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/3/25.
@@ -238,13 +240,13 @@ public class DriverAuthActivity extends BaseActivity {
             if (requestCode == Constants.REQUEST_CODE_CAPTURE) {
                 String imagePath = PhotoManager.getImagePath();
                 Bitmap bitmap = CameraUtils.getBitmapByPath(imagePath, 800, 480);
-                ImageUtil.savePhotoLibrary(this, new File(imagePath));
                 if (bitmap != null) {
                     uploadImage(imagePath, bitmap);
                 }
             } else if (requestCode == Constants.REQUEST_CODE_IMAGE) {
                 List<String> pathList = data.getStringArrayListExtra("result");
-                Bitmap bitmap = ImageUtil.compressImage(pathList.get(0), 2);/**/
+                Bitmap bitmap = ImageUtil.compressImage(pathList.get(0), 4);/**/
+                Timber.e("image size is %d", bitmap.getByteCount());
                 if (bitmap != null) {
                     uploadImage(pathList.get(0), bitmap);
                 }
@@ -255,8 +257,16 @@ public class DriverAuthActivity extends BaseActivity {
 
     private void uploadImage(String imagePath, final Bitmap bitmap) {
         startLoading();
+        String desPath = imagePath;
+        if(bitmap.getByteCount() > 100 * 1000){
+            String tmpImagePath = PhotoManager.commonTmpImagePath();
+            if(!TextUtils.isEmpty(tmpImagePath)){
+                ImageUtil.saveBitmapToSDCard(bitmap, tmpImagePath);
+                desPath = tmpImagePath;
+            }
+        }
         if (currentImageView == idCardFrontImageView) {
-            UploadApis.uploadIDCardFront(imagePath, new ResponseCallback<UploadIDCardFrontResponse>() {
+            UploadApis.uploadIDCardFront(desPath, new ResponseCallback<UploadIDCardFrontResponse>() {
                 @Override
                 public void onSuccess(UploadIDCardFrontResponse baseData) {
                     endLoading();
@@ -274,7 +284,7 @@ public class DriverAuthActivity extends BaseActivity {
                 }
             });
         } else if (currentImageView == idCardBackImageView) {
-            UploadApis.uploadIDCardBack(imagePath, new ResponseCallback<UploadIDCardBackResponse>() {
+            UploadApis.uploadIDCardBack(desPath, new ResponseCallback<UploadIDCardBackResponse>() {
                 @Override
                 public void onSuccess(UploadIDCardBackResponse baseData) {
                     endLoading();
@@ -292,7 +302,7 @@ public class DriverAuthActivity extends BaseActivity {
                 }
             });
         } else if (currentImageView == licenseImageView) {
-            UploadApis.uploadDriverLicense(imagePath, new ResponseCallback<UploadDriverLicenseResponse>() {
+            UploadApis.uploadDriverLicense(desPath, new ResponseCallback<UploadDriverLicenseResponse>() {
                 @Override
                 public void onSuccess(UploadDriverLicenseResponse baseData) {
                     endLoading();

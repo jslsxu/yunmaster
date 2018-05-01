@@ -184,6 +184,9 @@ public class HttpApiBase implements CommonInterface {
         }
         Timber.e("file length is " + file.length());
         RequestCall requestCall = OkHttpUtils.post().url(requestUrl).params(validateMap).addFile("image", "image.jpg", file).build();
+        requestCall.writeTimeOut(60 * 1000);
+        requestCall.readTimeOut(60 * 1000);
+        requestCall.connTimeOut(60 * 1000);
         requestCall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

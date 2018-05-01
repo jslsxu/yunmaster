@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -185,7 +186,15 @@ public class CompleteOrderActivity extends BaseActivity {
 
     private void addImage(final Bitmap bitmap, String imagePath) {
         startLoading();
-        UploadApis.uploadNormalImage(imagePath, new ResponseCallback<UploadImageResponse>() {
+        String desPath = imagePath;
+        if(bitmap.getByteCount() > 100 * 1000){
+            String tmpImagePath = PhotoManager.commonTmpImagePath();
+            if(!TextUtils.isEmpty(tmpImagePath)){
+                ImageUtil.saveBitmapToSDCard(bitmap, tmpImagePath);
+                desPath = tmpImagePath;
+            }
+        }
+        UploadApis.uploadNormalImage(desPath, new ResponseCallback<UploadImageResponse>() {
             @Override
             public void onSuccess(UploadImageResponse baseData) {
                 endLoading();

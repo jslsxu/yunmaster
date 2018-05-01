@@ -40,6 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by jslsxu on 2018/3/25.
@@ -194,8 +195,18 @@ public class VehicleAuthActivity extends BaseActivity {
 
     private void uploadImage(String imagePath, final Bitmap bitmap) {
         startLoading();
+        Timber.e("original bitmap is %d", new File(imagePath).length());
+        String desPath = imagePath;
+        if(bitmap.getByteCount() > 100 * 1000){
+            String tmpImagePath = PhotoManager.commonTmpImagePath();
+            if(!TextUtils.isEmpty(tmpImagePath)){
+                ImageUtil.saveBitmapToSDCard(bitmap, tmpImagePath);
+                desPath = tmpImagePath;
+            }
+        }
+        Timber.e("after bitmap is %d", new File(desPath).length());
         if (currentPhotoItem == licensePhotoItem) {
-            UploadApis.uploadCarLicense(imagePath, new ResponseCallback<UploadCarLicenseResponse>() {
+            UploadApis.uploadCarLicense(desPath, new ResponseCallback<UploadCarLicenseResponse>() {
                 @Override
                 public void onSuccess(UploadCarLicenseResponse baseData) {
                     endLoading();
@@ -214,7 +225,7 @@ public class VehicleAuthActivity extends BaseActivity {
                 }
             });
         } else {
-            UploadApis.uploadNormalImage(imagePath, new ResponseCallback<UploadImageResponse>() {
+            UploadApis.uploadNormalImage(desPath, new ResponseCallback<UploadImageResponse>() {
                 @Override
                 public void onSuccess(UploadImageResponse baseData) {
                     endLoading();

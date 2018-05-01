@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -86,6 +87,24 @@ public class PhotoManager {
     }
 
     private static void takePhoto(BaseActivity context) {
+        //该照片的绝对路径
+        imagePath = tmpImagePath();
+        if(TextUtils.isEmpty(imagePath)){
+            ToastUtil.showToast("请检查SD卡");
+            return;
+        }
+        File out = new File(imagePath);
+        Uri uri = Uri.fromFile(out);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        context.startActivityForResult(intent, Constants.REQUEST_CODE_CAPTURE);
+    }
+
+    public static String getImagePath() {
+        return imagePath;
+    }
+
+    public static String commonTmpImagePath(){
         String savePath = "";
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
@@ -99,23 +118,39 @@ public class PhotoManager {
         // 没有挂载SD卡，无法保存文件
         if (savePath == null || "".equals(savePath)) {
             Timber.e("无法保存照片，请检查SD卡是否挂载");
-            return;
+            return null;
+        }
+        ;
+        //照片命名
+        String fileName = "UploadTmp.jpg";
+        //该照片的绝对路径
+        String imageTmpPath = savePath + fileName;
+        return imageTmpPath;
+    }
+
+    public static String tmpImagePath(){
+        String savePath = "";
+        String storageState = Environment.getExternalStorageState();
+        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+            savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QingYunImage/";
+            File savedir = new File(savePath);
+            if (!savedir.exists()) {
+                savedir.mkdirs();
+            }
+        }
+
+        // 没有挂载SD卡，无法保存文件
+        if (savePath == null || "".equals(savePath)) {
+            Timber.e("无法保存照片，请检查SD卡是否挂载");
+            return null;
         }
 
         String timeStamp = System.currentTimeMillis() + "";
         //照片命名
         String fileName = timeStamp + ".jpg";
-        File out = new File(savePath, fileName);
-        Uri uri = Uri.fromFile(out);
         //该照片的绝对路径
-        imagePath = savePath + fileName;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        context.startActivityForResult(intent, Constants.REQUEST_CODE_CAPTURE);
-    }
-
-    public static String getImagePath() {
-        return imagePath;
+        String imageTmpPath = savePath + fileName;
+        return imageTmpPath;
     }
 }
 
