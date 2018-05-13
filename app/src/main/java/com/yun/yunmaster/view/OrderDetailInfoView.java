@@ -106,7 +106,13 @@ public class OrderDetailInfoView extends RelativeLayout {
         if (customerInfo != null) {
             customerView.setVisibility(View.VISIBLE);
             nameTextView.setText(customerInfo.name);
-            mobileTextView.setText(customerInfo.mobile);
+            if(!TextUtils.isEmpty(customerInfo.mobile)) {
+                mobileTextView.setVisibility(View.VISIBLE);
+                mobileTextView.setText(customerInfo.mobile);
+            }
+            else {
+                mobileTextView.setVisibility(View.GONE);
+            }
         } else {
             customerView.setVisibility(View.GONE);
         }
