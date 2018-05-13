@@ -113,6 +113,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         selectIndex(0);
+        AppSettingManager.requestUserData();
     }
 
     private void updateExtraView(){
@@ -220,6 +221,11 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onOrderStatusChanged(EventBusEvent.OrderStatusChangedEvent event) {
         this.homeOrderListView.refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUserDataChanged(EventBusEvent.UserDataUpdateEvent event){
+        updateAcceptButton();
     }
 }
 

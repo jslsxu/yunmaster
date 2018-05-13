@@ -86,7 +86,7 @@ public class AppSettingManager {
     public static void setUserData(UserData userData){
         if(userData != null){
             String jsonString = GsonManager.getGson().toJson(userData);
-            Timber.e(jsonString);
+            Timber.e("setUserData" + jsonString);
             CacheLoaderManager.getInstance().saveString(USER_DATA_KEY, jsonString, Constants.CACHE_TIME);
         }
         else {
@@ -96,6 +96,7 @@ public class AppSettingManager {
 
     public static UserData getUserData(){
         String jsonString = CacheLoaderManager.getInstance().loadString(USER_DATA_KEY);
+        Timber.e("getUserData" + jsonString);
         UserData userData = null;
         try {
             userData = GsonManager.getGson().fromJson(jsonString, UserData.class);
